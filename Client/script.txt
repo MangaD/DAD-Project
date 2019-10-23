@@ -1,0 +1,19 @@
+; A comment
+
+List
+
+; meting_topic is a string which may contain letters and the underscore
+; character such as "budget_2020".
+
+join budget_2020
+
+close budget_2020
+
+wait 5
+
+; create meeting_topic min_attendees number_of_slots number_of_invitees slot_1 ...
+; slot_n invitee_1 ... invitee_n:
+; Each slot n is a location followed by a date with
+; all elements separated by a comma and hyphens such as "Lisboa,2020-01-02"
+
+create budget_2020 5 2 3 Lisboa,2020-01-02 Lisboa,2020-01-03 leo david andré

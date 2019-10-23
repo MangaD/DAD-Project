@@ -9,7 +9,9 @@ namespace API
         List<string> RegisterClient(string clientPort);
         List<string> listMeetings();
         void createMeeting(string topic, uint minAttendees,
-            List<KeyValuePair<string, string>> slots, List<string> invitees);
+            List<KeyValuePair<string, DateTime>> slots, List<string> invitees);
+        void joinMeeting(string topic);
+        void closeMeeting(string topic);
     }
 
     public interface IClient

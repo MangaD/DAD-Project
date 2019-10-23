@@ -12,7 +12,7 @@
 
 ### Links
 
-DIDA FAQ
+[MSDAD FAQ](https://docs.google.com/document/d/1MTVyKDmzUeJcLIJTsvw5frO-d6pnYSTjL2flAF0IC2k/edit)
 
 ## Assignment
 
