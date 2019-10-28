@@ -1,50 +1,25 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.RegularExpressions;
-using System.Runtime.Remoting;
-using System.Runtime.Remoting.Channels;
-using System.Runtime.Remoting.Channels.Tcp;
-using System.Threading;
 
 using API;
 
-namespace Client
+namespace MSDAD_CLI
 {
-    class Program
+    class Parser
     {
+        private IServer server;
+        private string filename;
+        private List<List<string>> commands = new List<List<string>>();
 
-        private static List<List<string>> commands = new List<List<string>>();
-
-        public static void Main(string[] args)
+        public Parser (string filename, IServer server)
         {
-            /*if (args.Length != 1)
-            {
-                Utilities.WriteError("This program may only take 1 argument, which is the file name of a client script.");
-                Console.ReadKey();
-                return;
-            }*/
-
-            //string filename = args[0];
-
-            //ParseScript(filename);
-
-            Console.WriteLine("Insert PORT: ");
-            int cliPort = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Insert Name: ");
-            string cliName = Console.ReadLine();
-
-            Client client = new Client(cliPort, cliName);
-            TcpChannel cliChannel = client.ClientListening();
-            client.clientSaysHello();
-
-
-            //RunCommands();
-
-            Console.ReadKey();
+            this.filename = filename;
+            this.server = server;
         }
 
-        private static void ParseScript(string filename)
+        public void Parse()
         {
             string line;
             int count = 0;
@@ -132,7 +107,7 @@ namespace Client
 
                                     string[] slotsInvitees = m.Groups[11].Value.ToString().Split(' ');
 
-                                    if (noSlots + noInvitees < slotsInvitees.Length || 
+                                    if (noSlots + noInvitees < slotsInvitees.Length ||
                                         noSlots + noInvitees > slotsInvitees.Length)
                                     {
                                         Utilities.WriteError($"Error at line {count + 1}. number_of_slots + number_of_invitees does not match the quantity of arguments provided.");
@@ -196,16 +171,11 @@ namespace Client
             }
         }
 
-        private static void Wait(string milliseconds)
-        {
-            Thread.Sleep(Int32.Parse(milliseconds));
-        }
-
-        /*private static void RunCommands()
+        public void ExecCommands()
         {
             // TODO
             foreach (var command in commands)
-            {                
+            {
                 if (command[0].Equals("list", StringComparison.OrdinalIgnoreCase))
                 {
                     server.listMeetings();
@@ -220,7 +190,7 @@ namespace Client
                 }
                 else if (command[0].Equals("create", StringComparison.OrdinalIgnoreCase))
                 {
-                    string topic = command[1];
+                    /*string topic = command[1];
                     Int32.TryParse(command[2], out int minAttendees);
                     Int32.TryParse(command[3], out int noSlots);
                     Int32.TryParse(command[4], out int noInvitees);
@@ -250,71 +220,19 @@ namespace Client
                         Utilities.WriteDebug($"Loc: {location}, Year: {year}, Month: {mon}, Day: {day}");
                     }
 
-                    server.createMeeting(command[1]);
+                    server.createMeeting(command[1]);*/
                 }
                 else if (command[0].Equals("wait", StringComparison.OrdinalIgnoreCase))
                 {
-                    Wait(command[1]);
+                    Utilities.Wait(command[1]);
                 }
                 foreach (string s in command)
                 {
                     Utilities.WriteDebug(s + " ");
                 }
                 Console.Write("\r\n");
-                
+
             }
-        }*/
-        
-
-    }
-
-    public class Client
-    {
-        //public const int CLIENT_PORT = 55001;
-        //public const string CLIENT_NAME = "LEO";
-        private int clientPort;
-        private string clientName;
-        private TcpChannel cliChannel;
-        private static IServer server;
-
-        public Client(int cp, string cn)
-        {
-            this.clientPort = cp;
-            this.clientName = cn;
-        }
-
-        public TcpChannel ClientListening() {
-            TcpChannel channel = new TcpChannel(clientPort);
-            ChannelServices.RegisterChannel(channel, false);
-            ClientServices services = new ClientServices();
-            RemotingServices.Marshal(services, "MSClient",
-                typeof(ClientServices));
-
-            server = (IServer)Activator.GetObject(typeof(IServer), "tcp://localhost:65000/MSServer");
-            //List<string> messages = server.RegisterClient(port.ToString());
-            server.RegisterClient(clientPort, clientName);
-            this.cliChannel = channel;
-
-            return channel;
-        }
-
-        public void clientSaysHello()
-        {
-            server.clientSaysHelloToServer(clientPort);
-        }
-
-    }
-
-    public class ClientServices : MarshalByRefObject, IClient
-    {
-
-        public ClientServices()
-        {
-        }
-
-        public void serverRespondsHiToClient(int serverPort)
-        {
-            Console.WriteLine("Server: " + serverPort + " Responded Hi");
         }
     }
 }

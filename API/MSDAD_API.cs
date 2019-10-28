@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace API
 {
@@ -58,6 +59,11 @@ namespace API
             Console.ForegroundColor = ConsoleColor.Red;
             Console.Error.WriteLine(err);
             Console.ResetColor();
+        }
+
+        public static void Wait(string milliseconds)
+        {
+            Thread.Sleep(Int32.Parse(milliseconds));
         }
     }
 
