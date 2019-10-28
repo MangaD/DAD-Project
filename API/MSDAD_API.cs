@@ -6,16 +6,23 @@ namespace API
 
     public interface IServer
     {
-        List<string> RegisterClient(string clientPort);
+        List<string> RegisterClient(int clientPort, string clientName);
         List<string> listMeetings();
         void createMeeting(string topic, uint minAttendees,
             List<KeyValuePair<string, DateTime>> slots, List<string> invitees);
         void joinMeeting(string topic);
         void closeMeeting(string topic);
+
+
+        //Metodos de Teste
+        void clientSaysHelloToServer(int clientPort);
+
     }
 
     public interface IClient
     {
+        //Metodos de Teste
+        void serverRespondsHiToClient(int serverPort);
     }
 
     public interface IPCS

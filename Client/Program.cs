@@ -13,34 +13,33 @@ namespace Client
 {
     class Program
     {
+
         private static List<List<string>> commands = new List<List<string>>();
-        private static IServer server;
 
         public static void Main(string[] args)
         {
-            if (args.Length != 1)
+            /*if (args.Length != 1)
             {
                 Utilities.WriteError("This program may only take 1 argument, which is the file name of a client script.");
                 Console.ReadKey();
                 return;
-            }
+            }*/
 
-            string filename = args[0];
+            //string filename = args[0];
 
-            ParseScript(filename);
+            //ParseScript(filename);
 
-            /*
-            TcpChannel channel = new TcpChannel(8088);
-            ChannelServices.RegisterChannel(channel, false);
-            ClientServices services = new ClientServices();
-            RemotingServices.Marshal(services, "C",
-                typeof(ClientServices));
+            Console.WriteLine("Insert PORT: ");
+            int cliPort = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Insert Name: ");
+            string cliName = Console.ReadLine();
 
-            server = (IServer)Activator.GetObject(typeof(IServer), "tcp://localhost:8088/S");
-            List<string> messages = server.RegisterClient(8088.ToString());
-            */
+            Client client = new Client(cliPort, cliName);
+            TcpChannel cliChannel = client.ClientListening();
+            client.clientSaysHello();
 
-            RunCommands();
+
+            //RunCommands();
 
             Console.ReadKey();
         }
@@ -202,7 +201,7 @@ namespace Client
             Thread.Sleep(Int32.Parse(milliseconds));
         }
 
-        private static void RunCommands()
+        /*private static void RunCommands()
         {
             // TODO
             foreach (var command in commands)
@@ -264,8 +263,45 @@ namespace Client
                 Console.Write("\r\n");
                 
             }
-        }
+        }*/
         
+
+    }
+
+    public class Client
+    {
+        //public const int CLIENT_PORT = 55001;
+        //public const string CLIENT_NAME = "LEO";
+        private int clientPort;
+        private string clientName;
+        private TcpChannel cliChannel;
+        private static IServer server;
+
+        public Client(int cp, string cn)
+        {
+            this.clientPort = cp;
+            this.clientName = cn;
+        }
+
+        public TcpChannel ClientListening() {
+            TcpChannel channel = new TcpChannel(clientPort);
+            ChannelServices.RegisterChannel(channel, false);
+            ClientServices services = new ClientServices();
+            RemotingServices.Marshal(services, "MSClient",
+                typeof(ClientServices));
+
+            server = (IServer)Activator.GetObject(typeof(IServer), "tcp://localhost:65000/MSServer");
+            //List<string> messages = server.RegisterClient(port.ToString());
+            server.RegisterClient(clientPort, clientName);
+            this.cliChannel = channel;
+
+            return channel;
+        }
+
+        public void clientSaysHello()
+        {
+            server.clientSaysHelloToServer(clientPort);
+        }
 
     }
 
@@ -274,6 +310,11 @@ namespace Client
 
         public ClientServices()
         {
+        }
+
+        public void serverRespondsHiToClient(int serverPort)
+        {
+            Console.WriteLine("Server: " + serverPort + " Responded Hi");
         }
     }
 }
