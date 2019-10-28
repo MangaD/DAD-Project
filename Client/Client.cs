@@ -9,8 +9,8 @@ namespace MSDAD_CLI
 {
     class Client
     {
-        private UInt16 clientPort;
-        private string clientName;
+        private static TcpChannel clientChannel;
+        private static IServer server;
 
         public static void Main(string[] args)
         {
@@ -24,37 +24,36 @@ namespace MSDAD_CLI
             string scriptFilename = args[0];
             UInt16 clientPort = (UInt16) Convert.ToInt32(args[1]);
             string clientName = args[2];
+            UInt16 serverPort = (UInt16)Convert.ToInt32(args[3]);
 
-            Client cli = new Client(clientPort, clientName);
-
-            // Connect to server
-            IServer server = (IServer)Activator.GetObject(typeof(IServer), "tcp://localhost:65000/MSServer");
-            server.RegisterClient(clientPort, clientName);
+            listenClient(clientPort, "MSClient");
+            connectToServer("localhost", serverPort, "MSServer", clientPort, clientName);
 
             Parser parser = new Parser(scriptFilename, server);
             parser.Parse();
 
-
-            TcpChannel channel = new TcpChannel(port);
-            ChannelServices.RegisterChannel(channel, false);
-            ClientServices services = new ClientServices();
-            RemotingServices.Marshal(services, "MSClient",
-                typeof(ClientServices));
-
-            server.clientSaysHelloToServer(port);
-
+            server.clientSaysHelloToServer(clientPort);
 
             //parser.ExecCommands();
 
             Console.ReadKey();
         }
 
-        public Client(UInt16 clientPort, string clientName)
+        private static void connectToServer(string address, UInt16 serverPort, string serverChannelName,
+            UInt16 clientPort, string clientName)
         {
-            this.clientPort = clientPort;
-            this.clientName = clientName;
+            server = (IServer)Activator.GetObject(typeof(IServer), "tcp://" + address + ":" + serverPort + "/" + serverChannelName);
+            server.RegisterClient(clientPort, clientName);
         }
 
+        private static void listenClient(UInt16 clientPort, string cliChannelName)
+        {
+            clientChannel = new TcpChannel(clientPort);
+            ChannelServices.RegisterChannel(clientChannel, false);
+            ClientServices services = new ClientServices();
+            RemotingServices.Marshal(services, cliChannelName,
+                typeof(ClientServices));
+        }
     }
 
 
