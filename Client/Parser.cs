@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 using API;
 
-namespace Client
+namespace MSDAD_CLI
 {
     class Parser
     {

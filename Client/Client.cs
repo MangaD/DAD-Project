@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
-using System.Threading;
 
 using API;
 
-namespace Client
+namespace MSDAD_CLI
 {
-    class Program
+    class Client
     {
-        private static IServer server;
+        private UInt16 clientPort;
+        private string clientName;
 
         public static void Main(string[] args)
         {
@@ -23,37 +21,39 @@ namespace Client
                 return;
             }
 
-            string filename = args[0];
+            string scriptFilename = args[0];
+            UInt16 clientPort = (UInt16) Convert.ToInt32(args[1]);
+            string clientName = args[2];
 
-            // Get client port and name
-            Console.WriteLine("Insert PORT: ");
-            int cliPort = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Insert Name: ");
-            string cliName = Console.ReadLine();
+            Client cli = new Client(clientPort, clientName);
 
             // Connect to server
-            server = (IServer)Activator.GetObject(typeof(IServer), "tcp://localhost:65000/MSServer");
-            //List<string> messages = server.RegisterClient(port.ToString());
-            server.RegisterClient(cliPort, cliName);
+            IServer server = (IServer)Activator.GetObject(typeof(IServer), "tcp://localhost:65000/MSServer");
+            server.RegisterClient(clientPort, clientName);
 
-            Parser parser = new Parser(filename, server);
+            Parser parser = new Parser(scriptFilename, server);
             parser.Parse();
 
 
-            TcpChannel channel = new TcpChannel(cliPort);
+            TcpChannel channel = new TcpChannel(port);
             ChannelServices.RegisterChannel(channel, false);
             ClientServices services = new ClientServices();
             RemotingServices.Marshal(services, "MSClient",
                 typeof(ClientServices));
 
-            server.clientSaysHelloToServer(cliPort);
+            server.clientSaysHelloToServer(port);
 
 
-            //RunCommands();
+            //parser.ExecCommands();
 
             Console.ReadKey();
         }
 
+        public Client(UInt16 clientPort, string clientName)
+        {
+            this.clientPort = clientPort;
+            this.clientName = clientName;
+        }
 
     }
 
