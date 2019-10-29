@@ -25,6 +25,12 @@ namespace Server
     {
         public const int SERVER_PORT = 65000;
         TcpChannel servChannel;
+        List<MeetingProposal> meetingPropList;
+
+        public Server()
+        {
+            this.meetingPropList = new List<MeetingProposal>();
+        }
 
         public TcpChannel ServerListening()
         {
@@ -43,6 +49,9 @@ namespace Server
         {
             return SERVER_PORT;
         }
+
+        public List<MeetingProposal> getMeetingPropList() { return this.meetingPropList; }
+        public void addMeetingPropToList(MeetingProposal mp) { this.meetingPropList.Add(mp); }
     }
 
     class ServerServices : MarshalByRefObject, IServer
@@ -63,7 +72,7 @@ namespace Server
 
         public void createMeeting(string topic, uint minAttendees, List<Slot> slots, List<string> invitees)
         {
-            throw new NotImplementedException();
+            this.server.addMeetingPropToList(new MeetingProposal(topic, minAttendees, slots, invitees));
         }
 
         public void joinMeeting(string topic)
