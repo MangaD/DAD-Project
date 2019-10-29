@@ -54,9 +54,7 @@ namespace MSDAD_CLI
 
                                 if (matches.Count <= 0)
                                 {
-                                    Utilities.WriteError($"Error at line {count + 1}.");
-                                    Console.ReadKey();
-                                    Environment.Exit(0);
+                                    throw new ParserException($"Error at line {count + 1}.");
                                 }
 
                                 Match m = matches[0];
@@ -88,73 +86,60 @@ namespace MSDAD_CLI
                                 {
                                     if (!Int32.TryParse(m.Groups[8].Value.ToString(), out int minAttendees))
                                     {
-                                        Utilities.WriteError($"Error at line {count + 1}. min_attendees is not a valid number.");
-                                        Console.ReadKey();
-                                        Environment.Exit(0);
+                                        throw new ParserException($"Error at line {count + 1}. min_attendees is not " +
+                                            "a valid number.");
                                     }
                                     if (!Int32.TryParse(m.Groups[9].Value.ToString(), out int noSlots))
                                     {
-                                        Utilities.WriteError($"Error at line {count + 1}. number_of_slots is not a valid number.");
-                                        Console.ReadKey();
-                                        Environment.Exit(0);
+                                        throw new ParserException($"Error at line {count + 1}. number_of_slots is " +
+                                            "not a valid number.");
                                     }
                                     if (!Int32.TryParse(m.Groups[10].Value.ToString(), out int noInvitees))
                                     {
-                                        Utilities.WriteError($"Error at line {count + 1}. number_of_invitees is not a valid number.");
-                                        Console.ReadKey();
-                                        Environment.Exit(0);
+                                        throw new ParserException($"Error at line {count + 1}. number_of_invitees " +
+                                            "is not a valid number.");
                                     }
 
                                     string[] slotsInvitees = m.Groups[11].Value.ToString().Split(' ');
 
-                                    if (noSlots + noInvitees < slotsInvitees.Length ||
-                                        noSlots + noInvitees > slotsInvitees.Length)
+                                    if (noSlots + noInvitees != slotsInvitees.Length)
                                     {
-                                        Utilities.WriteError($"Error at line {count + 1}. number_of_slots + number_of_invitees does not match the quantity of arguments provided.");
-                                        Console.ReadKey();
-                                        Environment.Exit(0);
-                                    }
-
-                                    string location;
-                                    int day, mon, year;
-
-                                    for (int i = 0; i < noSlots; i++)
-                                    {
-                                        string r = @"(\w+),(\d{4})-(\d{1,2})-(\d{1,2})";
-
-                                        MatchCollection mat = Regex.Matches(slotsInvitees[i], r);
-
-                                        if (mat.Count <= 0)
-                                        {
-                                            Utilities.WriteError($"Error at line {count + 1}. Invalid slot: {slotsInvitees[i]}");
-                                            Console.ReadKey();
-                                            Environment.Exit(0);
-                                        }
-
-                                        Match m2 = mat[0];
-
-                                        location = m2.Groups[1].Value.ToString();
-                                        year = Int32.Parse(m2.Groups[2].Value.ToString());
-                                        mon = Int32.Parse(m2.Groups[3].Value.ToString());
-                                        day = Int32.Parse(m2.Groups[4].Value.ToString());
-                                        Utilities.WriteDebug($"Loc: {location}, Year: {year}, Month: {mon}, Day: {day}");
+                                        throw new ParserException($"Error at line {count + 1}. number_of_slots + " +
+                                            "number_of_invitees does not match the quantity of arguments provided.");
                                     }
 
                                     List<string> l = new List<string>() {
                                             m.Groups[6].Value.ToString(),
-                                            m.Groups[7].Value.ToString(),
-                                            m.Groups[8].Value.ToString(),
-                                            m.Groups[9].Value.ToString(),
-                                            m.Groups[10].Value.ToString(),
-                                            m.Groups[11].Value.ToString()
+                                            m.Groups[7].Value.ToString(),//topic
+                                            minAttendees.ToString(),
+                                            noSlots.ToString(),
+                                            noInvitees.ToString()
                                         };
+
+                                    // Validate slots
+                                    for (int i = 0; i < noSlots; i++)
+                                    {
+                                        try
+                                        {
+                                            Slot.fromString(slotsInvitees[i]);
+                                        } catch (ArgumentException)
+                                        {
+                                            throw new ParserException($"Error at line {count + 1}. Invalid slot: {slotsInvitees[i]}");
+                                        }
+                                        l.Add(slotsInvitees[i]);
+                                    }
+
+                                    // Add invitees
+                                    for (int i = 0; i < noInvitees; i++)
+                                    {
+                                        l.Add(slotsInvitees[i]);
+                                    }
+
                                     commands.Add(l);
                                 }
                                 else
                                 {
-                                    Utilities.WriteError($"Error at line {count + 1}.");
-                                    Console.ReadKey();
-                                    Environment.Exit(0);
+                                    throw new ParserException($"Error at line {count + 1}.");
                                 }
                             }
                         }
@@ -167,7 +152,7 @@ namespace MSDAD_CLI
             }
             catch (Exception e)
             {
-                Utilities.WriteError("Exception: " + e.Message);
+                throw new ParserException("Exception: " + e.Message);
             }
         }
 
@@ -190,37 +175,25 @@ namespace MSDAD_CLI
                 }
                 else if (command[0].Equals("create", StringComparison.OrdinalIgnoreCase))
                 {
-                    /*string topic = command[1];
+                    string topic = command[1];
                     Int32.TryParse(command[2], out int minAttendees);
                     Int32.TryParse(command[3], out int noSlots);
                     Int32.TryParse(command[4], out int noInvitees);
 
-                    string location;
-                    int day, mon, year;
+                    List<Slot> slots = new List<Slot>();
+                    List<string> invitees = new List<string>();
 
                     for (int i = 0; i < noSlots; i++)
                     {
-                        string r = @"(\w+),(\d{4})-(\d{1,2})-(\d{1,2})";
-
-                        MatchCollection mat = Regex.Matches(slotsInvitees[i], r);
-
-                        if (mat.Count <= 0)
-                        {
-                            Utilities.WriteError($"Error at line {count + 1}. Invalid slot: {slotsInvitees[i]}");
-                            Console.ReadKey();
-                            Environment.Exit(0);
-                        }
-
-                        Match m2 = mat[0];
-
-                        location = m2.Groups[1].Value.ToString();
-                        year = Int32.Parse(m2.Groups[2].Value.ToString());
-                        mon = Int32.Parse(m2.Groups[3].Value.ToString());
-                        day = Int32.Parse(m2.Groups[4].Value.ToString());
-                        Utilities.WriteDebug($"Loc: {location}, Year: {year}, Month: {mon}, Day: {day}");
+                        slots.Add(Slot.fromString(command[i]));
                     }
 
-                    server.createMeeting(command[1]);*/
+                    for (int i = 0; i < noInvitees; i++)
+                    {
+                        invitees.Add(command[i]);
+                    }
+
+                    server.createMeeting(command[1], (uint) minAttendees, slots, invitees);
                 }
                 else if (command[0].Equals("wait", StringComparison.OrdinalIgnoreCase))
                 {
@@ -235,4 +208,14 @@ namespace MSDAD_CLI
             }
         }
     }
+
+    [Serializable]
+    class ParserException : Exception
+    {
+        public ParserException(string msg)
+            : base($"ParserException: {msg}")
+        {}
+
+    }
+
 }

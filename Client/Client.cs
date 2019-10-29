@@ -14,9 +14,9 @@ namespace MSDAD_CLI
 
         public static void Main(string[] args)
         {
-            if (args.Length != 1)
+            if (args.Length != 4)
             {
-                Utilities.WriteError("This program may only take 1 argument, which is the file name of a client script.");
+                Utilities.WriteError("This program must take 4 argument. Script filename, client port, client name, server port.");
                 Console.ReadKey();
                 return;
             }
@@ -30,7 +30,16 @@ namespace MSDAD_CLI
             connectToServer("localhost", serverPort, "MSServer", clientPort, clientName);
 
             Parser parser = new Parser(scriptFilename, server);
-            parser.Parse();
+            try
+            {
+                parser.Parse();
+            } catch (ParserException pe)
+            {
+                Utilities.WriteError(pe.Message);
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
+            
 
             server.clientSaysHelloToServer(clientPort);
 

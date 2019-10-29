@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
-using System.Text;
-using System.Threading.Tasks;
 
 using API;
 
@@ -64,7 +61,7 @@ namespace Server
             throw new NotImplementedException();
         }
 
-        public void createMeeting(string topic, uint minAttendees, List<KeyValuePair<string, DateTime>> slots, List<string> invitees)
+        public void createMeeting(string topic, uint minAttendees, List<Slot> slots, List<string> invitees)
         {
             throw new NotImplementedException();
         }
