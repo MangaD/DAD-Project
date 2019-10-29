@@ -10,22 +10,22 @@ namespace Server
 {
     public class MeetingProposal
     {
-        private Cli coodinator;
+        private int coodinatorPort;
         private string topic;
         private uint minAttendees;
         private List<Slot> slots;
         private List<string> invitees;
 
-        public MeetingProposal(Cli coordinator, string topic, uint minAttendees, List<Slot> slots, List<string> invitees)
+        public MeetingProposal(int coordinatorPort, string topic, uint minAttendees, List<Slot> slots, List<string> invitees)
         {
-            Coodinator = coodinator;
+            CoodinatorPort = coodinatorPort;
             Topic = topic;
             MinAttendees = minAttendees;
             Slots = slots;
             Invitees = invitees;
         }
 
-        public Cli Coodinator { get => coodinator; set => coodinator = value; }
+        public int CoodinatorPort { get => coodinatorPort; set => coodinatorPort = value; }
         public string Topic { get => topic; set => topic = value; }
         public uint MinAttendees { get => minAttendees; set => minAttendees = value; }
         public List<Slot> Slots { get => slots; set => slots = value; }

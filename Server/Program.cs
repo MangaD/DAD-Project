@@ -70,19 +70,31 @@ namespace Server
             throw new NotImplementedException();
         }
 
-        public void createMeeting(string topic, uint minAttendees, List<Slot> slots, List<string> invitees)
+        public void createMeeting(int coordinatorPort, string topic, uint minAttendees, List<Slot> slots, List<string> invitees)
         {
-            this.server.addMeetingPropToList(new MeetingProposal(topic, minAttendees, slots, invitees));
+            this.server.addMeetingPropToList(new MeetingProposal(coordinatorPort, topic, minAttendees, slots, invitees));
         }
 
         public void joinMeeting(string topic)
         {
-            throw new NotImplementedException();
+            //TODO joinMeeting
+            foreach(MeetingProposal mp in this.server.getMeetingPropList())
+            {
+                if (mp.Topic == topic && mp.Invitees == null)
+                {
+                    //TODO join user to the meeting;
+                }
+            }
         }
 
         public List<string> listMeetings()
         {
-            throw new NotImplementedException();
+            List<string> meetingsTopic = new List<string>();
+            foreach(MeetingProposal mp in this.server.getMeetingPropList())
+            {
+                meetingsTopic.Add(mp.Topic);
+            }
+            return meetingsTopic;
         }
 
         public List<string> RegisterClient(int clientPort, string clientName)
