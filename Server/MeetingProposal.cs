@@ -10,27 +10,28 @@ namespace Server
 {
     public class MeetingProposal
     {
+        private Cli coodinator;
         private string topic;
         private uint minAttendees;
         private List<Slot> slots;
         private List<string> invitees;
 
-        public MeetingProposal(string topic, uint minAttendees, List<Slot> slots, List<string> invitees)
+        public MeetingProposal(Cli coordinator, string topic, uint minAttendees, List<Slot> slots, List<string> invitees)
         {
-            this.topic = topic; this.minAttendees = minAttendees; this.slots = slots;   this.invitees = invitees;
+            Coodinator = coodinator;
+            Topic = topic;
+            MinAttendees = minAttendees;
+            Slots = slots;
+            Invitees = invitees;
         }
 
-        public string getTopic() { return this.topic; }
-        public uint getMinAttendees() { return this.minAttendees; }
-        public List<Slot> getSlots() { return this.slots; }
-        public List<string> getInvitees() { return this.invitees; }
-
-        public void setTopic(string tc) { this.topic = tc; }
-        public void setMinAttendees(uint ma) { this.minAttendees = ma; }
-        public void setSlots(List<Slot> s) { this.slots = s; }
-        public void setInvitees(List<string> i) { this.invitees = i; }
-
-        public void addSlotToSlots(Slot s) { this.slots.Add(s); }
-        public void addInviteeToInvitees(string i) { this.invitees.Add(i); }
+        public Cli Coodinator { get => coodinator; set => coodinator = value; }
+        public string Topic { get => topic; set => topic = value; }
+        public uint MinAttendees { get => minAttendees; set => minAttendees = value; }
+        public List<Slot> Slots { get => slots; set => slots = value; }
+        public List<string> Invitees { get => invitees; set => invitees = value; }
+        
+        public void addSlotToSlots(Slot s) { Slots.Add(s); }
+        public void addInviteeToInvitees(string i) { Invitees.Add(i); }
     }
 }

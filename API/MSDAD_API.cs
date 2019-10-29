@@ -9,7 +9,7 @@ namespace API
     {
         List<string> RegisterClient(int clientPort, string clientName);
         List<string> listMeetings();
-        void createMeeting(string topic, uint minAttendees,
+        void createMeeting(int coordinatorPort, string topic, uint minAttendees,
             List<Slot> slots, List<string> invitees);
         void joinMeeting(string topic);
         void closeMeeting(string topic);
