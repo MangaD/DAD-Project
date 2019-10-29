@@ -92,9 +92,9 @@ namespace API
             Console.ResetColor();
         }
 
-        public static void Wait(string milliseconds)
+        public static void Wait(int milliseconds)
         {
-            Thread.Sleep(Int32.Parse(milliseconds));
+            Thread.Sleep(milliseconds);
         }
     }
 

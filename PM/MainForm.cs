@@ -22,6 +22,10 @@ namespace PM
         private void loadScriptLbl_Click(object sender, EventArgs e)
         {
             openScriptDialog.ShowDialog();
+            if (openScriptDialog.FileName != "")
+            {
+                MessageBox.Show("You've selected: " + openScriptDialog.FileName);
+            }
         }
 
         private void createSrvBtn_Click(object sender, EventArgs e)
