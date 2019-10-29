@@ -5,18 +5,16 @@ using System.Text.RegularExpressions;
 
 using API;
 
-namespace MSDAD_CLI
+namespace PM
 {
     class Parser
     {
-        private IServer server;
         private string filename;
         private List<List<string>> commands = new List<List<string>>();
 
-        public Parser (string filename, IServer server)
+        public Parser(string filename)
         {
             this.filename = filename;
-            this.server = server;
         }
 
         public void Parse()
@@ -26,20 +24,28 @@ namespace MSDAD_CLI
             try
             {
                 /**
-                 * Group 1: 'wait'
-                 * Group 2: integer argument for 'wait'
-                 * Group 3: 'list'
-                 * Group 4: 'join' or 'close'
-                 * Group 5: string argument for 'join' or 'close'
-                 * Group 6: 'create'
-                 * Group 7: meeting topic
-                 * Group 8: min_attendees
-                 * Group 9: number_of_slots
-                 * Group 10: number_of_invitees
-                 * Group 11: slots + invitees (need to be validated)
-                 * Character ; and anything after is ignored
+                 * Group 1: 'Crash', 'Freeze' or 'Unfreeze'
+                 * Group 2: server_id
+                 * Group 3: 'Wait'
+                 * Group 4: time to wait in ms
+                 * Group 5: 'Status'
+                 * Group 6: 'Server'
+                 * Group 7: server_id
+                 * Group 8: server url
+                 * Group 9: max_faults
+                 * Group 10: min_delay
+                 * Group 11: max_delay
+                 * Group 12: 'Client'
+                 * Group 13: client_id
+                 * Group 14: client url
+                 * Group 15: server url
+                 * Group 16: script_file
+                 * Group 17: 'AddRoom'
+                 * Group 18: location
+                 * Group 19: capacity
+                 * Group 20: room name
                  */
-                string regex = @"(?:(?:(wait)\s+(\d+))|(list)|(?:(join|close)\s+(\w+))|(?:(create)\s+(\w+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(.*)))?;?.*";
+                string regex = @"(?:(?:(Crash|Freeze|Unfreeze)\s+(.+))|(?:(Wait)\s+(\d+))|(Status)|(?:(Server)\s+([^ ]+)\s+([^\s]+)\s+(\d+)\s+(\d+)\s+(\d+))|(?:(Client)\s+([^ ]+)\s+([^\s]+)\s+([^\s]+)\s+(.+))|(?:(AddRoom)\s+([^\s]+)\s+(\d+)\s+(.+)))?;?.*";
 
                 using (StreamReader sr = new StreamReader(filename))
                 {
@@ -59,39 +65,38 @@ namespace MSDAD_CLI
 
                                 Match m = matches[0];
 
-                                // wait
+                                // Crash, Freeze, Unfreeze
                                 if (!string.IsNullOrEmpty(m.Groups[1].Value.ToString()))
                                 {
-                                    if (!Int32.TryParse(m.Groups[2].Value.ToString(), out int ms))
-                                    {
-                                        throw new ParserException($"Error at line {count + 1}. milliseconds is not " +
-                                            "a valid number.");
-                                    }
-
                                     List<string> l = new List<string>() {
                                             m.Groups[1].Value.ToString(),
                                             m.Groups[2].Value.ToString()
                                         };
                                     commands.Add(l);
                                 }
-                                // list
+                                // wait
                                 else if (!string.IsNullOrEmpty(m.Groups[3].Value.ToString()))
                                 {
+                                    if (!Int32.TryParse(m.Groups[4].Value.ToString(), out int ms))
+                                    {
+                                        throw new ParserException($"Error at line {count + 1}. milliseconds is not " +
+                                            "a valid number.");
+                                    }
                                     List<string> l = new List<string>() {
-                                            m.Groups[3].Value.ToString()
+                                            m.Groups[3].Value.ToString(),
+                                            m.Groups[4].Value.ToString()
                                         };
                                     commands.Add(l);
                                 }
-                                // join, close
-                                else if (!string.IsNullOrEmpty(m.Groups[4].Value.ToString()))
+                                // status
+                                else if (!string.IsNullOrEmpty(m.Groups[5].Value.ToString()))
                                 {
                                     List<string> l = new List<string>() {
-                                            m.Groups[4].Value.ToString(),
                                             m.Groups[5].Value.ToString()
                                         };
                                     commands.Add(l);
                                 }
-                                // create
+                                // server
                                 else if (!string.IsNullOrEmpty(m.Groups[6].Value.ToString()))
                                 {
                                     if (!Int32.TryParse(m.Groups[8].Value.ToString(), out int minAttendees))
@@ -132,7 +137,8 @@ namespace MSDAD_CLI
                                         try
                                         {
                                             Slot.fromString(slotsInvitees[i]);
-                                        } catch (ArgumentException)
+                                        }
+                                        catch (ArgumentException)
                                         {
                                             throw new ParserException($"Error at line {count + 1}. Invalid slot: {slotsInvitees[i]}");
                                         }
@@ -168,19 +174,20 @@ namespace MSDAD_CLI
 
         public void ExecCommands()
         {
+            // TODO
             foreach (var command in commands)
             {
                 if (command[0].Equals("list", StringComparison.OrdinalIgnoreCase))
                 {
-                    server.listMeetings();
+                    //server.listMeetings();
                 }
                 else if (command[0].Equals("join", StringComparison.OrdinalIgnoreCase))
                 {
-                    server.joinMeeting(command[1]);
+                    //server.joinMeeting(command[1]);
                 }
                 else if (command[0].Equals("close", StringComparison.OrdinalIgnoreCase))
                 {
-                    server.closeMeeting(command[1]);
+                    //server.closeMeeting(command[1]);
                 }
                 else if (command[0].Equals("create", StringComparison.OrdinalIgnoreCase))
                 {
@@ -202,7 +209,7 @@ namespace MSDAD_CLI
                         invitees.Add(command[i]);
                     }
 
-                    server.createMeeting(command[1], (uint) minAttendees, slots, invitees);
+                    //server.createMeeting(command[1], (uint)minAttendees, slots, invitees);
                 }
                 else if (command[0].Equals("wait", StringComparison.OrdinalIgnoreCase))
                 {
@@ -223,8 +230,7 @@ namespace MSDAD_CLI
     {
         public ParserException(string msg)
             : base($"ParserException: {msg}")
-        {}
+        { }
 
     }
-
 }
