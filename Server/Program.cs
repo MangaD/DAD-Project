@@ -56,12 +56,12 @@ namespace Server
 
     class ServerServices : MarshalByRefObject, IServer
     {
-        List<Cli> clients;
+        List<Client> clients;
         Server server;
 
         public ServerServices(Server serv)
         {
-            this.clients = new List<Cli>();
+            this.clients = new List<Client>();
             this.server = serv;
         }
 
@@ -70,41 +70,66 @@ namespace Server
             throw new NotImplementedException();
         }
 
-        public void createMeeting(int coordinatorPort, string topic, uint minAttendees, List<Slot> slots, List<string> invitees)
+        public void createMeeting(string coordinatorURL, string topic, uint minAttendees, List<Slot> slots, List<string> invitees)
         {
-            this.server.addMeetingPropToList(new MeetingProposal(coordinatorPort, topic, minAttendees, slots, invitees));
+            this.server.addMeetingPropToList(new MeetingProposal(coordinatorURL, topic, minAttendees, slots, invitees));
         }
 
-        public void joinMeeting(string topic)
+        public bool joinMeeting(string topic, string clientName, string clientURL)
         {
-            //TODO joinMeeting
             foreach(MeetingProposal mp in this.server.getMeetingPropList())
             {
                 if (mp.Topic == topic && mp.Invitees == null)
                 {
-                    //TODO join user to the meeting;
+                    mp.joinClientToMeeting(clientName, clientURL);
+                    return true;
+                }
+                else
+                {
+                    foreach (string inv in mp.Invitees)
+                    {
+                        if (inv == clientName)
+                        {
+                            mp.joinClientToMeeting(clientName, clientURL);
+                            return true;
+                        }
+                    }
                 }
             }
+            return false;
         }
 
-        public List<string> listMeetings()
+        public List<string> listMeetings(string clientName)
         {
             List<string> meetingsTopic = new List<string>();
             foreach(MeetingProposal mp in this.server.getMeetingPropList())
             {
-                meetingsTopic.Add(mp.Topic);
+                if(mp.Invitees == null)
+                {
+                    meetingsTopic.Add(mp.Topic);
+                }
+                else
+                {
+                    foreach(string inv in mp.Invitees)
+                    {
+                        if(inv == clientName)
+                        {
+                            meetingsTopic.Add(mp.Topic);
+                        }
+                    }
+                }
             }
             return meetingsTopic;
         }
 
-        public List<string> RegisterClient(int clientPort, string clientName)
+        public List<string> RegisterClient(int clientPort, string clientName, string clientURL)
         {
             IClient newClientChannel =
                 (IClient)Activator.GetObject(
                     typeof(IClient), "tcp://localhost:" + clientPort + "/MSClient");
-            Cli newClient = new Cli(newClientChannel, clientName, clientPort);
+            Client newClient = new Client(newClientChannel, clientName, clientPort, clientURL);
             clients.Add(newClient);
-            Console.WriteLine("New client " + clientName + " listenning at " + "tcp://localhost:" + clientPort + "/MSClient");
+            Console.WriteLine("New client " + clientName + " listenning at " + clientURL);
 
             //return messages;
             return null;
@@ -113,49 +138,18 @@ namespace Server
         public void clientSaysHelloToServer(int clientPort)
         {
             //Find client in client list
-            Cli client = clients.First(item => item.getClientPort() == clientPort);
+            Client client = clients.First(item => item.ClientPort == clientPort);
 
-            Console.WriteLine("Client: " + client.getClientName() + " Port: " + client.getClientPort() + " Says: Hello");
+            Console.WriteLine("Client: " + client.ClientName + " Port: " + client.ClientPort + " Says: Hello");
 
             //Server responds to that talked to him.
             //client.getClientChannel().serverRespondsHiToClient(server.getServerPort());
 
             //Server Broadcasts to all clients include client that talked to him.
-            foreach(Cli c in clients)
+            foreach(Client c in clients)
             {
-                c.getClientChannel().serverRespondsHiToClient(server.getServerPort());
+                c.ClientChannel.serverRespondsHiToClient(server.getServerPort());
             }
         }
     }
-
-    public class Cli
-    {
-        IClient clientChannel;
-        string clientName;
-        int clientPort;
-        //....
-
-        public Cli(IClient cc, string cn, int cp)
-        {
-            this.clientChannel = cc;
-            this.clientName = cn;
-            this.clientPort = cp;
-        }
-
-        public IClient getClientChannel()
-        {
-            return this.clientChannel;
-        }
-
-        public string getClientName()
-        {
-            return this.clientName;
-        }
-
-        public int getClientPort()
-        {
-            return this.clientPort;
-        }
-    }
-
 }

@@ -7,11 +7,11 @@ namespace API
 {
     public interface IServer
     {
-        List<string> RegisterClient(int clientPort, string clientName);
-        List<string> listMeetings();
-        void createMeeting(int coordinatorPort, string topic, uint minAttendees,
+        List<string> RegisterClient(int clientPort, string clientName, string clientURL);
+        List<string> listMeetings(string clientName);
+        void createMeeting(string coordinatorURL, string topic, uint minAttendees,
             List<Slot> slots, List<string> invitees);
-        void joinMeeting(string topic);
+        bool joinMeeting(string topic, string clientName, string clientURL);
         void closeMeeting(string topic);
 
 

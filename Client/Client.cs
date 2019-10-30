@@ -52,7 +52,8 @@ namespace MSDAD_CLI
             UInt16 clientPort, string clientName)
         {
             server = (IServer)Activator.GetObject(typeof(IServer), "tcp://" + address + ":" + serverPort + "/" + serverChannelName);
-            server.RegisterClient(clientPort, clientName);
+            string clientURL = "tcp://" + address + ":" + serverPort + "/" + serverChannelName;
+            server.RegisterClient(clientPort, clientName, clientURL);
         }
 
         private static void listenClient(UInt16 clientPort, string cliChannelName)
