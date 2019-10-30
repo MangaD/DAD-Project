@@ -172,11 +172,11 @@ namespace MSDAD_CLI
             {
                 if (command[0].Equals("list", StringComparison.OrdinalIgnoreCase))
                 {
-                    server.ListMeetings();
+                    server.ListMeetings(Client.ClientName);
                 }
                 else if (command[0].Equals("join", StringComparison.OrdinalIgnoreCase))
                 {
-                    server.JoinMeeting(command[1]);
+                    server.JoinMeeting(command[1], Client.ClientName, Client.ClientRA.ToString());
                 }
                 else if (command[0].Equals("close", StringComparison.OrdinalIgnoreCase))
                 {
@@ -202,7 +202,7 @@ namespace MSDAD_CLI
                         invitees.Add(command[i]);
                     }
 
-                    server.createMeeting(command[1], (uint) minAttendees, slots, invitees);
+                    server.CreateMeeting(Client.ClientRA.ToString(), command[1], (uint) minAttendees, slots, invitees);
                 }
                 else if (command[0].Equals("wait", StringComparison.OrdinalIgnoreCase))
                 {

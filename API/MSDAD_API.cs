@@ -7,23 +7,22 @@ namespace API
 {
     public interface IServer
     {
-        List<string> RegisterClient(int clientPort, string clientName);
-        List<string> ListMeetings();
-        void CreateMeeting(int coordinatorPort, string topic, uint minAttendees,
+        List<string> RegisterClient(string clientName, string clientRA);
+        List<string> ListMeetings(string clientName);
+        void CreateMeeting(string coordinatorURL, string topic, uint minAttendees,
             List<Slot> slots, List<string> invitees);
-        void JoinMeeting(string topic);
+        bool JoinMeeting(string topic, string clientName, string clientRA);
         void CloseMeeting(string topic);
 
-
         //Metodos de Teste
-        void ClientSaysHelloToServer(int clientPort);
+        void ClientSaysHelloToServer(UInt16 clientPort);
 
     }
 
     public interface IClient
     {
         //Metodos de Teste
-        void ServerRespondsHiToClient(int serverPort);
+        void ServerRespondsHiToClient(UInt16 serverPort);
     }
 
     public interface IPCS
@@ -69,9 +68,43 @@ namespace API
             //Utilities.WriteDebug($"Loc: {location}, Year: {year}, Month: {mon}, Day: {day}");
             return new Slot(location, new DateTime(year, mon, day));
         }
-        public string ToString()
+        public override string ToString()
         {
             return location + "," + date.ToString("yyyy-MM-dd");
+        }
+    }
+
+    public struct RemotingAddress
+    {
+        public string address;
+        public UInt16 port;
+        public string channel;
+
+        public RemotingAddress(string _address, UInt16 _port, string _channel)
+        {
+            this.address = _address;
+            this.port = _port;
+            this.channel = _channel;
+        }
+
+        public static RemotingAddress FromString(string remotingAddress)
+        {
+            string r = @"^tcp:\/\/([^:\s]+):(\d+)\/([^\s]+)$";
+            MatchCollection mat = Regex.Matches(remotingAddress, r);
+            if (mat.Count <= 0)
+            {
+                throw new ArgumentException();
+            }
+            Match m2 = mat[0];
+            string address = m2.Groups[1].Value.ToString();
+            int port = Int32.Parse(m2.Groups[2].Value.ToString());
+            string channel = m2.Groups[3].Value.ToString();
+            return new RemotingAddress(address, (UInt16) port, channel);
+        }
+
+        public override string ToString()
+        {
+            return "tcp://" + address + ":" + port + "/" + channel;
         }
     }
 

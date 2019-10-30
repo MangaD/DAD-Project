@@ -12,22 +12,28 @@ namespace MSDAD_CLI
         private static TcpChannel clientChannel;
         private static IServer server;
 
+        public static string ClientName { get; set; }
+        public static RemotingAddress ClientRA { get; set; }
+        public static RemotingAddress ServerRA { get; set; }
+
         public static void Main(string[] args)
         {
-            if (args.Length != 4)
+            if (args.Length != 6)
             {
-                Utilities.WriteError("This program must take 4 argument. Script filename, client port, client name, server port.");
+                Utilities.WriteError("This program must take 4 argument. " +
+                    "client name, client remoting address, server remoting address, " +
+                    "Script filename.");
                 Console.ReadKey();
                 return;
             }
 
-            string scriptFilename = args[0];
-            UInt16 clientPort = (UInt16) Convert.ToInt32(args[1]);
-            string clientName = args[2];
-            UInt16 serverPort = (UInt16)Convert.ToInt32(args[3]);
-
-            listenClient(clientPort, "MSClient");
-            connectToServer("localhost", serverPort, "MSServer", clientPort, clientName);
+            ClientName = args[0];
+            RemotingAddress clientRA = RemotingAddress.FromString(args[1]);
+            RemotingAddress serverRA = RemotingAddress.FromString(args[2]);
+            string scriptFilename = args[3];
+            
+            listenClient(clientRA.port, clientRA.channel);
+            connectToServer(serverRA.ToString(), ClientName, clientRA.ToString());
 
             Parser parser = new Parser(scriptFilename, server);
             try
@@ -40,19 +46,17 @@ namespace MSDAD_CLI
                 Environment.Exit(0);
             }
             
-
-            server.ClientSaysHelloToServer(clientPort);
+            server.ClientSaysHelloToServer(clientRA.port);
 
             //parser.ExecCommands();
 
             Console.ReadKey();
         }
 
-        private static void connectToServer(string address, UInt16 serverPort, string serverChannelName,
-            UInt16 clientPort, string clientName)
+        private static void connectToServer(string serverRA, string clientName, string clientRA)
         {
-            server = (IServer)Activator.GetObject(typeof(IServer), "tcp://" + address + ":" + serverPort + "/" + serverChannelName);
-            server.RegisterClient(clientPort, clientName);
+            server = (IServer)Activator.GetObject(typeof(IServer), serverRA);
+            server.RegisterClient(clientName, clientRA);
         }
 
         private static void listenClient(UInt16 clientPort, string cliChannelName)
@@ -73,7 +77,7 @@ namespace MSDAD_CLI
         {
         }
 
-        public void ServerRespondsHiToClient(int serverPort)
+        public void ServerRespondsHiToClient(UInt16 serverPort)
         {
             Console.WriteLine("Server: " + serverPort + " Responded Hi");
         }
