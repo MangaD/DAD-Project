@@ -41,7 +41,7 @@ namespace MSDAD_CLI
             }
             
 
-            server.clientSaysHelloToServer(clientPort);
+            server.ClientSaysHelloToServer(clientPort);
 
             //parser.ExecCommands();
 
@@ -73,7 +73,7 @@ namespace MSDAD_CLI
         {
         }
 
-        public void serverRespondsHiToClient(int serverPort)
+        public void ServerRespondsHiToClient(int serverPort)
         {
             Console.WriteLine("Server: " + serverPort + " Responded Hi");
         }

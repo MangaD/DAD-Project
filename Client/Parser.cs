@@ -131,7 +131,7 @@ namespace MSDAD_CLI
                                     {
                                         try
                                         {
-                                            Slot.fromString(slotsInvitees[i]);
+                                            Slot.FromString(slotsInvitees[i]);
                                         } catch (ArgumentException)
                                         {
                                             throw new ParserException($"Error at line {count + 1}. Invalid slot: {slotsInvitees[i]}");
@@ -172,15 +172,15 @@ namespace MSDAD_CLI
             {
                 if (command[0].Equals("list", StringComparison.OrdinalIgnoreCase))
                 {
-                    server.listMeetings();
+                    server.ListMeetings();
                 }
                 else if (command[0].Equals("join", StringComparison.OrdinalIgnoreCase))
                 {
-                    server.joinMeeting(command[1]);
+                    server.JoinMeeting(command[1]);
                 }
                 else if (command[0].Equals("close", StringComparison.OrdinalIgnoreCase))
                 {
-                    server.closeMeeting(command[1]);
+                    server.CloseMeeting(command[1]);
                 }
                 else if (command[0].Equals("create", StringComparison.OrdinalIgnoreCase))
                 {
@@ -194,7 +194,7 @@ namespace MSDAD_CLI
 
                     for (int i = 0; i < noSlots; i++)
                     {
-                        slots.Add(Slot.fromString(command[i]));
+                        slots.Add(Slot.FromString(command[i]));
                     }
 
                     for (int i = 0; i < noInvitees; i++)

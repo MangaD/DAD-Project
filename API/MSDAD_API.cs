@@ -8,22 +8,22 @@ namespace API
     public interface IServer
     {
         List<string> RegisterClient(int clientPort, string clientName);
-        List<string> listMeetings();
-        void createMeeting(int coordinatorPort, string topic, uint minAttendees,
+        List<string> ListMeetings();
+        void CreateMeeting(int coordinatorPort, string topic, uint minAttendees,
             List<Slot> slots, List<string> invitees);
-        void joinMeeting(string topic);
-        void closeMeeting(string topic);
+        void JoinMeeting(string topic);
+        void CloseMeeting(string topic);
 
 
         //Metodos de Teste
-        void clientSaysHelloToServer(int clientPort);
+        void ClientSaysHelloToServer(int clientPort);
 
     }
 
     public interface IClient
     {
         //Metodos de Teste
-        void serverRespondsHiToClient(int serverPort);
+        void ServerRespondsHiToClient(int serverPort);
     }
 
     public interface IPCS
@@ -34,14 +34,14 @@ namespace API
             string serverURL, string scriptFile);
         bool AddRoom(string location, uint capacity, string roomName);
         string SystemStatus();
-        void Crash(string id);
-        void Freeze(string id);
-        void Unfreeze(string id);
+        void Crash(string server_id);
+        void Freeze(string server_id);
+        void Unfreeze(string server_id);
     }
 
     public interface IPuppetMaster
     {
-        void receiveMessage(string msg);
+        void ReceiveMessage(string msg);
     }
 
     public struct Slot
@@ -53,7 +53,7 @@ namespace API
             this.location = _loc;
             this.date = _date;
         }
-        public static Slot fromString(string slot)
+        public static Slot FromString(string slot)
         {
             string r = @"(\w+),(\d{4})-(\d{1,2})-(\d{1,2})";
             MatchCollection mat = Regex.Matches(slot, r);
@@ -69,7 +69,7 @@ namespace API
             //Utilities.WriteDebug($"Loc: {location}, Year: {year}, Month: {mon}, Day: {day}");
             return new Slot(location, new DateTime(year, mon, day));
         }
-        public string toString()
+        public string ToString()
         {
             return location + "," + date.ToString("yyyy-MM-dd");
         }

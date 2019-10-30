@@ -65,17 +65,17 @@ namespace Server
             this.server = serv;
         }
 
-        public void closeMeeting(string topic)
+        public void CloseMeeting(string topic)
         {
             throw new NotImplementedException();
         }
 
-        public void createMeeting(int coordinatorPort, string topic, uint minAttendees, List<Slot> slots, List<string> invitees)
+        public void CreateMeeting(int coordinatorPort, string topic, uint minAttendees, List<Slot> slots, List<string> invitees)
         {
             this.server.addMeetingPropToList(new MeetingProposal(coordinatorPort, topic, minAttendees, slots, invitees));
         }
 
-        public void joinMeeting(string topic)
+        public void JoinMeeting(string topic)
         {
             //TODO joinMeeting
             foreach(MeetingProposal mp in this.server.getMeetingPropList())
@@ -87,7 +87,7 @@ namespace Server
             }
         }
 
-        public List<string> listMeetings()
+        public List<string> ListMeetings()
         {
             List<string> meetingsTopic = new List<string>();
             foreach(MeetingProposal mp in this.server.getMeetingPropList())
@@ -110,7 +110,7 @@ namespace Server
             return null;
         }
 
-        public void clientSaysHelloToServer(int clientPort)
+        public void ClientSaysHelloToServer(int clientPort)
         {
             //Find client in client list
             Cli client = clients.First(item => item.getClientPort() == clientPort);
@@ -123,7 +123,7 @@ namespace Server
             //Server Broadcasts to all clients include client that talked to him.
             foreach(Cli c in clients)
             {
-                c.getClientChannel().serverRespondsHiToClient(server.getServerPort());
+                c.getClientChannel().ServerRespondsHiToClient(server.getServerPort());
             }
         }
     }
