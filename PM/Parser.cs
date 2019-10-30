@@ -99,57 +99,62 @@ namespace PM
                                 // server
                                 else if (!string.IsNullOrEmpty(m.Groups[6].Value.ToString()))
                                 {
-                                    if (!Int32.TryParse(m.Groups[8].Value.ToString(), out int minAttendees))
+                                    if (!Int32.TryParse(m.Groups[9].Value.ToString(), out int maxFaults))
                                     {
-                                        throw new ParserException($"Error at line {count + 1}. min_attendees is not " +
+                                        throw new ParserException($"Error at line {count + 1}. max_faults is not " +
                                             "a valid number.");
                                     }
-                                    if (!Int32.TryParse(m.Groups[9].Value.ToString(), out int noSlots))
+                                    if (!Int32.TryParse(m.Groups[10].Value.ToString(), out int minDelay))
                                     {
-                                        throw new ParserException($"Error at line {count + 1}. number_of_slots is " +
+                                        throw new ParserException($"Error at line {count + 1}. min_delay is " +
                                             "not a valid number.");
                                     }
-                                    if (!Int32.TryParse(m.Groups[10].Value.ToString(), out int noInvitees))
+                                    if (!Int32.TryParse(m.Groups[11].Value.ToString(), out int maxDelay))
                                     {
-                                        throw new ParserException($"Error at line {count + 1}. number_of_invitees " +
+                                        throw new ParserException($"Error at line {count + 1}. max_delay " +
                                             "is not a valid number.");
                                     }
 
-                                    string[] slotsInvitees = m.Groups[11].Value.ToString().Split(' ');
-
-                                    if (noSlots + noInvitees != slotsInvitees.Length)
-                                    {
-                                        throw new ParserException($"Error at line {count + 1}. number_of_slots + " +
-                                            "number_of_invitees does not match the quantity of arguments provided.");
-                                    }
 
                                     List<string> l = new List<string>() {
                                             m.Groups[6].Value.ToString(),
-                                            m.Groups[7].Value.ToString(),//topic
-                                            minAttendees.ToString(),
-                                            noSlots.ToString(),
-                                            noInvitees.ToString()
+                                            m.Groups[7].Value.ToString(),// server id
+                                            m.Groups[8].Value.ToString(),// server url
+                                            maxFaults.ToString(),
+                                            minDelay.ToString(),
+                                            maxDelay.ToString()
                                         };
 
-                                    // Validate slots
-                                    for (int i = 0; i < noSlots; i++)
+                                    commands.Add(l);
+                                }
+                                // client
+                                else if (!string.IsNullOrEmpty(m.Groups[12].Value.ToString()))
+                                {
+                                    List<string> l = new List<string>() {
+                                            m.Groups[12].Value.ToString(),
+                                            m.Groups[13].Value.ToString(),// client id
+                                            m.Groups[14].Value.ToString(),// client url
+                                            m.Groups[15].Value.ToString(),// server url
+                                            m.Groups[16].Value.ToString()// script file
+                                        };
+
+                                    commands.Add(l);
+                                }
+                                // add room
+                                else if (!string.IsNullOrEmpty(m.Groups[17].Value.ToString()))
+                                {
+                                    if (!Int32.TryParse(m.Groups[19].Value.ToString(), out int capacity))
                                     {
-                                        try
-                                        {
-                                            Slot.fromString(slotsInvitees[i]);
-                                        }
-                                        catch (ArgumentException)
-                                        {
-                                            throw new ParserException($"Error at line {count + 1}. Invalid slot: {slotsInvitees[i]}");
-                                        }
-                                        l.Add(slotsInvitees[i]);
+                                        throw new ParserException($"Error at line {count + 1}. capacity " +
+                                            "is not a valid number.");
                                     }
 
-                                    // Add invitees
-                                    for (int i = 0; i < noInvitees; i++)
-                                    {
-                                        l.Add(slotsInvitees[i]);
-                                    }
+                                    List<string> l = new List<string>() {
+                                            m.Groups[17].Value.ToString(),
+                                            m.Groups[18].Value.ToString(),// location
+                                            m.Groups[19].Value.ToString(),// capacity
+                                            m.Groups[20].Value.ToString(),// room name
+                                        };
 
                                     commands.Add(l);
                                 }
@@ -163,7 +168,6 @@ namespace PM
                     }
 
                     Utilities.WriteDebug($"Read {count} lines from '{filename}'.");
-
                 }
             }
             catch (Exception e)
@@ -177,44 +181,39 @@ namespace PM
             // TODO
             foreach (var command in commands)
             {
-                if (command[0].Equals("list", StringComparison.OrdinalIgnoreCase))
+                if (command[0].Equals("crash", StringComparison.OrdinalIgnoreCase))
                 {
                     //server.listMeetings();
                 }
-                else if (command[0].Equals("join", StringComparison.OrdinalIgnoreCase))
+                else if (command[0].Equals("freeze", StringComparison.OrdinalIgnoreCase))
                 {
                     //server.joinMeeting(command[1]);
                 }
-                else if (command[0].Equals("close", StringComparison.OrdinalIgnoreCase))
+                else if (command[0].Equals("unfreeze", StringComparison.OrdinalIgnoreCase))
                 {
                     //server.closeMeeting(command[1]);
-                }
-                else if (command[0].Equals("create", StringComparison.OrdinalIgnoreCase))
-                {
-                    string topic = command[1];
-                    Int32.TryParse(command[2], out int minAttendees);
-                    Int32.TryParse(command[3], out int noSlots);
-                    Int32.TryParse(command[4], out int noInvitees);
-
-                    List<Slot> slots = new List<Slot>();
-                    List<string> invitees = new List<string>();
-
-                    for (int i = 0; i < noSlots; i++)
-                    {
-                        slots.Add(Slot.fromString(command[i]));
-                    }
-
-                    for (int i = 0; i < noInvitees; i++)
-                    {
-                        invitees.Add(command[i]);
-                    }
-
-                    //server.createMeeting(command[1], (uint)minAttendees, slots, invitees);
                 }
                 else if (command[0].Equals("wait", StringComparison.OrdinalIgnoreCase))
                 {
                     Utilities.Wait(Int32.Parse(command[1]));
                 }
+                else if (command[0].Equals("status", StringComparison.OrdinalIgnoreCase))
+                {
+                    //TODO
+                }
+                else if (command[0].Equals("server", StringComparison.OrdinalIgnoreCase))
+                {
+                    //TODO
+                }
+                else if (command[0].Equals("client", StringComparison.OrdinalIgnoreCase))
+                {
+                    //TODO
+                }
+                else if (command[0].Equals("AddRoom", StringComparison.OrdinalIgnoreCase))
+                {
+                    //TODO
+                }
+
                 foreach (string s in command)
                 {
                     Utilities.WriteDebug(s + " ");
