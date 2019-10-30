@@ -25,6 +25,9 @@ namespace PM
             if (openScriptDialog.FileName != "")
             {
                 MessageBox.Show("You've selected: " + openScriptDialog.FileName);
+                Parser p = new Parser(openScriptDialog.FileName);
+                p.Parse();
+                p.ExecCommands();
             }
         }
 
