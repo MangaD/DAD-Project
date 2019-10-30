@@ -199,8 +199,8 @@ namespace PM
                 }
                 else if (command[0].Equals("status", StringComparison.OrdinalIgnoreCase))
                 {
-                                  }
-             else if (command[0].Equals("server", StringComparison.OrdinalIgnoreCase))
+                }
+                else if (command[0].Equals("server", StringComparison.OrdinalIgnoreCase))
                 {
                     //TODO
                 }

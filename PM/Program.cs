@@ -34,10 +34,25 @@ namespace PM
             Application.Run(new MainForm());
         }
 
-        public static void ConnectToPCS(string PCSRA)
+        public static IPCS ConnectToPCS(string PCSRemotingAddress)
         {
-            RemotingAddress ra = RemotingAddress.FromString(PCSRA);
-            PCSList.Add(new Tuple<RemotingAddress, IPCS>(ra, (IPCS)Activator.GetObject(typeof(IPCS), PCSRA)));
+            RemotingAddress ra = RemotingAddress.FromString(PCSRemotingAddress);
+
+            if (!PCSList.Exists(x => x.Item1 == ra))
+            {
+                IPCS pcs = (IPCS)Activator.GetObject(typeof(IPCS), PCSRemotingAddress);
+                if (pcs == null)
+                {
+                    MessageBox.Show("Could not locate PCS: " + PCSRemotingAddress);
+                    return null;
+                }
+                PCSList.Add(new Tuple<RemotingAddress, IPCS>(ra, pcs));
+                return pcs;
+            }
+            else
+            {
+                return PCSList.Find(x => x.Item1 == ra).Item2;
+            }
         }
     }
 }
