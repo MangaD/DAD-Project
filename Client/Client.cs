@@ -31,11 +31,15 @@ namespace MSDAD_CLI
             RemotingAddress clientRA = RemotingAddress.FromString(args[1]);
             RemotingAddress serverRA = RemotingAddress.FromString(args[2]);
             string scriptFilename = args[3];
-            
+
+            /*ClientName = "Leo";
+            RemotingAddress clientRA = RemotingAddress.FromString("tcp://localhost:65001/MSClient");
+            RemotingAddress serverRA = RemotingAddress.FromString("tcp://localhost:65000/MSServer");*/
+
             listenClient(clientRA.port, clientRA.channel);
             connectToServer(serverRA.ToString(), ClientName, clientRA.ToString());
 
-            Parser parser = new Parser(scriptFilename, server);
+            /*Parser parser = new Parser(scriptFilename, server);
             try
             {
                 parser.Parse();
@@ -44,11 +48,24 @@ namespace MSDAD_CLI
                 Utilities.WriteError(pe.Message);
                 Console.ReadKey();
                 Environment.Exit(0);
-            }
+            }*/
             
             server.ClientSaysHelloToServer(clientRA.port);
 
             //parser.ExecCommands();
+
+            /*do
+            {
+                Console.WriteLine("Choose Option: ");
+                Console.WriteLine("1 - CreateMeeting");
+
+                int opt = Convert.ToInt32(Console.ReadLine());
+
+                if(opt == 1)
+                {
+                    server.CreateMeeting(clientRA.ToString(), "oi", 2, null, null);
+                }
+            } while (true);*/
 
             Console.ReadKey();
         }

@@ -65,32 +65,42 @@ namespace Server
             this.server = serv;
         }
 
-        public void CloseMeeting(string topic)
+        public bool CloseMeeting(string topic, string coordinatorURL)
         {
-            throw new NotImplementedException();
+            foreach (MeetingProposal mp in this.server.getMeetingPropList())
+            {
+                if(mp.Topic == topic && mp.CoodinatorURL == coordinatorURL && mp.State == 0)
+                {
+                    mp.State = 1;
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void CreateMeeting(string coordinatorURL, string topic, uint minAttendees, List<Slot> slots, List<string> invitees)
         {
             this.server.addMeetingPropToList(new MeetingProposal(coordinatorURL, topic, minAttendees, slots, invitees));
+
+            Console.WriteLine("[Server] Criei a Meeting! CoordinatorURL: " + coordinatorURL);
         }
 
-        public bool JoinMeeting(string topic, string clientName, string clientRA)
+        public bool JoinMeeting(string topic, string clientName, string clientRA, int n_slots, List<Slot> locationDates)
         {
             foreach(MeetingProposal mp in this.server.getMeetingPropList())
             {
-                if (mp.Topic == topic && mp.Invitees == null)
+                if (mp.Topic == topic && mp.Invitees == null && mp.State == 0)
                 {
-                    mp.joinClientToMeeting(clientName, clientRA);
+                    mp.joinClientToMeeting(clientName, clientRA, n_slots, locationDates);
                     return true;
                 }
                 else
                 {
                     foreach (string inv in mp.Invitees)
                     {
-                        if (inv == clientName)
+                        if (inv == clientName && mp.State == 0)
                         {
-                            mp.joinClientToMeeting(clientName, clientRA);
+                            mp.joinClientToMeeting(clientName, clientRA, n_slots, locationDates);
                             return true;
                         }
                     }
@@ -104,7 +114,7 @@ namespace Server
             List<string> meetingsTopic = new List<string>();
             foreach(MeetingProposal mp in this.server.getMeetingPropList())
             {
-                if(mp.Invitees == null)
+                if(mp.Invitees == null && mp.State == 0)
                 {
                     meetingsTopic.Add(mp.Topic);
                 }
@@ -112,7 +122,7 @@ namespace Server
                 {
                     foreach(string inv in mp.Invitees)
                     {
-                        if(inv == clientName)
+                        if(inv == clientName && mp.State == 0)
                         {
                             meetingsTopic.Add(mp.Topic);
                         }

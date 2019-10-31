@@ -9,8 +9,8 @@ namespace API
         List<string> ListMeetings(string clientName);
         void CreateMeeting(string coordinatorURL, string topic, uint minAttendees,
             List<Slot> slots, List<string> invitees);
-        bool JoinMeeting(string topic, string clientName, string clientRA);
-        void CloseMeeting(string topic);
+        bool JoinMeeting(string topic, string clientName, string clientRA, int n_slots, List<Slot> locationDates);
+        bool CloseMeeting(string topic, string coordinatorURL);
 
         //Metodos de Teste
         void ClientSaysHelloToServer(UInt16 clientPort);
