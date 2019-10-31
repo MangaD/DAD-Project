@@ -27,6 +27,8 @@ namespace PM
         {
             //TODO this is just an example of a method call
             //Program.pcs.StartServer("oi", "ola", 2, 2, 2);
+            Hide();
+            Program.createServerForm.Show();
         }
 
     }

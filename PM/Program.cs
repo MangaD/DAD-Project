@@ -21,7 +21,32 @@ namespace PM
          * everytime we attempt to launch a server or client, we add the corresponding
          * PCS to this list (if it is not here already).
          */
-        private static List<Tuple<RemotingAddress, IPCS>> PCSList;
+        public static List<Tuple<RemotingAddress, IPCS>> PCSList;
+
+        /**
+         * Form stuff
+         */
+
+        public static MainForm mainForm;
+        public static CreateServerForm createServerForm;
+
+        public static void setWindowAttributes(Form form)
+        {
+            form.Text = mainForm.Text;
+            form.Width = mainForm.Width;
+            form.Height = mainForm.Height;
+            form.Icon = mainForm.Icon;
+            form.BackgroundImage = mainForm.BackgroundImage;
+            form.BackgroundImageLayout = mainForm.BackgroundImageLayout;
+            //form.Location = mainForm.Location;
+            form.StartPosition = FormStartPosition.CenterParent;
+            form.FormClosed += new FormClosedEventHandler(onClose);
+        }
+
+        public static void onClose(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
 
         /// <summary>
         /// The main entry point for the application.
@@ -31,7 +56,15 @@ namespace PM
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+
+            mainForm = new MainForm();
+
+            createServerForm = new CreateServerForm();
+            setWindowAttributes(createServerForm);
+
+            PCSList = new List<Tuple<RemotingAddress, IPCS>>();
+
+            Application.Run(mainForm);
         }
 
         public static IPCS ConnectToPCS(string PCSRemotingAddress)
