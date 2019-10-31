@@ -47,7 +47,7 @@ namespace PM
             Application.Run(formUtilities.mainForm);
         }
 
-        public static IPCS ConnectToPCS(string PCSRemotingAddress)
+        private static IPCS ConnectToPCS(string PCSRemotingAddress)
         {
             RemotingAddress ra = RemotingAddress.FromString(PCSRemotingAddress);
 
@@ -66,6 +66,18 @@ namespace PM
             {
                 return PCSList.Find(x => x.Item1 == ra).Item2;
             }
+        }
+
+        public static bool ConnectToServer(string serverID, RemotingAddress serverRA,
+            uint maxFaults, uint minDelay, uint maxDelay)
+        {
+            return false;
+        }
+
+        public static bool ConnectToClient(string username, RemotingAddress clientRA,
+            RemotingAddress serverRA, string scriptFile)
+        {
+            return false;
         }
     }
 }

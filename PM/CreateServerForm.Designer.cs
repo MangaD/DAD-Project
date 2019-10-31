@@ -32,12 +32,12 @@
             this.titleLabel = new System.Windows.Forms.Label();
             this.backLbl = new System.Windows.Forms.Label();
             this.serverIDLbl = new System.Windows.Forms.Label();
-            this.remotingAddrLbl = new System.Windows.Forms.Label();
+            this.serverRALbl = new System.Windows.Forms.Label();
             this.maxFaultsLbl = new System.Windows.Forms.Label();
             this.minDelayLbl = new System.Windows.Forms.Label();
             this.maxDelayLbl = new System.Windows.Forms.Label();
             this.serverIDTb = new System.Windows.Forms.TextBox();
-            this.remotingAddrTb = new System.Windows.Forms.TextBox();
+            this.serverRATb = new System.Windows.Forms.TextBox();
             this.maxFaultsNUD = new System.Windows.Forms.NumericUpDown();
             this.minDelayNUD = new System.Windows.Forms.NumericUpDown();
             this.maxDelayNUD = new System.Windows.Forms.NumericUpDown();
@@ -68,7 +68,7 @@
             this.backLbl.Location = new System.Drawing.Point(12, 342);
             this.backLbl.Name = "backLbl";
             this.backLbl.Size = new System.Drawing.Size(38, 15);
-            this.backLbl.TabIndex = 8;
+            this.backLbl.TabIndex = 7;
             this.backLbl.Text = "Back";
             this.backLbl.Click += new System.EventHandler(this.backLbl_Click);
             // 
@@ -84,17 +84,17 @@
             this.serverIDLbl.TabIndex = 9;
             this.serverIDLbl.Text = "Server ID:";
             // 
-            // remotingAddrLbl
+            // serverRALbl
             // 
-            this.remotingAddrLbl.AutoSize = true;
-            this.remotingAddrLbl.BackColor = System.Drawing.Color.Transparent;
-            this.remotingAddrLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.remotingAddrLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.remotingAddrLbl.Location = new System.Drawing.Point(12, 136);
-            this.remotingAddrLbl.Name = "remotingAddrLbl";
-            this.remotingAddrLbl.Size = new System.Drawing.Size(69, 30);
-            this.remotingAddrLbl.TabIndex = 10;
-            this.remotingAddrLbl.Text = "Remoting\r\nAddress:";
+            this.serverRALbl.AutoSize = true;
+            this.serverRALbl.BackColor = System.Drawing.Color.Transparent;
+            this.serverRALbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.serverRALbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.serverRALbl.Location = new System.Drawing.Point(12, 137);
+            this.serverRALbl.Name = "serverRALbl";
+            this.serverRALbl.Size = new System.Drawing.Size(74, 15);
+            this.serverRALbl.TabIndex = 10;
+            this.serverRALbl.Text = "Server RA:";
             // 
             // maxFaultsLbl
             // 
@@ -102,7 +102,7 @@
             this.maxFaultsLbl.BackColor = System.Drawing.Color.Transparent;
             this.maxFaultsLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.maxFaultsLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.maxFaultsLbl.Location = new System.Drawing.Point(11, 182);
+            this.maxFaultsLbl.Location = new System.Drawing.Point(12, 166);
             this.maxFaultsLbl.Name = "maxFaultsLbl";
             this.maxFaultsLbl.Size = new System.Drawing.Size(81, 15);
             this.maxFaultsLbl.TabIndex = 11;
@@ -114,7 +114,7 @@
             this.minDelayLbl.BackColor = System.Drawing.Color.Transparent;
             this.minDelayLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.minDelayLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.minDelayLbl.Location = new System.Drawing.Point(11, 213);
+            this.minDelayLbl.Location = new System.Drawing.Point(12, 198);
             this.minDelayLbl.Name = "minDelayLbl";
             this.minDelayLbl.Size = new System.Drawing.Size(77, 15);
             this.minDelayLbl.TabIndex = 12;
@@ -126,7 +126,7 @@
             this.maxDelayLbl.BackColor = System.Drawing.Color.Transparent;
             this.maxDelayLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.maxDelayLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.maxDelayLbl.Location = new System.Drawing.Point(12, 243);
+            this.maxDelayLbl.Location = new System.Drawing.Point(13, 230);
             this.maxDelayLbl.Name = "maxDelayLbl";
             this.maxDelayLbl.Size = new System.Drawing.Size(80, 15);
             this.maxDelayLbl.TabIndex = 13;
@@ -134,45 +134,45 @@
             // 
             // serverIDTb
             // 
-            this.serverIDTb.Location = new System.Drawing.Point(103, 106);
+            this.serverIDTb.Location = new System.Drawing.Point(103, 105);
             this.serverIDTb.Name = "serverIDTb";
             this.serverIDTb.Size = new System.Drawing.Size(138, 20);
-            this.serverIDTb.TabIndex = 14;
+            this.serverIDTb.TabIndex = 1;
             // 
-            // remotingAddrTb
+            // serverRATb
             // 
-            this.remotingAddrTb.Location = new System.Drawing.Point(103, 146);
-            this.remotingAddrTb.Name = "remotingAddrTb";
-            this.remotingAddrTb.Size = new System.Drawing.Size(138, 20);
-            this.remotingAddrTb.TabIndex = 15;
+            this.serverRATb.Location = new System.Drawing.Point(103, 136);
+            this.serverRATb.Name = "serverRATb";
+            this.serverRATb.Size = new System.Drawing.Size(138, 20);
+            this.serverRATb.TabIndex = 2;
             // 
             // maxFaultsNUD
             // 
-            this.maxFaultsNUD.Location = new System.Drawing.Point(103, 182);
+            this.maxFaultsNUD.Location = new System.Drawing.Point(103, 166);
             this.maxFaultsNUD.Name = "maxFaultsNUD";
             this.maxFaultsNUD.Size = new System.Drawing.Size(138, 20);
-            this.maxFaultsNUD.TabIndex = 16;
+            this.maxFaultsNUD.TabIndex = 3;
             // 
             // minDelayNUD
             // 
-            this.minDelayNUD.Location = new System.Drawing.Point(103, 213);
+            this.minDelayNUD.Location = new System.Drawing.Point(103, 198);
             this.minDelayNUD.Name = "minDelayNUD";
             this.minDelayNUD.Size = new System.Drawing.Size(138, 20);
-            this.minDelayNUD.TabIndex = 17;
+            this.minDelayNUD.TabIndex = 4;
             // 
             // maxDelayNUD
             // 
-            this.maxDelayNUD.Location = new System.Drawing.Point(103, 243);
+            this.maxDelayNUD.Location = new System.Drawing.Point(103, 230);
             this.maxDelayNUD.Name = "maxDelayNUD";
             this.maxDelayNUD.Size = new System.Drawing.Size(138, 20);
-            this.maxDelayNUD.TabIndex = 18;
+            this.maxDelayNUD.TabIndex = 5;
             // 
             // createSrvBtn
             // 
-            this.createSrvBtn.Location = new System.Drawing.Point(132, 285);
+            this.createSrvBtn.Location = new System.Drawing.Point(133, 270);
             this.createSrvBtn.Name = "createSrvBtn";
             this.createSrvBtn.Size = new System.Drawing.Size(75, 23);
-            this.createSrvBtn.TabIndex = 19;
+            this.createSrvBtn.TabIndex = 6;
             this.createSrvBtn.Text = "Create";
             this.createSrvBtn.UseVisualStyleBackColor = true;
             this.createSrvBtn.Click += new System.EventHandler(this.createSrvBtn_Click);
@@ -189,16 +189,17 @@
             this.Controls.Add(this.maxDelayNUD);
             this.Controls.Add(this.minDelayNUD);
             this.Controls.Add(this.maxFaultsNUD);
-            this.Controls.Add(this.remotingAddrTb);
+            this.Controls.Add(this.serverRATb);
             this.Controls.Add(this.serverIDTb);
             this.Controls.Add(this.maxDelayLbl);
             this.Controls.Add(this.minDelayLbl);
             this.Controls.Add(this.maxFaultsLbl);
-            this.Controls.Add(this.remotingAddrLbl);
+            this.Controls.Add(this.serverRALbl);
             this.Controls.Add(this.serverIDLbl);
             this.Controls.Add(this.backLbl);
             this.Controls.Add(this.titleLabel);
             this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CreateServerForm";
             this.Text = "Puppet Master";
@@ -215,12 +216,12 @@
         private System.Windows.Forms.Label titleLabel;
         private System.Windows.Forms.Label backLbl;
         private System.Windows.Forms.Label serverIDLbl;
-        private System.Windows.Forms.Label remotingAddrLbl;
+        private System.Windows.Forms.Label serverRALbl;
         private System.Windows.Forms.Label maxFaultsLbl;
         private System.Windows.Forms.Label minDelayLbl;
         private System.Windows.Forms.Label maxDelayLbl;
         private System.Windows.Forms.TextBox serverIDTb;
-        private System.Windows.Forms.TextBox remotingAddrTb;
+        private System.Windows.Forms.TextBox serverRATb;
         private System.Windows.Forms.NumericUpDown maxFaultsNUD;
         private System.Windows.Forms.NumericUpDown minDelayNUD;
         private System.Windows.Forms.NumericUpDown maxDelayNUD;

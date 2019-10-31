@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 
+using API;
+
 namespace PM
 {
     public partial class CreateServerForm : Form
@@ -19,6 +21,8 @@ namespace PM
         {
             bool valid = true;
 
+            RemotingAddress serverRA = new RemotingAddress();
+
             if (serverIDTb.Text == "")
             {
                 valid = false;
@@ -27,13 +31,28 @@ namespace PM
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
-            if (remotingAddrTb.Text == "")
+            if (serverRATb.Text == "")
             {
                 valid = false;
-                MessageBox.Show("Remoting Address cannot be empty.",
+                MessageBox.Show("Server remoting address cannot be empty.",
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
+            }
+            else
+            {
+                try
+                {
+                    serverRA = RemotingAddress.FromString(serverRATb.Text);
+                }
+                catch (ArgumentException)
+                {
+                    valid = false;
+                    MessageBox.Show("Server remoting address is invalid.",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
             }
             if (maxFaultsNUD.Value < 0)
             {
@@ -62,9 +81,11 @@ namespace PM
 
             if (valid)
             {
-                // TODO
-
-                FormUtilities.switchForm(this, Program.formUtilities.mainForm);
+                if (Program.ConnectToServer(serverIDTb.Text, serverRA, Convert.ToUInt16(maxFaultsNUD.Value),
+                    Convert.ToUInt16(minDelayNUD.Value), Convert.ToUInt16(maxDelayNUD)))
+                {
+                    FormUtilities.switchForm(this, Program.formUtilities.mainForm);
+                }
             }
         }
     }

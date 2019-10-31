@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 
+using API;
+
 namespace PM
 {
     public partial class CreateClientForm : Form
@@ -19,6 +21,9 @@ namespace PM
         {
             bool valid = true;
 
+            RemotingAddress serverRA = new RemotingAddress();
+            RemotingAddress clientRA = new RemotingAddress();
+
             if (usernameTb.Text == "")
             {
                 valid = false;
@@ -35,6 +40,21 @@ namespace PM
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
+            else
+            {
+                try
+                {
+                    clientRA = RemotingAddress.FromString(clientRATb.Text);
+                }
+                catch (ArgumentException)
+                {
+                    valid = false;
+                    MessageBox.Show("Client remoting address is invalid.",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            }
             if (serverRATb.Text == "")
             {
                 valid = false;
@@ -43,12 +63,28 @@ namespace PM
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
+            else
+            {
+                try
+                {
+                    serverRA = RemotingAddress.FromString(serverRATb.Text);
+                }
+                catch (ArgumentException)
+                {
+                    valid = false;
+                    MessageBox.Show("Server remoting address is invalid.",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            }
 
             if (valid)
             {
-                // TODO
-
-                FormUtilities.switchForm(this, Program.formUtilities.mainForm);
+                if (Program.ConnectToClient(usernameTb.Text, clientRA, serverRA, scriptPathTb.Text))
+                {
+                    FormUtilities.switchForm(this, Program.formUtilities.mainForm);
+                }
             }
         }
     }

@@ -48,7 +48,7 @@
             this.titleLabel.BackColor = System.Drawing.Color.Transparent;
             this.titleLabel.Font = new System.Drawing.Font("Stencil", 18F, System.Drawing.FontStyle.Bold);
             this.titleLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.titleLabel.Location = new System.Drawing.Point(68, 30);
+            this.titleLabel.Location = new System.Drawing.Point(72, 30);
             this.titleLabel.Name = "titleLabel";
             this.titleLabel.Size = new System.Drawing.Size(201, 29);
             this.titleLabel.TabIndex = 0;
@@ -63,7 +63,7 @@
             this.backLbl.Location = new System.Drawing.Point(12, 342);
             this.backLbl.Name = "backLbl";
             this.backLbl.Size = new System.Drawing.Size(38, 15);
-            this.backLbl.TabIndex = 8;
+            this.backLbl.TabIndex = 6;
             this.backLbl.Text = "Back";
             this.backLbl.Click += new System.EventHandler(this.backLbl_Click);
             // 
@@ -120,21 +120,21 @@
             this.usernameTb.Location = new System.Drawing.Point(103, 106);
             this.usernameTb.Name = "usernameTb";
             this.usernameTb.Size = new System.Drawing.Size(138, 20);
-            this.usernameTb.TabIndex = 14;
+            this.usernameTb.TabIndex = 1;
             // 
             // clientRATb
             // 
             this.clientRATb.Location = new System.Drawing.Point(103, 136);
             this.clientRATb.Name = "clientRATb";
             this.clientRATb.Size = new System.Drawing.Size(138, 20);
-            this.clientRATb.TabIndex = 15;
+            this.clientRATb.TabIndex = 2;
             // 
             // createCliBtn
             // 
             this.createCliBtn.Location = new System.Drawing.Point(134, 231);
             this.createCliBtn.Name = "createCliBtn";
             this.createCliBtn.Size = new System.Drawing.Size(75, 23);
-            this.createCliBtn.TabIndex = 19;
+            this.createCliBtn.TabIndex = 5;
             this.createCliBtn.Text = "Create";
             this.createCliBtn.UseVisualStyleBackColor = true;
             this.createCliBtn.Click += new System.EventHandler(this.createCliBtn_Click);
@@ -144,14 +144,14 @@
             this.serverRATb.Location = new System.Drawing.Point(103, 165);
             this.serverRATb.Name = "serverRATb";
             this.serverRATb.Size = new System.Drawing.Size(138, 20);
-            this.serverRATb.TabIndex = 20;
+            this.serverRATb.TabIndex = 3;
             // 
             // scriptPathTb
             // 
             this.scriptPathTb.Location = new System.Drawing.Point(103, 195);
             this.scriptPathTb.Name = "scriptPathTb";
             this.scriptPathTb.Size = new System.Drawing.Size(138, 20);
-            this.scriptPathTb.TabIndex = 21;
+            this.scriptPathTb.TabIndex = 4;
             // 
             // CreateClientForm
             // 
@@ -173,6 +173,7 @@
             this.Controls.Add(this.backLbl);
             this.Controls.Add(this.titleLabel);
             this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CreateClientForm";
             this.Text = "Puppet Master";
