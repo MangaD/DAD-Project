@@ -31,11 +31,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CreateClientForm));
             this.titleLabel = new System.Windows.Forms.Label();
             this.backLbl = new System.Windows.Forms.Label();
-            this.nameLbl = new System.Windows.Forms.Label();
+            this.usernameLbl = new System.Windows.Forms.Label();
             this.clientRALbl = new System.Windows.Forms.Label();
             this.serverRALbl = new System.Windows.Forms.Label();
             this.maxDelayLbl = new System.Windows.Forms.Label();
-            this.nameTb = new System.Windows.Forms.TextBox();
+            this.usernameTb = new System.Windows.Forms.TextBox();
             this.clientRATb = new System.Windows.Forms.TextBox();
             this.createCliBtn = new System.Windows.Forms.Button();
             this.serverRATb = new System.Windows.Forms.TextBox();
@@ -67,17 +67,17 @@
             this.backLbl.Text = "Back";
             this.backLbl.Click += new System.EventHandler(this.backLbl_Click);
             // 
-            // nameLbl
+            // usernameLbl
             // 
-            this.nameLbl.AutoSize = true;
-            this.nameLbl.BackColor = System.Drawing.Color.Transparent;
-            this.nameLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nameLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.nameLbl.Location = new System.Drawing.Point(12, 106);
-            this.nameLbl.Name = "nameLbl";
-            this.nameLbl.Size = new System.Drawing.Size(49, 15);
-            this.nameLbl.TabIndex = 9;
-            this.nameLbl.Text = "Name:";
+            this.usernameLbl.AutoSize = true;
+            this.usernameLbl.BackColor = System.Drawing.Color.Transparent;
+            this.usernameLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.usernameLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.usernameLbl.Location = new System.Drawing.Point(12, 106);
+            this.usernameLbl.Name = "usernameLbl";
+            this.usernameLbl.Size = new System.Drawing.Size(77, 15);
+            this.usernameLbl.TabIndex = 9;
+            this.usernameLbl.Text = "Username:";
             // 
             // clientRALbl
             // 
@@ -115,12 +115,12 @@
             this.maxDelayLbl.TabIndex = 13;
             this.maxDelayLbl.Text = "Script path:";
             // 
-            // nameTb
+            // usernameTb
             // 
-            this.nameTb.Location = new System.Drawing.Point(103, 106);
-            this.nameTb.Name = "nameTb";
-            this.nameTb.Size = new System.Drawing.Size(138, 20);
-            this.nameTb.TabIndex = 14;
+            this.usernameTb.Location = new System.Drawing.Point(103, 106);
+            this.usernameTb.Name = "usernameTb";
+            this.usernameTb.Size = new System.Drawing.Size(138, 20);
+            this.usernameTb.TabIndex = 14;
             // 
             // clientRATb
             // 
@@ -165,11 +165,11 @@
             this.Controls.Add(this.serverRATb);
             this.Controls.Add(this.createCliBtn);
             this.Controls.Add(this.clientRATb);
-            this.Controls.Add(this.nameTb);
+            this.Controls.Add(this.usernameTb);
             this.Controls.Add(this.maxDelayLbl);
             this.Controls.Add(this.serverRALbl);
             this.Controls.Add(this.clientRALbl);
-            this.Controls.Add(this.nameLbl);
+            this.Controls.Add(this.usernameLbl);
             this.Controls.Add(this.backLbl);
             this.Controls.Add(this.titleLabel);
             this.DoubleBuffered = true;
@@ -185,11 +185,11 @@
 
         private System.Windows.Forms.Label titleLabel;
         private System.Windows.Forms.Label backLbl;
-        private System.Windows.Forms.Label nameLbl;
+        private System.Windows.Forms.Label usernameLbl;
         private System.Windows.Forms.Label clientRALbl;
         private System.Windows.Forms.Label serverRALbl;
         private System.Windows.Forms.Label maxDelayLbl;
-        private System.Windows.Forms.TextBox nameTb;
+        private System.Windows.Forms.TextBox usernameTb;
         private System.Windows.Forms.TextBox clientRATb;
         private System.Windows.Forms.Button createCliBtn;
         private System.Windows.Forms.TextBox serverRATb;

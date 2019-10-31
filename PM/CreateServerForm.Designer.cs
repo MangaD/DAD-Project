@@ -31,12 +31,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CreateServerForm));
             this.titleLabel = new System.Windows.Forms.Label();
             this.backLbl = new System.Windows.Forms.Label();
-            this.nameLbl = new System.Windows.Forms.Label();
+            this.serverIDLbl = new System.Windows.Forms.Label();
             this.remotingAddrLbl = new System.Windows.Forms.Label();
             this.maxFaultsLbl = new System.Windows.Forms.Label();
             this.minDelayLbl = new System.Windows.Forms.Label();
             this.maxDelayLbl = new System.Windows.Forms.Label();
-            this.nameTb = new System.Windows.Forms.TextBox();
+            this.serverIDTb = new System.Windows.Forms.TextBox();
             this.remotingAddrTb = new System.Windows.Forms.TextBox();
             this.maxFaultsNUD = new System.Windows.Forms.NumericUpDown();
             this.minDelayNUD = new System.Windows.Forms.NumericUpDown();
@@ -72,17 +72,17 @@
             this.backLbl.Text = "Back";
             this.backLbl.Click += new System.EventHandler(this.backLbl_Click);
             // 
-            // nameLbl
+            // serverIDLbl
             // 
-            this.nameLbl.AutoSize = true;
-            this.nameLbl.BackColor = System.Drawing.Color.Transparent;
-            this.nameLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nameLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.nameLbl.Location = new System.Drawing.Point(12, 106);
-            this.nameLbl.Name = "nameLbl";
-            this.nameLbl.Size = new System.Drawing.Size(49, 15);
-            this.nameLbl.TabIndex = 9;
-            this.nameLbl.Text = "Name:";
+            this.serverIDLbl.AutoSize = true;
+            this.serverIDLbl.BackColor = System.Drawing.Color.Transparent;
+            this.serverIDLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.serverIDLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.serverIDLbl.Location = new System.Drawing.Point(12, 106);
+            this.serverIDLbl.Name = "serverIDLbl";
+            this.serverIDLbl.Size = new System.Drawing.Size(70, 15);
+            this.serverIDLbl.TabIndex = 9;
+            this.serverIDLbl.Text = "Server ID:";
             // 
             // remotingAddrLbl
             // 
@@ -132,12 +132,12 @@
             this.maxDelayLbl.TabIndex = 13;
             this.maxDelayLbl.Text = "Max. delay:";
             // 
-            // nameTb
+            // serverIDTb
             // 
-            this.nameTb.Location = new System.Drawing.Point(103, 106);
-            this.nameTb.Name = "nameTb";
-            this.nameTb.Size = new System.Drawing.Size(138, 20);
-            this.nameTb.TabIndex = 14;
+            this.serverIDTb.Location = new System.Drawing.Point(103, 106);
+            this.serverIDTb.Name = "serverIDTb";
+            this.serverIDTb.Size = new System.Drawing.Size(138, 20);
+            this.serverIDTb.TabIndex = 14;
             // 
             // remotingAddrTb
             // 
@@ -190,12 +190,12 @@
             this.Controls.Add(this.minDelayNUD);
             this.Controls.Add(this.maxFaultsNUD);
             this.Controls.Add(this.remotingAddrTb);
-            this.Controls.Add(this.nameTb);
+            this.Controls.Add(this.serverIDTb);
             this.Controls.Add(this.maxDelayLbl);
             this.Controls.Add(this.minDelayLbl);
             this.Controls.Add(this.maxFaultsLbl);
             this.Controls.Add(this.remotingAddrLbl);
-            this.Controls.Add(this.nameLbl);
+            this.Controls.Add(this.serverIDLbl);
             this.Controls.Add(this.backLbl);
             this.Controls.Add(this.titleLabel);
             this.DoubleBuffered = true;
@@ -214,12 +214,12 @@
 
         private System.Windows.Forms.Label titleLabel;
         private System.Windows.Forms.Label backLbl;
-        private System.Windows.Forms.Label nameLbl;
+        private System.Windows.Forms.Label serverIDLbl;
         private System.Windows.Forms.Label remotingAddrLbl;
         private System.Windows.Forms.Label maxFaultsLbl;
         private System.Windows.Forms.Label minDelayLbl;
         private System.Windows.Forms.Label maxDelayLbl;
-        private System.Windows.Forms.TextBox nameTb;
+        private System.Windows.Forms.TextBox serverIDTb;
         private System.Windows.Forms.TextBox remotingAddrTb;
         private System.Windows.Forms.NumericUpDown maxFaultsNUD;
         private System.Windows.Forms.NumericUpDown minDelayNUD;
