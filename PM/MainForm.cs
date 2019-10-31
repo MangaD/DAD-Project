@@ -27,9 +27,13 @@ namespace PM
         {
             //TODO this is just an example of a method call
             //Program.pcs.StartServer("oi", "ola", 2, 2, 2);
-            Hide();
-            Program.createServerForm.Show();
+
+            FormUtilities.switchForm(this, Program.formUtilities.createServerForm);
         }
 
+        private void createCliBtn_Click(object sender, EventArgs e)
+        {
+            FormUtilities.switchForm(this, Program.formUtilities.createClientForm);
+        }
     }
 }

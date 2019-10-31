@@ -47,12 +47,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreateClientForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateClientForm.Designer.cs">
+      <DependentUpon>CreateClientForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="CreateServerForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="CreateServerForm.Designer.cs">
       <DependentUpon>CreateServerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormUtilities.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -62,6 +69,9 @@
     <Compile Include="Parser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CreateClientForm.resx">
+      <DependentUpon>CreateClientForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CreateServerForm.resx">
       <DependentUpon>CreateServerForm.cs</DependentUpon>
     </EmbeddedResource>

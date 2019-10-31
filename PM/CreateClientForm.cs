@@ -3,9 +3,9 @@ using System.Windows.Forms;
 
 namespace PM
 {
-    public partial class CreateServerForm : Form
+    public partial class CreateClientForm : Form
     {
-        public CreateServerForm()
+        public CreateClientForm()
         {
             InitializeComponent();
         }
@@ -15,7 +15,7 @@ namespace PM
             FormUtilities.switchForm(this, Program.formUtilities.mainForm);
         }
 
-        private void createSrvBtn_Click(object sender, EventArgs e)
+        private void createCliBtn_Click(object sender, EventArgs e)
         {
             // TODO
 

@@ -69,6 +69,7 @@
             this.createCliBtn.TabIndex = 6;
             this.createCliBtn.Text = "Create Client";
             this.createCliBtn.UseVisualStyleBackColor = false;
+            this.createCliBtn.Click += new System.EventHandler(this.createCliBtn_Click);
             // 
             // loadScriptLbl
             // 
@@ -97,6 +98,8 @@
             this.Controls.Add(this.loadScriptLbl);
             this.Controls.Add(this.createCliBtn);
             this.Controls.Add(this.createServBtn);
+            this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MainForm";
