@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
-using System.Text;
-using System.Threading.Tasks;
 
 using API;
 
@@ -15,7 +11,7 @@ namespace PCS
     {
         static void Main(string[] args)
         {
-            TcpChannel pcsChannel = new TcpChannel(50000);
+            TcpChannel pcsChannel = new TcpChannel(10000);
             ChannelServices.RegisterChannel(pcsChannel, false);
             RemotingConfiguration.RegisterWellKnownServiceType(typeof(PCSServices),
              "MSPCS", WellKnownObjectMode.Singleton);
@@ -25,7 +21,7 @@ namespace PCS
 
     public class PCSServices : MarshalByRefObject, IPCS
     {
-        public bool AddRoom(string location, uint capacity, string roomName)
+        public void AddRoom(string location, uint capacity, string roomName)
         {
             throw new NotImplementedException();
         }
@@ -40,18 +36,14 @@ namespace PCS
             throw new NotImplementedException();
         }
 
-        public bool StartClient(string username, string clientURL, string serverURL, string scriptFile)
+        public void StartClient(string username, RemotingAddress clientRA, RemotingAddress serverRA, string scriptFile)
         {
-            //TODO
-            Console.WriteLine("I (PCS) Will Start " + 5 + " Clients!");
-            return true;
+            throw new NotImplementedException();
         }
 
-        public bool StartServer(string serverId, string serverURL, uint maxFaults, uint minDelay, uint maxDelay)
+        public void StartServer(string serverId, RemotingAddress serverRA, uint maxFaults, uint minDelay, uint maxDelay)
         {
-            //TODO
-            Console.WriteLine("I (PCS) Will Start " + 5 + " Servers!");
-            return true;
+            throw new NotImplementedException();
         }
 
         public string SystemStatus()

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace PM
@@ -29,7 +28,10 @@ namespace PM
             form.BackgroundImage = mainForm.BackgroundImage;
             form.BackgroundImageLayout = mainForm.BackgroundImageLayout;
             form.Location = mainForm.Location;
+
+            // Necessary so we can set the location of new form to the same as the old form
             form.StartPosition = FormStartPosition.Manual;
+
             form.FormBorderStyle = FormBorderStyle.FixedSingle;
             form.FormClosed += new FormClosedEventHandler(onClose);
         }

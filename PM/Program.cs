@@ -22,8 +22,8 @@ namespace PM
          * PCS to this list (if it is not here already).
          */
         public static List<Tuple<RemotingAddress, IPCS>> PCSList;
-
-
+        private static string PCSChannel = "MSPCP";
+        private static UInt16 PCSPort = 10000;
 
         /**
          * Form stuff
@@ -47,37 +47,47 @@ namespace PM
             Application.Run(formUtilities.mainForm);
         }
 
-        private static IPCS ConnectToPCS(string PCSRemotingAddress)
+        private static IPCS ConnectToPCS(RemotingAddress PCSRemotingAddress)
         {
-            RemotingAddress ra = RemotingAddress.FromString(PCSRemotingAddress);
-
-            if (!PCSList.Exists(x => x.Item1 == ra))
+            if (!PCSList.Exists(x => x.Item1 == PCSRemotingAddress))
             {
-                IPCS pcs = (IPCS)Activator.GetObject(typeof(IPCS), PCSRemotingAddress);
+                IPCS pcs = (IPCS)Activator.GetObject(typeof(IPCS), PCSRemotingAddress.ToString());
                 if (pcs == null)
                 {
-                    MessageBox.Show("Could not locate PCS: " + PCSRemotingAddress);
-                    return null;
+                    throw new ApplicationException("Could not locate PCS: " + PCSRemotingAddress.ToString());
                 }
-                PCSList.Add(new Tuple<RemotingAddress, IPCS>(ra, pcs));
+                PCSList.Add(new Tuple<RemotingAddress, IPCS>(PCSRemotingAddress, pcs));
                 return pcs;
             }
             else
             {
-                return PCSList.Find(x => x.Item1 == ra).Item2;
+                return PCSList.Find(x => x.Item1 == PCSRemotingAddress).Item2;
             }
         }
 
-        public static bool ConnectToServer(string serverID, RemotingAddress serverRA,
-            uint maxFaults, uint minDelay, uint maxDelay)
+        private static IPCS GetPCS(RemotingAddress PCSRA)
         {
-            return false;
+            return ConnectToPCS(PCSRA);
         }
 
-        public static bool ConnectToClient(string username, RemotingAddress clientRA,
+        public static void CreateServer(string serverID, RemotingAddress serverRA,
+            uint maxFaults, uint minDelay, uint maxDelay)
+        {
+            RemotingAddress pcsRA = new RemotingAddress(serverRA.address, PCSPort, PCSChannel);
+
+            IPCS pcs = GetPCS(pcsRA);
+
+            pcs.StartServer(serverID, serverRA, maxFaults, minDelay, maxDelay);
+        }
+
+        public static void CreateClient(string username, RemotingAddress clientRA,
             RemotingAddress serverRA, string scriptFile)
         {
-            return false;
+            RemotingAddress pcsRA = new RemotingAddress(serverRA.address, PCSPort, PCSChannel);
+
+            IPCS pcs = GetPCS(pcsRA);
+
+            pcs.StartClient(username, clientRA, serverRA, scriptFile);
         }
     }
 }

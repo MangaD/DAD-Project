@@ -81,9 +81,18 @@ namespace PM
 
             if (valid)
             {
-                if (Program.ConnectToClient(usernameTb.Text, clientRA, serverRA, scriptPathTb.Text))
+                try
                 {
+                    Program.CreateClient(usernameTb.Text, clientRA, serverRA, scriptPathTb.Text);
+
                     FormUtilities.switchForm(this, Program.formUtilities.mainForm);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error creating client: {ex.Message}",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
                 }
             }
         }

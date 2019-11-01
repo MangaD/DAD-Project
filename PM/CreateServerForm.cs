@@ -81,10 +81,18 @@ namespace PM
 
             if (valid)
             {
-                if (Program.ConnectToServer(serverIDTb.Text, serverRA, Convert.ToUInt16(maxFaultsNUD.Value),
-                    Convert.ToUInt16(minDelayNUD.Value), Convert.ToUInt16(maxDelayNUD)))
+                try
                 {
+                    Program.CreateServer(serverIDTb.Text, serverRA, Convert.ToUInt16(maxFaultsNUD.Value),
+                        Convert.ToUInt16(minDelayNUD.Value), Convert.ToUInt16(maxDelayNUD.Value));
+
                     FormUtilities.switchForm(this, Program.formUtilities.mainForm);
+                } catch (Exception ex)
+                {
+                    MessageBox.Show($"Error creating server: {ex.Message}",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
                 }
             }
         }
