@@ -178,20 +178,19 @@ namespace PM
 
         public void ExecCommands()
         {
-            // TODO
             foreach (var command in commands)
             {
                 if (command[0].Equals("crash", StringComparison.OrdinalIgnoreCase))
                 {
-                    //server.listMeetings();
+                    // TODO
                 }
                 else if (command[0].Equals("freeze", StringComparison.OrdinalIgnoreCase))
                 {
-                    //server.joinMeeting(command[1]);
+                    // TODO
                 }
                 else if (command[0].Equals("unfreeze", StringComparison.OrdinalIgnoreCase))
                 {
-                    //server.closeMeeting(command[1]);
+                    // TODO
                 }
                 else if (command[0].Equals("wait", StringComparison.OrdinalIgnoreCase))
                 {
@@ -199,14 +198,17 @@ namespace PM
                 }
                 else if (command[0].Equals("status", StringComparison.OrdinalIgnoreCase))
                 {
+                    // TODO
                 }
                 else if (command[0].Equals("server", StringComparison.OrdinalIgnoreCase))
                 {
-                    //TODO
+                    Program.CreateServer(command[1], RemotingAddress.FromString(command[2]),
+                        Convert.ToUInt32(command[3]), Convert.ToUInt32(command[4]), Convert.ToUInt32(command[5]));
                 }
                 else if (command[0].Equals("client", StringComparison.OrdinalIgnoreCase))
                 {
-                    //TODO
+                    Program.CreateClient(command[1], RemotingAddress.FromString(command[2]),
+                        RemotingAddress.FromString(command[3]), command[4]);
                 }
                 else if (command[0].Equals("AddRoom", StringComparison.OrdinalIgnoreCase))
                 {
