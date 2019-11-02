@@ -1,23 +1,39 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
-
+using System.Windows.Forms;
 using API;
+using ClientForm;
 
 namespace MSDAD_CLI
 {
-    class Client
+    public class Client
     {
-        private static TcpChannel clientChannel;
-        private static IServer server;
+        private static Form1 myForm;
 
-        public static string ClientName { get; set; }
-        public static RemotingAddress ClientRA { get; set; }
-        public static RemotingAddress ServerRA { get; set; }
+        private TcpChannel clientChannel;
+        private IServer server;
 
-        public static void Main(string[] args)
+        public string ClientName { get; set; }
+        public RemotingAddress ClientRA { get; set; }
+        public RemotingAddress ServerRA { get; set; }
+
+        public Client()
         {
+
+        }
+
+        [STAThread]
+        static void Main(string[] args)
+        {
+            myForm = new Form1();
+
+            Application.EnableVisualStyles();
+            Application.Run(myForm);
+
+            /*
             if (args.Length != 6)
             {
                 Utilities.WriteError("This program must take 4 argument. " +
@@ -34,11 +50,11 @@ namespace MSDAD_CLI
 
             /*ClientName = "Leo";
             RemotingAddress clientRA = RemotingAddress.FromString("tcp://localhost:65001/MSClient");
-            RemotingAddress serverRA = RemotingAddress.FromString("tcp://localhost:65000/MSServer");*/
+            RemotingAddress serverRA = RemotingAddress.FromString("tcp://localhost:65000/MSServer");
 
             listenClient(clientRA.port, clientRA.channel);
             connectToServer(serverRA.ToString(), ClientName, clientRA.ToString());
-
+            */
             /*Parser parser = new Parser(scriptFilename, server);
             try
             {
@@ -48,10 +64,10 @@ namespace MSDAD_CLI
                 Utilities.WriteError(pe.Message);
                 Console.ReadKey();
                 Environment.Exit(0);
-            }*/
-            
-            server.ClientSaysHelloToServer(clientRA.port);
+            }
 
+            server.ClientSaysHelloToServer(clientRA.port);
+            */
             //parser.ExecCommands();
 
             /*do
@@ -70,19 +86,55 @@ namespace MSDAD_CLI
             Console.ReadKey();
         }
 
-        private static void connectToServer(string serverRA, string clientName, string clientRA)
+        public void ParseFile()
         {
+            //TODO filename
+            Parser myParser = new Parser("filename", this);
+            myParser.Parse();
+        }
+
+        public void connectToServer(string serverRA, string clientName, string clientRA)
+        {
+            ClientName = clientName;
             server = (IServer)Activator.GetObject(typeof(IServer), serverRA);
             server.RegisterClient(clientName, clientRA);
         }
 
-        private static void listenClient(UInt16 clientPort, string cliChannelName)
+        public void listenClient(UInt16 clientPort, string cliChannelName)
         {
             clientChannel = new TcpChannel(clientPort);
             ChannelServices.RegisterChannel(clientChannel, false);
             ClientServices services = new ClientServices();
             RemotingServices.Marshal(services, cliChannelName,
                 typeof(ClientServices));
+        }
+
+        public List<string> ListMeetings()
+        {
+            List<string> result = server.ListMeetings(ClientName);
+            Utilities.WriteDebug("Sent 'list' command to server");
+            return result;
+        }
+
+        public void CreateMeeting( string topic, uint minAttendees,
+            List<Slot> slots, List<string> invitees)
+        {
+            server.CreateMeeting(ClientName, topic, minAttendees, slots, invitees);
+            Utilities.WriteDebug("Sent 'create " + topic + "' command to server");
+        }
+
+        public void JoinMeeting(string topic, int n_slots, List<Slot> locationDates)
+        {
+            //TODO do something with bool return
+            server.JoinMeeting(topic, ClientName, ClientRA.ToString(), n_slots, locationDates);
+            Utilities.WriteDebug("Sent 'join " + topic + "' command to server");
+        }
+
+        public void CloseMeeting(string topic)
+        {
+            //TODO do something with bool return
+            server.CloseMeeting(topic, ClientName);
+            Utilities.WriteDebug("Sent 'close " + topic + "' command to server");
         }
     }
 
