@@ -9,12 +9,17 @@ namespace PCS
 {
     class Program
     {
+        private static UInt16 PCSPort = 10000;
+        private static string PCSChannel = "MSPCS";
+
         static void Main(string[] args)
         {
-            TcpChannel pcsChannel = new TcpChannel(10000);
+            TcpChannel pcsChannel = new TcpChannel(PCSPort);
             ChannelServices.RegisterChannel(pcsChannel, false);
             RemotingConfiguration.RegisterWellKnownServiceType(typeof(PCSServices),
-             "MSPCS", WellKnownObjectMode.Singleton);
+                PCSChannel, WellKnownObjectMode.Singleton);
+
+            System.Console.WriteLine("<enter> to quit...");
             System.Console.ReadLine();
         }
     }
@@ -23,37 +28,37 @@ namespace PCS
     {
         public void AddRoom(string location, uint capacity, string roomName)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRemotingException();
         }
 
         public void Crash(string id)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRemotingException();
         }
 
         public void Freeze(string id)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRemotingException();
         }
 
         public void StartClient(string username, RemotingAddress clientRA, RemotingAddress serverRA, string scriptFile)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRemotingException();
         }
 
         public void StartServer(string serverId, RemotingAddress serverRA, uint maxFaults, uint minDelay, uint maxDelay)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRemotingException();
         }
 
         public string SystemStatus()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRemotingException();
         }
 
         public void Unfreeze(string id)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRemotingException();
         }
     }
 }

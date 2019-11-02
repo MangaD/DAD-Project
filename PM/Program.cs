@@ -22,7 +22,7 @@ namespace PM
          * PCS to this list (if it is not here already).
          */
         public static List<Tuple<RemotingAddress, IPCS>> PCSList;
-        private static string PCSChannel = "MSPCP";
+        private static string PCSChannel = "MSPCS";
         private static UInt16 PCSPort = 10000;
 
         /**
