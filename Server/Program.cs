@@ -12,29 +12,51 @@ namespace Server
 
     class Program
     {
+        public static ConsoleColor debugColor = ConsoleColor.DarkMagenta;
+
         static void Main(string[] args)
         {
-            Server server = new Server();
+            string serverID = args[0];
+            RemotingAddress serverRA = RemotingAddress.FromString(args[1]);
+            uint maxFaults = Convert.ToUInt32(args[2]);
+            uint minDelay = Convert.ToUInt32(args[3]);
+            uint maxDelay = Convert.ToUInt32(args[4]);
+
+            Server server = new Server(serverID, serverRA, maxFaults, minDelay, maxDelay);
+
             TcpChannel servChannel = server.ServerListening();
-            System.Console.WriteLine("Press <enter> to terminate server...");
+
+            Utilities.WriteColor("Press <enter> to terminate server...", Program.debugColor);
             System.Console.ReadLine();
         }
     }
 
     public class Server
     {
-        public const UInt16 SERVER_PORT = 65000;
         TcpChannel servChannel;
         List<MeetingProposal> meetingPropList;
 
-        public Server()
+        private string serverID;
+        private RemotingAddress serverRA;
+        private uint maxFaults;
+        private uint minDelay;
+        private uint maxDelay;
+
+        public Server(string id, RemotingAddress serverRA, uint maxFaults,
+            uint minDelay, uint maxDelay)
         {
+            this.serverID = id;
+            this.serverRA = serverRA;
+            this.maxFaults = maxFaults;
+            this.minDelay = minDelay;
+            this.maxDelay = maxDelay;
+
             this.meetingPropList = new List<MeetingProposal>();
         }
 
         public TcpChannel ServerListening()
         {
-            TcpChannel channel = new TcpChannel((int)SERVER_PORT);
+            TcpChannel channel = new TcpChannel((int)serverRA.port);
             ChannelServices.RegisterChannel(channel, false);
             //RemotingConfiguration.RegisterWellKnownServiceType(typeof(ServerServices),
             // "MSServer", WellKnownObjectMode.Singleton);
@@ -47,7 +69,7 @@ namespace Server
 
         public UInt16 getServerPort()
         {
-            return SERVER_PORT;
+            return serverRA.port;
         }
 
         public List<MeetingProposal> getMeetingPropList() { return this.meetingPropList; }
@@ -82,7 +104,7 @@ namespace Server
         {
             this.server.addMeetingPropToList(new MeetingProposal(coordinatorURL, topic, minAttendees, slots, invitees));
 
-            Console.WriteLine("[Server] Criei a Meeting! CoordinatorURL: " + coordinatorURL);
+            Utilities.WriteColor("[Server] Criei a Meeting! CoordinatorURL: " + coordinatorURL, Program.debugColor);
         }
 
         public bool JoinMeeting(string topic, string clientName, string clientRA, int n_slots, List<Slot> locationDates)
@@ -139,7 +161,7 @@ namespace Server
                     typeof(IClient), clientRA);
             Client newClient = new Client(newClientChannel, clientName, RemotingAddress.FromString(clientRA));
             clients.Add(newClient);
-            Console.WriteLine("New client " + clientName + " listenning at " + clientRA);
+            Utilities.WriteColor("New client " + clientName + " listenning at " + clientRA, Program.debugColor);
 
             //return messages;
             return null;
@@ -150,7 +172,7 @@ namespace Server
             //Find client in client list
             Client client = clients.First(item => item.ClientRA.port == clientPort);
 
-            Console.WriteLine("Client: " + client.ClientName + " Port: " + client.ClientRA.port + " Says: Hello");
+            Utilities.WriteColor("Client: " + client.ClientName + " Port: " + client.ClientRA.port + " Says: Hello", Program.debugColor);
 
             //Server responds to that talked to him.
             //client.getClientChannel().serverRespondsHiToClient(server.getServerPort());

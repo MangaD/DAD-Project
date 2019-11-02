@@ -20,6 +20,13 @@ namespace API
             Console.ResetColor();
         }
 
+        public static void WriteColor(string msg, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.Error.WriteLine(msg);
+            Console.ResetColor();
+        }
+
         public static void Wait(int milliseconds)
         {
             Thread.Sleep(milliseconds);
