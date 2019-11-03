@@ -2,19 +2,18 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
-
 using API;
 
 namespace MSDAD_CLI
 {
     class Parser
     {
-        private Client myClient;
+        private ClientForm.Client myClient;
 
         private string filename;
         private List<List<string>> commands = new List<List<string>>();
 
-        public Parser (string filename, Client client)
+        public Parser (string filename, ClientForm.Client client)
         {
             this.filename = filename;
 

@@ -5,13 +5,13 @@ using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
 using System.Windows.Forms;
 using API;
-using ClientForm;
+using MSDAD_CLI;
 
-namespace MSDAD_CLI
+namespace ClientForm
 {
     public class Client
     {
-        private static Form1 myForm;
+        public static ClientFormUtilities clientFormUtilities;
 
         private TcpChannel clientChannel;
         private IServer server;
@@ -28,10 +28,10 @@ namespace MSDAD_CLI
         [STAThread]
         static void Main(string[] args)
         {
-            myForm = new Form1();
+            clientFormUtilities = new ClientFormUtilities();
 
             Application.EnableVisualStyles();
-            Application.Run(myForm);
+            Application.Run(clientFormUtilities.mainForm);
 
             /*
             if (args.Length != 6)
