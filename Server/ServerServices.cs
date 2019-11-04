@@ -25,7 +25,7 @@ namespace Server
         {
             Server.addMeetingPropToList(new MeetingProposal(coordinatorURL, topic, minAttendees, slots, invitees));
 
-            Console.WriteLine("[Server] Criei a Meeting! CoordinatorURL: " + coordinatorURL);
+            Console.WriteLine("[Server] Criei a Meeting: " + topic + " CoordinatorURL: " + coordinatorURL);
         }
 
         public bool JoinMeeting(string topic, string clientName, string clientRA, int n_slots, List<Slot> locationDates)
@@ -72,6 +72,12 @@ namespace Server
                     }
                 }
             }
+
+            foreach(string meeting in meetingsTopic)
+            {
+                Console.WriteLine("Meeting: " + meeting);
+            }
+
             return meetingsTopic;
         }
 

@@ -21,5 +21,16 @@ namespace MSDAD_CLI
         {
             ClientFormUtilities.switchForm(this, Client.clientFormUtilities.mainForm);
         }
+
+        private void ListMeetingsForm_Load(object sender, EventArgs e)
+        {
+            List<string> TopicsList = Client.server.ListMeetings(Client.ClientRA.ToString());
+            ListViewItem lvi = new ListViewItem();
+            foreach(string topic in TopicsList)
+            {
+                lvi.SubItems.Add(topic);
+                MessageBox.Show(topic);
+            }
+        }
     }
 }

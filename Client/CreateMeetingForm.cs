@@ -20,5 +20,11 @@ namespace MSDAD_CLI
         {
             ClientFormUtilities.switchForm(this, Client.clientFormUtilities.mainForm);
         }
+
+        private void CreateMeetingButton_Click(object sender, EventArgs e)
+        {
+            Client.server.CreateMeeting(Client.ClientRA.ToString(), TopicTb.Text, Convert.ToUInt16(MinPartNud.Value), null, null);
+        }
+
     }
 }
