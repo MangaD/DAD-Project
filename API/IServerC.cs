@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 namespace API
 {
-    public interface IServer
+    //Clients must invoke methods to Servers here
+    public interface IServerC
     {
         List<string> RegisterClient(string clientName, string clientRA);
         List<string> ListMeetings(string clientName);
