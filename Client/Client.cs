@@ -14,7 +14,7 @@ namespace ClientForm
         public static ClientFormUtilities clientFormUtilities;
 
         private TcpChannel clientChannel;
-        private IServer server;
+        private IServerC server;
 
         public string ClientName { get; set; }
         public RemotingAddress ClientRA { get; set; }
@@ -96,7 +96,7 @@ namespace ClientForm
         public void connectToServer(string serverRA, string clientName, string clientRA)
         {
             ClientName = clientName;
-            server = (IServer)Activator.GetObject(typeof(IServer), serverRA);
+            server = (IServerC)Activator.GetObject(typeof(IServerC), serverRA);
             server.RegisterClient(clientName, clientRA);
         }
 

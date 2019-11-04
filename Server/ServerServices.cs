@@ -8,7 +8,7 @@ using API;
 
 namespace Server
 {
-    class ServerServices : MarshalByRefObject, IServer
+    class ServerServices : MarshalByRefObject, IServerC
     {
         public bool CloseMeeting(string topic, string coordinatorURL)
         {
