@@ -8,16 +8,12 @@ namespace MSDAD_CLI
 {
     class Parser
     {
-        private ClientForm.Client myClient;
-
         private string filename;
         private List<List<string>> commands = new List<List<string>>();
 
-        public Parser (string filename, ClientForm.Client client)
+        public Parser (string filename)
         {
             this.filename = filename;
-
-            this.myClient = client;
         }
 
         public void Parse()
@@ -216,7 +212,7 @@ namespace MSDAD_CLI
             {
                 if (command[0].Equals("list", StringComparison.OrdinalIgnoreCase))
                 {
-                    myClient.ListMeetings();
+                    Client.ListMeetings();
                 }
                 else if (command[0].Equals("join", StringComparison.OrdinalIgnoreCase))
                 {
@@ -230,11 +226,11 @@ namespace MSDAD_CLI
                         slots.Add(Slot.FromString(command[i]));
                     }
 
-                    myClient.JoinMeeting(topic, slotCount, slots);
+                    Client.JoinMeeting(topic, slotCount, slots);
                 }
                 else if (command[0].Equals("close", StringComparison.OrdinalIgnoreCase))
                 {
-                    //myClient.CloseMeeting(command[1]);
+                    Client.CloseMeeting(command[1]);
                 }
                 else if (command[0].Equals("create", StringComparison.OrdinalIgnoreCase))
                 {
@@ -256,7 +252,7 @@ namespace MSDAD_CLI
                         invitees.Add(command[i]);
                     }
 
-                    myClient.CreateMeeting(command[1], (uint) minAttendees, slots, invitees);
+                    Client.CreateMeeting(command[1], (uint) minAttendees, slots, invitees);
                 }
                 else if (command[0].Equals("wait", StringComparison.OrdinalIgnoreCase))
                 {

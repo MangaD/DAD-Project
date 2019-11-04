@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ClientForm
+namespace MSDAD_CLI
 {
     partial class ListMeetingsForm
     {

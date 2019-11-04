@@ -5,7 +5,7 @@ List
 ; meting_topic is a string which may contain letters and the underscore
 ; character such as "budget_2020".
 
-join budget_2020
+join budget_2020 1 Lisboa,2020-01-10
 
 close budget_2020
 

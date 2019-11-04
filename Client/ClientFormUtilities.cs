@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using API;
-using MSDAD_CLI;
 
-namespace ClientForm
+using API;
+
+namespace MSDAD_CLI
 {
     public class ClientFormUtilities
     {
@@ -23,8 +16,6 @@ namespace ClientForm
         public JoinMeetingForm joinMeetingForm;
         public CloseMeetingForm closeMeetingForm;
 
-        private Client myClient;
-
         //hardcoded for now
         private RemotingAddress clientRA;
         //hardcoded for now
@@ -32,8 +23,6 @@ namespace ClientForm
 
         public ClientFormUtilities()
         {
-            myClient = new Client();
-
             signInForm = new SignInForm();
 
             mainForm = new MainForm();

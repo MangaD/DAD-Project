@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ClientForm
+namespace MSDAD_CLI
 {
     public partial class ListMeetingsForm : Form
     {

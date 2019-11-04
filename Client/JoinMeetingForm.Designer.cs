@@ -1,4 +1,4 @@
-﻿namespace ClientForm
+﻿namespace MSDAD_CLI
 {
     partial class JoinMeetingForm
     {

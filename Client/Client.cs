@@ -4,37 +4,32 @@ using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
 using System.Windows.Forms;
-using API;
-using MSDAD_CLI;
 
-namespace ClientForm
+using API;
+
+namespace MSDAD_CLI
 {
-    public class Client
+    public static class Client
     {
         public static ClientFormUtilities clientFormUtilities;
 
-        private TcpChannel clientChannel;
-        private IServerC server;
+        private static TcpChannel clientChannel;
+        private static IServerC server;
 
-        public string ClientName { get; set; }
-        public RemotingAddress ClientRA { get; set; }
-        public RemotingAddress ServerRA { get; set; }
-
-        public Client()
-        {
-
-        }
+        public static string ClientName { get; set; }
+        public static RemotingAddress ClientRA { get; set; }
+        public static RemotingAddress ServerRA { get; set; }
 
         [STAThread]
         static void Main(string[] args)
         {
-            clientFormUtilities = new ClientFormUtilities();
 
             Application.EnableVisualStyles();
-            Application.Run(clientFormUtilities.mainForm);
+            Application.SetCompatibleTextRenderingDefault(false);
 
-            /*
-            if (args.Length != 6)
+            clientFormUtilities = new ClientFormUtilities();
+
+            if (args.Length != 4)
             {
                 Utilities.WriteError("This program must take 4 argument. " +
                     "client name, client remoting address, server remoting address, " +
@@ -48,59 +43,45 @@ namespace ClientForm
             RemotingAddress serverRA = RemotingAddress.FromString(args[2]);
             string scriptFilename = args[3];
 
-            /*ClientName = "Leo";
-            RemotingAddress clientRA = RemotingAddress.FromString("tcp://localhost:65001/MSClient");
-            RemotingAddress serverRA = RemotingAddress.FromString("tcp://localhost:65000/MSServer");
-
             listenClient(clientRA.port, clientRA.channel);
-            connectToServer(serverRA.ToString(), ClientName, clientRA.ToString());
-            */
-            /*Parser parser = new Parser(scriptFilename, server);
+
+            try
+            {
+                connectToServer(serverRA.ToString(), ClientName, clientRA.ToString());
+            } catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //https://stackoverflow.com/questions/5991249/application-exit-not-working
+                Environment.Exit(0);
+            }
+
+            Parser parser = new Parser(scriptFilename);
             try
             {
                 parser.Parse();
             } catch (ParserException pe)
             {
+                MessageBox.Show(pe.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Utilities.WriteError(pe.Message);
                 Console.ReadKey();
                 Environment.Exit(0);
             }
 
             server.ClientSaysHelloToServer(clientRA.port);
-            */
+
             //parser.ExecCommands();
 
-            /*do
-            {
-                Console.WriteLine("Choose Option: ");
-                Console.WriteLine("1 - CreateMeeting");
-
-                int opt = Convert.ToInt32(Console.ReadLine());
-
-                if(opt == 1)
-                {
-                    server.CreateMeeting(clientRA.ToString(), "oi", 2, null, null);
-                }
-            } while (true);*/
-
-            Console.ReadKey();
+            Application.Run(clientFormUtilities.mainForm);
         }
 
-        public void ParseFile()
-        {
-            //TODO filename
-            Parser myParser = new Parser("filename", this);
-            myParser.Parse();
-        }
-
-        public void connectToServer(string serverRA, string clientName, string clientRA)
+        public static void connectToServer(string serverRA, string clientName, string clientRA)
         {
             ClientName = clientName;
             server = (IServerC)Activator.GetObject(typeof(IServerC), serverRA);
             server.RegisterClient(clientName, clientRA);
         }
 
-        public void listenClient(UInt16 clientPort, string cliChannelName)
+        public static void listenClient(UInt16 clientPort, string cliChannelName)
         {
             clientChannel = new TcpChannel(clientPort);
             ChannelServices.RegisterChannel(clientChannel, false);
@@ -109,28 +90,28 @@ namespace ClientForm
                 typeof(ClientServices));
         }
 
-        public List<string> ListMeetings()
+        public static List<string> ListMeetings()
         {
             List<string> result = server.ListMeetings(ClientName);
             Utilities.WriteDebug("Sent 'list' command to server");
             return result;
         }
 
-        public void CreateMeeting( string topic, uint minAttendees,
+        public static void CreateMeeting( string topic, uint minAttendees,
             List<Slot> slots, List<string> invitees)
         {
             server.CreateMeeting(ClientName, topic, minAttendees, slots, invitees);
             Utilities.WriteDebug("Sent 'create " + topic + "' command to server");
         }
 
-        public void JoinMeeting(string topic, int slotCount, List<Slot> slots)
+        public static void JoinMeeting(string topic, int slotCount, List<Slot> slots)
         {
             //TODO do something with bool return
             server.JoinMeeting(topic, ClientName, ClientRA.ToString(), slotCount, slots);
             Utilities.WriteDebug("Sent 'join " + topic + "' command to server");
         }
 
-        public void CloseMeeting(string topic)
+        public static void CloseMeeting(string topic)
         {
             //TODO do something with bool return
             server.CloseMeeting(topic, ClientName);
