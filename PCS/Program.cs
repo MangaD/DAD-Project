@@ -99,9 +99,9 @@ namespace PCS
             Process proc = new Process();
             proc.StartInfo.FileName = path;
             proc.StartInfo.Arguments = args;
-            proc.StartInfo.UseShellExecute = false;
-            proc.StartInfo.RedirectStandardError = true;
-            proc.StartInfo.RedirectStandardInput = true;
+            proc.StartInfo.UseShellExecute = true;
+            proc.StartInfo.RedirectStandardError = false;
+            proc.StartInfo.RedirectStandardInput = false;
             proc.Start();
 
             return proc;
