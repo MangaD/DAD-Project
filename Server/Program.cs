@@ -12,8 +12,6 @@ namespace Server
 
     class Program
     {
-        public static ConsoleColor debugColor = ConsoleColor.DarkMagenta;
-
         static void Main(string[] args)
         {
             string serverID = args[0];
@@ -26,7 +24,7 @@ namespace Server
 
             TcpChannel servChannel = server.ServerListening();
 
-            Utilities.WriteColor("Press <enter> to terminate server...", Program.debugColor);
+            Console.WriteLine("Press <enter> to terminate server...");
             System.Console.ReadLine();
         }
     }
@@ -104,7 +102,7 @@ namespace Server
         {
             this.server.addMeetingPropToList(new MeetingProposal(coordinatorURL, topic, minAttendees, slots, invitees));
 
-            Utilities.WriteColor("[Server] Criei a Meeting! CoordinatorURL: " + coordinatorURL, Program.debugColor);
+            Console.WriteLine("[Server] Criei a Meeting! CoordinatorURL: " + coordinatorURL);
         }
 
         public bool JoinMeeting(string topic, string clientName, string clientRA, int n_slots, List<Slot> locationDates)
@@ -161,7 +159,7 @@ namespace Server
                     typeof(IClient), clientRA);
             Client newClient = new Client(newClientChannel, clientName, RemotingAddress.FromString(clientRA));
             clients.Add(newClient);
-            Utilities.WriteColor("New client " + clientName + " listenning at " + clientRA, Program.debugColor);
+            Console.WriteLine("New client " + clientName + " listenning at " + clientRA);
 
             //return messages;
             return null;
@@ -172,7 +170,7 @@ namespace Server
             //Find client in client list
             Client client = clients.First(item => item.ClientRA.port == clientPort);
 
-            Utilities.WriteColor("Client: " + client.ClientName + " Port: " + client.ClientRA.port + " Says: Hello", Program.debugColor);
+            Console.WriteLine("Client: " + client.ClientName + " Port: " + client.ClientRA.port + " Says: Hello");
 
             //Server responds to that talked to him.
             //client.getClientChannel().serverRespondsHiToClient(server.getServerPort());

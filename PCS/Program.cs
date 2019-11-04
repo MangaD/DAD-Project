@@ -25,7 +25,7 @@ namespace PCS
             RemotingConfiguration.RegisterWellKnownServiceType(typeof(PCSServices),
                 PCSChannel, WellKnownObjectMode.Singleton);
 
-            System.Console.WriteLine("<enter> to quit...");
+            System.Console.WriteLine("<enter> to quit PCS...");
             System.Console.ReadLine();
         }
     }
@@ -49,6 +49,11 @@ namespace PCS
 
         public void StartClient(string username, RemotingAddress clientRA, RemotingAddress serverRA, string scriptFile)
         {
+            if (Program.clientProcesses.ContainsKey(username))
+            {
+                throw new RemotingException($"Client with username '{ username }' already exists.");
+            }
+
             var procPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory() +
                 @"\..\..\..\Client\bin\Debug\Client.exe"));
 
@@ -67,6 +72,11 @@ namespace PCS
 
         public void StartServer(string serverId, RemotingAddress serverRA, uint maxFaults, uint minDelay, uint maxDelay)
         {
+            if (Program.serverProcesses.ContainsKey(serverId))
+            {
+                throw new RemotingException($"Server with ID '{ serverId }' already exists.");
+            }
+
             var procPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory() +
                 @"\..\..\..\Server\bin\Debug\Server.exe"));
 
