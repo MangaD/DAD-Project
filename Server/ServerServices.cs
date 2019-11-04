@@ -36,7 +36,7 @@ namespace Server
             {
                 if (mp.Topic == topic && mp.Invitees == null && mp.State == 0)
                 {
-                    mp.joinClientToMeeting(clientName, clientRA, n_slots, locationDates);
+                    mp.JoinClientToMeeting(clientName, clientRA, n_slots, locationDates);
                     return true;
                 }
                 else
@@ -45,7 +45,7 @@ namespace Server
                     {
                         if (inv == clientName && mp.State == 0)
                         {
-                            mp.joinClientToMeeting(clientName, clientRA, n_slots, locationDates);
+                            mp.JoinClientToMeeting(clientName, clientRA, n_slots, locationDates);
                             return true;
                         }
                     }
