@@ -28,9 +28,9 @@ namespace Server
             TcpChannel servChannel = new TcpChannel((int)serverRA.port);
             ChannelServices.RegisterChannel(servChannel, false);
             //ServerServices servObj = new ServerServices(this);
-            //RemotingServices.Marshal(servObj, "MSServer", typeof(ServerServices));
+            //RemotingServices.Marshal(servObj, serverRA.channel, typeof(ServerServices));
             RemotingConfiguration.RegisterWellKnownServiceType(typeof(ServerServices),
-             "MSServer", WellKnownObjectMode.Singleton);
+                serverRA.channel, WellKnownObjectMode.Singleton);
 
             Console.WriteLine("Press <enter> to terminate server...");
             System.Console.ReadLine();

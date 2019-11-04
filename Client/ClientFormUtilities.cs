@@ -16,11 +16,6 @@ namespace MSDAD_CLI
         public JoinMeetingForm joinMeetingForm;
         public CloseMeetingForm closeMeetingForm;
 
-        //hardcoded for now
-        private RemotingAddress clientRA;
-        //hardcoded for now
-        private RemotingAddress serverRA;
-
         public ClientFormUtilities()
         {
             signInForm = new SignInForm();

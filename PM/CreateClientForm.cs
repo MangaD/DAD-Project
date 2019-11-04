@@ -24,7 +24,12 @@ namespace PM
             RemotingAddress serverRA = new RemotingAddress();
             RemotingAddress clientRA = new RemotingAddress();
 
-            if (usernameTb.Text == "")
+            string username = usernameTb.Text.Trim();
+            string clientRAStr = clientRATb.Text.Trim();
+            string serverRAStr = serverRATb.Text.Trim();
+            string scriptPath = scriptPathTb.Text.Trim();
+
+            if (username == "")
             {
                 valid = false;
                 MessageBox.Show("Username cannot be empty.",
@@ -32,7 +37,7 @@ namespace PM
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
-            if (clientRATb.Text == "")
+            if (clientRAStr == "")
             {
                 valid = false;
                 MessageBox.Show("Client remoting address cannot be empty.",
@@ -44,7 +49,7 @@ namespace PM
             {
                 try
                 {
-                    clientRA = RemotingAddress.FromString(clientRATb.Text);
+                    clientRA = RemotingAddress.FromString(clientRAStr);
                 }
                 catch (ArgumentException)
                 {
@@ -55,7 +60,7 @@ namespace PM
                         MessageBoxIcon.Error);
                 }
             }
-            if (serverRATb.Text == "")
+            if (serverRAStr == "")
             {
                 valid = false;
                 MessageBox.Show("Server remoting address cannot be empty.",
@@ -67,7 +72,7 @@ namespace PM
             {
                 try
                 {
-                    serverRA = RemotingAddress.FromString(serverRATb.Text);
+                    serverRA = RemotingAddress.FromString(serverRAStr);
                 }
                 catch (ArgumentException)
                 {
@@ -83,7 +88,7 @@ namespace PM
             {
                 try
                 {
-                    Program.CreateClient(usernameTb.Text, clientRA, serverRA, scriptPathTb.Text);
+                    Program.CreateClient(username, clientRA, serverRA, scriptPath);
 
                     FormUtilities.switchForm(this, Program.formUtilities.mainForm);
                 }

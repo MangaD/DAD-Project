@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
@@ -14,9 +13,9 @@ namespace MSDAD_CLI
         public static ClientFormUtilities clientFormUtilities;
 
         private static TcpChannel clientChannel;
-        private static IServerC server;
+        public static IServerC server;
 
-        public static string ClientName { get; set; }
+        public static string Username { get; set; }
         public static RemotingAddress ClientRA { get; set; }
         public static RemotingAddress ServerRA { get; set; }
 
@@ -38,16 +37,18 @@ namespace MSDAD_CLI
                 return;
             }
 
-            ClientName = args[0];
+            Username = args[0];
             RemotingAddress clientRA = RemotingAddress.FromString(args[1]);
             RemotingAddress serverRA = RemotingAddress.FromString(args[2]);
             string scriptFilename = args[3];
 
-            listenClient(clientRA.port, clientRA.channel);
+            MessageBox.Show(scriptFilename);
+
+            ListenClient(clientRA.port, clientRA.channel);
 
             try
             {
-                connectToServer(serverRA.ToString(), ClientName, clientRA.ToString());
+                ConnectToServer(serverRA.ToString(), Username, clientRA.ToString());
             } catch (Exception e)
             {
                 MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -74,14 +75,14 @@ namespace MSDAD_CLI
             Application.Run(clientFormUtilities.mainForm);
         }
 
-        public static void connectToServer(string serverRA, string clientName, string clientRA)
+        public static void ConnectToServer(string serverRA, string clientName, string clientRA)
         {
-            ClientName = clientName;
-            server = (IServerC)Activator.GetObject(typeof(IServerC), serverRA);
+            Username = clientName;
+            server = (IServerC) Activator.GetObject(typeof(IServerC), serverRA);
             server.RegisterClient(clientName, clientRA);
         }
 
-        public static void listenClient(UInt16 clientPort, string cliChannelName)
+        public static void ListenClient(UInt16 clientPort, string cliChannelName)
         {
             clientChannel = new TcpChannel(clientPort);
             ChannelServices.RegisterChannel(clientChannel, false);
@@ -90,33 +91,6 @@ namespace MSDAD_CLI
                 typeof(ClientServices));
         }
 
-        public static List<string> ListMeetings()
-        {
-            List<string> result = server.ListMeetings(ClientName);
-            Utilities.WriteDebug("Sent 'list' command to server");
-            return result;
-        }
-
-        public static void CreateMeeting( string topic, uint minAttendees,
-            List<Slot> slots, List<string> invitees)
-        {
-            server.CreateMeeting(ClientName, topic, minAttendees, slots, invitees);
-            Utilities.WriteDebug("Sent 'create " + topic + "' command to server");
-        }
-
-        public static void JoinMeeting(string topic, int slotCount, List<Slot> slots)
-        {
-            //TODO do something with bool return
-            server.JoinMeeting(topic, ClientName, ClientRA.ToString(), slotCount, slots);
-            Utilities.WriteDebug("Sent 'join " + topic + "' command to server");
-        }
-
-        public static void CloseMeeting(string topic)
-        {
-            //TODO do something with bool return
-            server.CloseMeeting(topic, ClientName);
-            Utilities.WriteDebug("Sent 'close " + topic + "' command to server");
-        }
     }
 
 
