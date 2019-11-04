@@ -25,9 +25,6 @@ namespace PM
 
         private void createSrvBtn_Click(object sender, EventArgs e)
         {
-            //TODO this is just an example of a method call
-            //Program.pcs.StartServer("oi", "ola", 2, 2, 2);
-
             FormUtilities.switchForm(this, Program.formUtilities.createServerForm);
         }
 

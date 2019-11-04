@@ -123,10 +123,10 @@ namespace ClientForm
             Utilities.WriteDebug("Sent 'create " + topic + "' command to server");
         }
 
-        public void JoinMeeting(string topic, int n_slots, List<Slot> locationDates)
+        public void JoinMeeting(string topic, int slotCount, List<Slot> slots)
         {
             //TODO do something with bool return
-            server.JoinMeeting(topic, ClientName, ClientRA.ToString(), n_slots, locationDates);
+            server.JoinMeeting(topic, ClientName, ClientRA.ToString(), slotCount, slots);
             Utilities.WriteDebug("Sent 'join " + topic + "' command to server");
         }
 

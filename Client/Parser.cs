@@ -30,17 +30,21 @@ namespace MSDAD_CLI
                  * Group 1: 'wait'
                  * Group 2: integer argument for 'wait'
                  * Group 3: 'list'
-                 * Group 4: 'join' or 'close'
-                 * Group 5: string argument for 'join' or 'close'
-                 * Group 6: 'create'
+                 * Group 4: 'close'
+                 * Group 5: string argument for 'close'
+                 * Group 6: 'join'
                  * Group 7: meeting topic
-                 * Group 8: min_attendees
-                 * Group 9: number_of_slots
-                 * Group 10: number_of_invitees
-                 * Group 11: slots + invitees (need to be validated)
+                 * Group 8: slot_count (number of slots this user can attend)
+                 * Group 9: slots
+                 * Group 10: 'create'
+                 * Group 11: meeting topic
+                 * Group 12: min_attendees
+                 * Group 13: number_of_slots
+                 * Group 14: number_of_invitees
+                 * Group 15: slots + invitees (need to be validated)
                  * Character ; and anything after is ignored
                  */
-                string regex = @"(?:(?:(wait)\s+(\d+))|(list)|(?:(join|close)\s+(\w+))|(?:(create)\s+(\w+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(.*)))?;?.*";
+                string regex = @"(?:(?:(wait)\s+(\d+))|(list)|(?:(close)\s+(\w+))|(?:(join)\s+(\w+)\s+(\d+)\s+(.*))|(?:(create)\s+(\w+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(.*)))?;?.*";
 
                 using (StreamReader sr = new StreamReader(filename))
                 {
@@ -83,7 +87,7 @@ namespace MSDAD_CLI
                                         };
                                     commands.Add(l);
                                 }
-                                // join, close
+                                // close
                                 else if (!string.IsNullOrEmpty(m.Groups[4].Value.ToString()))
                                 {
                                     List<string> l = new List<string>() {
@@ -92,26 +96,65 @@ namespace MSDAD_CLI
                                         };
                                     commands.Add(l);
                                 }
-                                // create
+                                // join
                                 else if (!string.IsNullOrEmpty(m.Groups[6].Value.ToString()))
                                 {
-                                    if (!Int32.TryParse(m.Groups[8].Value.ToString(), out int minAttendees))
+                                    if (!Int32.TryParse(m.Groups[8].Value.ToString(), out int slotCount))
+                                    {
+                                        throw new ParserException($"Error at line {count + 1}. slot_count " +
+                                            "is not a valid number.");
+                                    }
+
+                                    string[] slotsInvitees = m.Groups[9].Value.ToString().Split(' ');
+
+                                    if (slotCount != slotsInvitees.Length)
+                                    {
+                                        throw new ParserException($"Error at line {count + 1}. slot_count " +
+                                            "does not match the quantity of slots provided.");
+                                    }
+
+                                    List<string> l = new List<string>() {
+                                            m.Groups[6].Value.ToString(),//join
+                                            m.Groups[7].Value.ToString(),//topic
+                                            slotCount.ToString()//slot_count
+                                        };
+
+                                    // Validate slots
+                                    for (int i = 0; i < slotCount; i++)
+                                    {
+                                        try
+                                        {
+                                            Slot.FromString(slotsInvitees[i]);
+                                        }
+                                        catch (ArgumentException)
+                                        {
+                                            throw new ParserException($"Error at line {count + 1}. Invalid slot: {slotsInvitees[i]}");
+                                        }
+                                        l.Add(slotsInvitees[i]);
+                                    }
+
+                                    commands.Add(l);
+                                }
+                                // create
+                                else if (!string.IsNullOrEmpty(m.Groups[10].Value.ToString()))
+                                {
+                                    if (!Int32.TryParse(m.Groups[12].Value.ToString(), out int minAttendees))
                                     {
                                         throw new ParserException($"Error at line {count + 1}. min_attendees is not " +
                                             "a valid number.");
                                     }
-                                    if (!Int32.TryParse(m.Groups[9].Value.ToString(), out int noSlots))
+                                    if (!Int32.TryParse(m.Groups[13].Value.ToString(), out int noSlots))
                                     {
                                         throw new ParserException($"Error at line {count + 1}. number_of_slots is " +
                                             "not a valid number.");
                                     }
-                                    if (!Int32.TryParse(m.Groups[10].Value.ToString(), out int noInvitees))
+                                    if (!Int32.TryParse(m.Groups[14].Value.ToString(), out int noInvitees))
                                     {
                                         throw new ParserException($"Error at line {count + 1}. number_of_invitees " +
                                             "is not a valid number.");
                                     }
 
-                                    string[] slotsInvitees = m.Groups[11].Value.ToString().Split(' ');
+                                    string[] slotsInvitees = m.Groups[15].Value.ToString().Split(' ');
 
                                     if (noSlots + noInvitees != slotsInvitees.Length)
                                     {
@@ -120,8 +163,8 @@ namespace MSDAD_CLI
                                     }
 
                                     List<string> l = new List<string>() {
-                                            m.Groups[6].Value.ToString(),
-                                            m.Groups[7].Value.ToString(),//topic
+                                            m.Groups[10].Value.ToString(),
+                                            m.Groups[11].Value.ToString(),//topic
                                             minAttendees.ToString(),
                                             noSlots.ToString(),
                                             noInvitees.ToString()
@@ -177,7 +220,17 @@ namespace MSDAD_CLI
                 }
                 else if (command[0].Equals("join", StringComparison.OrdinalIgnoreCase))
                 {
-                    //myClient.JoinMeeting(command[1], Client.ClientName, Client.ClientRA.ToString());
+                    string topic = command[1];
+                    Int32.TryParse(command[2], out int slotCount);
+
+                    List<Slot> slots = new List<Slot>();
+
+                    for (int i = 0; i < slotCount; i++)
+                    {
+                        slots.Add(Slot.FromString(command[i]));
+                    }
+
+                    myClient.JoinMeeting(topic, slotCount, slots);
                 }
                 else if (command[0].Equals("close", StringComparison.OrdinalIgnoreCase))
                 {
