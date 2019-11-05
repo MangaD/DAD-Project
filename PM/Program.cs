@@ -88,13 +88,13 @@ namespace PM
             }
             else
             {
-                throw new ApplicationException("Already connected to PCS: " + PCSRemotingAddress.ToString());
+                return PCSList.Find(x => x.Item1 == PCSRemotingAddress).Item2;
             }
         }
 
         private static IPCS GetPCS(RemotingAddress PCSRA)
         {
-            return PCSList.Find(x => x.Item1 == PCSRA).Item2;
+            return ConnectToPCS(PCSRA);
         }
 
         private static IServerPM ConnectToServer(string serverID, RemotingAddress serverRA)
@@ -113,11 +113,6 @@ namespace PM
             {
                 throw new ApplicationException("Already connected to server: " + serverRA.ToString());
             }
-        }
-
-        private static IServerPM GetServer(RemotingAddress serverRA)
-        {
-            return serverList.Find(x => x.Item1 == serverRA).Item2;
         }
     }
 }
