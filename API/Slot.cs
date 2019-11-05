@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace API
 {
+    [Serializable]
     public struct Slot
     {
         public string location;
