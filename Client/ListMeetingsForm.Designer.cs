@@ -31,7 +31,7 @@ namespace MSDAD_CLI
         private void InitializeComponent()
         {
             this.goToBackButton = new System.Windows.Forms.Button();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.ListMeetingsLv = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
@@ -46,20 +46,20 @@ namespace MSDAD_CLI
             this.goToBackButton.UseVisualStyleBackColor = true;
             this.goToBackButton.Click += new System.EventHandler(this.goToBackButton_Click);
             // 
-            // listView1
+            // ListMeetingsLv
             // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ListMeetingsLv.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2});
-            this.listView1.FullRowSelect = true;
-            this.listView1.GridLines = true;
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(50, 80);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(332, 181);
-            this.listView1.TabIndex = 5;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
+            this.ListMeetingsLv.FullRowSelect = true;
+            this.ListMeetingsLv.GridLines = true;
+            this.ListMeetingsLv.HideSelection = false;
+            this.ListMeetingsLv.Location = new System.Drawing.Point(50, 80);
+            this.ListMeetingsLv.Name = "ListMeetingsLv";
+            this.ListMeetingsLv.Size = new System.Drawing.Size(332, 181);
+            this.ListMeetingsLv.TabIndex = 5;
+            this.ListMeetingsLv.UseCompatibleStateImageBehavior = false;
+            this.ListMeetingsLv.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader1
             // 
@@ -76,7 +76,7 @@ namespace MSDAD_CLI
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(463, 450);
-            this.Controls.Add(this.listView1);
+            this.Controls.Add(this.ListMeetingsLv);
             this.Controls.Add(this.goToBackButton);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -91,7 +91,7 @@ namespace MSDAD_CLI
         #endregion
 
         private System.Windows.Forms.Button goToBackButton;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView ListMeetingsLv;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
     }

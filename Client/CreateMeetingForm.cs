@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using API;
+
 namespace MSDAD_CLI
 {
     public partial class CreateMeetingForm : Form
@@ -23,8 +25,50 @@ namespace MSDAD_CLI
 
         private void CreateMeetingButton_Click(object sender, EventArgs e)
         {
-            Client.server.CreateMeeting(Client.ClientRA.ToString(), TopicTb.Text, Convert.ToUInt16(MinPartNud.Value), null, null);
+            List<Slot> slots = new List<Slot>();
+            foreach(ListViewItem s in SlotsLv.Items)
+            {
+                MessageBox.Show(s.ToString() + s.SubItems[0].ToString() + s.SubItems[1].ToString());
+                //slots.Add(new Slot(s.SubItems[1].Text, DateTime.Parse(s.SubItems[0].Text)));
+                Slot slot = Slot.FromString(s.SubItems[1].Text + "," + s.SubItems[0].Text);
+                slots.Add(new Slot(slot.location, slot.date));
+            }
+
+            Client.server.CreateMeeting(Client.ClientRA.ToString(), TopicTb.Text, Convert.ToUInt16(MinPartNud.Value), slots, null);
         }
 
+        private void AddSlotBtn_Click(object sender, EventArgs e)
+        {
+            DateTime date = DateDTP.Value.Date;
+            string location = LocationTB.Text;
+
+            ListViewItem lvi = new ListViewItem(DateDTP.Text);
+            lvi.SubItems.Add(LocationTB.Text);
+            SlotsLv.Items.Add(lvi);
+        }
+
+        private void CreateMeetingForm_Load(object sender, EventArgs e)
+        {
+            List<string> usernamesList = Client.server.GetClientsUsername();
+            foreach(string user in usernamesList)
+            {
+                if (user != Client.Username)
+                {
+                    InviteesLBox.Items.Add(user);
+                }
+            }
+        }
+
+        private void InviteUserBtn_Click(object sender, EventArgs e)
+        {
+            try
+            { 
+                InviteesLv.Items.Add(InviteesLBox.SelectedItem.ToString());
+            } catch(NullReferenceException ex)
+            {
+                MessageBox.Show("Selecione um User!");
+            }
+            
+        }
     }
 }

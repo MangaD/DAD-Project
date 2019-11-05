@@ -94,6 +94,16 @@ namespace Server
             return null;
         }
 
+        public List<string> GetClientsUsername()
+        {
+            List<string> usernamesList = new List<string>();
+            foreach(Client client in Server.getClientsList())
+            {
+                usernamesList.Add(client.ClientName);
+            }
+            return usernamesList;
+        }
+
         public void ClientSaysHelloToServer(UInt16 clientPort)
         {
             //Find client in client list

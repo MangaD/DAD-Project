@@ -25,11 +25,13 @@ namespace MSDAD_CLI
         private void ListMeetingsForm_Load(object sender, EventArgs e)
         {
             List<string> TopicsList = Client.server.ListMeetings(Client.ClientRA.ToString());
-            ListViewItem lvi = new ListViewItem();
-            foreach(string topic in TopicsList)
+
+            ListViewItem lvi;
+            foreach (string topic in TopicsList)
             {
-                lvi.SubItems.Add(topic);
+                lvi = new ListViewItem(topic);
                 MessageBox.Show(topic);
+                ListMeetingsLv.Items.Add(lvi);
             }
         }
     }

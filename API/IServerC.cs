@@ -13,6 +13,9 @@ namespace API
         bool JoinMeeting(string topic, string clientName, string clientRA, int n_slots, List<Slot> locationDates);
         bool CloseMeeting(string topic, string coordinatorURL);
 
+        //Used to list Usernames to Invitee
+        List<string> GetClientsUsername();
+
         //Metodos de Teste
         void ClientSaysHelloToServer(UInt16 clientPort);
 
