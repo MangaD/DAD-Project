@@ -32,20 +32,6 @@ namespace PCS
 
     public class PCSServices : MarshalByRefObject, IPCS
     {
-        public void AddRoom(string location, uint capacity, string roomName)
-        {
-            throw new NotImplementedRemotingException();
-        }
-
-        public void Crash(string id)
-        {
-            throw new NotImplementedRemotingException();
-        }
-
-        public void Freeze(string id)
-        {
-            throw new NotImplementedRemotingException();
-        }
 
         public void StartClient(string username, RemotingAddress clientRA, RemotingAddress serverRA, string scriptFile)
         {
@@ -92,16 +78,6 @@ namespace PCS
                 $"{serverId} {serverRA.ToString()} {maxFaults} {minDelay} {maxDelay}");
 
             Program.serverProcesses.Add(serverId, server);
-        }
-
-        public string SystemStatus()
-        {
-            throw new NotImplementedRemotingException();
-        }
-
-        public void Unfreeze(string id)
-        {
-            throw new NotImplementedRemotingException();
         }
 
         private static Process RunProcess(string path, string args)
