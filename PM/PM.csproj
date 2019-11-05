@@ -53,6 +53,12 @@
     <Compile Include="CreateClientForm.Designer.cs">
       <DependentUpon>CreateClientForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ManageServersForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManageServersForm.Designer.cs">
+      <DependentUpon>ManageServersForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="CreateServerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -71,6 +77,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="CreateClientForm.resx">
       <DependentUpon>CreateClientForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManageServersForm.resx">
+      <DependentUpon>ManageServersForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CreateServerForm.resx">
       <DependentUpon>CreateServerForm.cs</DependentUpon>

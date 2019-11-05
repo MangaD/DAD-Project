@@ -33,6 +33,7 @@
             this.createCliBtn = new System.Windows.Forms.Button();
             this.loadScriptLbl = new System.Windows.Forms.Label();
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
+            this.manageServersLbl = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // createServBtn
@@ -77,16 +78,29 @@
             this.loadScriptLbl.BackColor = System.Drawing.Color.Transparent;
             this.loadScriptLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.loadScriptLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.loadScriptLbl.Location = new System.Drawing.Point(221, 342);
+            this.loadScriptLbl.Location = new System.Drawing.Point(233, 342);
             this.loadScriptLbl.Name = "loadScriptLbl";
-            this.loadScriptLbl.Size = new System.Drawing.Size(114, 15);
+            this.loadScriptLbl.Size = new System.Drawing.Size(102, 15);
             this.loadScriptLbl.TabIndex = 7;
-            this.loadScriptLbl.Text = "Load script file...";
+            this.loadScriptLbl.Text = "Load script file";
             this.loadScriptLbl.Click += new System.EventHandler(this.loadScriptLbl_Click);
             // 
             // openScriptDialog
             // 
             this.openScriptDialog.FileName = "script.txt";
+            // 
+            // manageServersLbl
+            // 
+            this.manageServersLbl.AutoSize = true;
+            this.manageServersLbl.BackColor = System.Drawing.Color.Transparent;
+            this.manageServersLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.manageServersLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.manageServersLbl.Location = new System.Drawing.Point(12, 342);
+            this.manageServersLbl.Name = "manageServersLbl";
+            this.manageServersLbl.Size = new System.Drawing.Size(109, 15);
+            this.manageServersLbl.TabIndex = 8;
+            this.manageServersLbl.Text = "Manage servers";
+            this.manageServersLbl.Click += new System.EventHandler(this.manageServersLbl_Click);
             // 
             // MainForm
             // 
@@ -95,6 +109,7 @@
             this.BackgroundImage = global::PM.Properties.Resources.puppetBg;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(347, 366);
+            this.Controls.Add(this.manageServersLbl);
             this.Controls.Add(this.loadScriptLbl);
             this.Controls.Add(this.createCliBtn);
             this.Controls.Add(this.createServBtn);
@@ -114,6 +129,7 @@
         private System.Windows.Forms.Button createCliBtn;
         private System.Windows.Forms.Label loadScriptLbl;
         private System.Windows.Forms.OpenFileDialog openScriptDialog;
+        private System.Windows.Forms.Label manageServersLbl;
     }
 }
 

@@ -32,5 +32,10 @@ namespace PM
         {
             FormUtilities.switchForm(this, Program.formUtilities.createClientForm);
         }
+
+        private void manageServersLbl_Click(object sender, EventArgs e)
+        {
+            FormUtilities.switchForm(this, Program.formUtilities.manageServersForm);
+        }
     }
 }

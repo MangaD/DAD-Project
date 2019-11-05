@@ -8,6 +8,7 @@ namespace PM
         public MainForm mainForm;
         public CreateServerForm createServerForm;
         public CreateClientForm createClientForm;
+        public ManageServersForm manageServersForm;
 
         public FormUtilities()
         {
@@ -15,8 +16,10 @@ namespace PM
 
             createServerForm = new CreateServerForm();
             createClientForm = new CreateClientForm();
+            manageServersForm = new ManageServersForm();
             setWindowAttributes(createServerForm);
             setWindowAttributes(createClientForm);
+            setWindowAttributes(manageServersForm);
         }
 
         public void setWindowAttributes(Form form)

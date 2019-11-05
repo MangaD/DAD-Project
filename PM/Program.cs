@@ -45,6 +45,7 @@ namespace PM
             formUtilities = new FormUtilities();
 
             PCSList = new List<Tuple<RemotingAddress, IPCS>>();
+            serverList = new List<Tuple<RemotingAddress, IServerPM>>();
 
             Application.Run(formUtilities.mainForm);
         }
@@ -57,7 +58,10 @@ namespace PM
             IPCS pcs = GetPCS(pcsRA);
 
             pcs.StartServer(serverID, serverRA, maxFaults, minDelay, maxDelay);
+
             ConnectToServer(serverID, serverRA);
+
+            formUtilities.manageServersForm.AddServerToList(serverID);
         }
 
         public static void CreateClient(string username, RemotingAddress clientRA,
@@ -84,31 +88,36 @@ namespace PM
             }
             else
             {
-                return PCSList.Find(x => x.Item1 == PCSRemotingAddress).Item2;
+                throw new ApplicationException("Already connected to PCS: " + PCSRemotingAddress.ToString());
             }
         }
 
         private static IPCS GetPCS(RemotingAddress PCSRA)
         {
-            return ConnectToPCS(PCSRA);
+            return PCSList.Find(x => x.Item1 == PCSRA).Item2;
         }
 
-        private static void ConnectToServer(string serverID, RemotingAddress serverRA)
+        private static IServerPM ConnectToServer(string serverID, RemotingAddress serverRA)
         {
-            /*if (!PCSList.Exists(x => x.Item1 == PCSRemotingAddress))
+            if (!serverList.Exists(x => x.Item1 == serverRA))
             {
-                IPCS pcs = (IPCS)Activator.GetObject(typeof(IPCS), PCSRemotingAddress.ToString());
-                if (pcs == null)
+                IServerPM server = (IServerPM)Activator.GetObject(typeof(IServerPM), serverRA.ToString());
+                if (server == null)
                 {
-                    throw new ApplicationException("Could not locate PCS: " + PCSRemotingAddress.ToString());
+                    throw new ApplicationException("Could not locate Server: " + serverRA.ToString());
                 }
-                PCSList.Add(new Tuple<RemotingAddress, IPCS>(PCSRemotingAddress, pcs));
-                return pcs;
+                serverList.Add(new Tuple<RemotingAddress, IServerPM>(serverRA, server));
+                return server;
             }
             else
             {
-                return PCSList.Find(x => x.Item1 == PCSRemotingAddress).Item2;
-            }*/
+                throw new ApplicationException("Already connected to server: " + serverRA.ToString());
+            }
+        }
+
+        private static IServerPM GetServer(RemotingAddress serverRA)
+        {
+            return serverList.Find(x => x.Item1 == serverRA).Item2;
         }
     }
 }
