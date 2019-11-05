@@ -28,12 +28,13 @@ namespace MSDAD_CLI
 
             clientFormUtilities = new ClientFormUtilities();
 
-            if (args.Length != 4)
+            if (args.Length < 3 || args.Length > 4)
             {
-                Utilities.WriteError("This program must take 4 argument. " +
-                    "client name, client remoting address, server remoting address, " +
-                    "Script filename.");
-                Console.ReadKey();
+                string error = "This program must take at least 2 arguments. " +
+                    "client name, client remoting address, and server remoting address. " +
+                    "Optionally a 4th argument - script filename.";
+                Utilities.WriteError(error);
+                MessageBox.Show(error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -53,7 +54,7 @@ namespace MSDAD_CLI
                 Environment.Exit(0);
             }
 
-            if (args.Length > 3)
+            if (args.Length > 3 && args[3] != "")
             {
                 string scriptFilename = args[3];
 
