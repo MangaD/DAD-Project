@@ -48,7 +48,8 @@ namespace PM
                 catch (ArgumentException)
                 {
                     valid = false;
-                    MessageBox.Show("Server remoting address is invalid.",
+                    MessageBox.Show("Server remoting address is invalid.\n" +
+                        "Must be of the format: tcp://address:port/channel",
                         "Error",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);

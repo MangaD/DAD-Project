@@ -39,14 +39,14 @@ namespace MSDAD_CLI
             }
 
             Username = args[0];
-            RemotingAddress clientRA = RemotingAddress.FromString(args[1]);
-            RemotingAddress serverRA = RemotingAddress.FromString(args[2]);
+            ClientRA = RemotingAddress.FromString(args[1]);
+            ServerRA = RemotingAddress.FromString(args[2]);
 
-            ListenClient(clientRA.port, clientRA.channel);
+            ListenClient(ClientRA.port, ClientRA.channel);
 
             try
             {
-                ConnectToServer(serverRA.ToString(), Username, clientRA.ToString());
+                ConnectToServer(ServerRA.ToString(), Username, ClientRA.ToString());
             } catch (Exception e)
             {
                 MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -74,7 +74,7 @@ namespace MSDAD_CLI
                 //parser.ExecCommands();
             }
 
-            server.ClientSaysHelloToServer(clientRA.port);
+            server.ClientSaysHelloToServer(ClientRA.port);
 
             Application.Run(clientFormUtilities.mainForm);
         }
