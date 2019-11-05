@@ -108,6 +108,7 @@ namespace PCS
         {
             Process proc = new Process();
             proc.StartInfo.FileName = path;
+            proc.StartInfo.WorkingDirectory = new FileInfo(path).Directory.FullName;
             proc.StartInfo.Arguments = args;
             proc.StartInfo.UseShellExecute = true;
             proc.StartInfo.RedirectStandardError = false;

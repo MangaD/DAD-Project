@@ -40,9 +40,6 @@ namespace MSDAD_CLI
             Username = args[0];
             RemotingAddress clientRA = RemotingAddress.FromString(args[1]);
             RemotingAddress serverRA = RemotingAddress.FromString(args[2]);
-            string scriptFilename = args[3];
-
-            MessageBox.Show(scriptFilename);
 
             ListenClient(clientRA.port, clientRA.channel);
 
@@ -56,21 +53,27 @@ namespace MSDAD_CLI
                 Environment.Exit(0);
             }
 
-            Parser parser = new Parser(scriptFilename);
-            try
+            if (args.Length > 3)
             {
-                parser.Parse();
-            } catch (ParserException pe)
-            {
-                MessageBox.Show(pe.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Utilities.WriteError(pe.Message);
-                Console.ReadKey();
-                Environment.Exit(0);
+                string scriptFilename = args[3];
+
+                Parser parser = new Parser(scriptFilename);
+                try
+                {
+                    parser.Parse();
+                }
+                catch (ParserException pe)
+                {
+                    MessageBox.Show(pe.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Utilities.WriteError(pe.Message);
+                    Console.ReadKey();
+                    Environment.Exit(0);
+                }
+
+                //parser.ExecCommands();
             }
 
             server.ClientSaysHelloToServer(clientRA.port);
-
-            //parser.ExecCommands();
 
             Application.Run(clientFormUtilities.mainForm);
         }
