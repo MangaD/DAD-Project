@@ -30,7 +30,7 @@ namespace MSDAD_CLI
 
             if (args.Length < 3 || args.Length > 4)
             {
-                string error = "This program must take at least 2 arguments. " +
+                string error = "This program must take at least 3 arguments. " +
                     "client name, client remoting address, and server remoting address. " +
                     "Optionally a 4th argument - script filename.";
                 Utilities.WriteError(error);
