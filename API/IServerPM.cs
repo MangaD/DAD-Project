@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace API
+﻿namespace API
 {
     //PuppetMaster must invoke methods to Servers here
-    interface IServerPM
+    public interface IServerPM
     {
+        void AddRoom(string location, uint capacity, string roomName);
+        string SystemStatus();
+        void Crash();
+        void Freeze();
+        void Unfreeze();
     }
 }
