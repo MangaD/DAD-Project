@@ -24,14 +24,12 @@ namespace MSDAD_CLI
 
         private void ListMeetingsForm_Load(object sender, EventArgs e)
         {
-            List<string> TopicsList = Client.server.ListMeetings(Client.ClientRA.ToString());
+            List<string> TopicsList = Client.server.ListMeetings(Client.Username);
 
-            ListViewItem lvi;
             foreach (string topic in TopicsList)
             {
-                lvi = new ListViewItem(topic);
                 MessageBox.Show(topic);
-                ListMeetingsLv.Items.Add(lvi);
+                ListMeetingsLv.Items.Add(new ListViewItem(topic));
             }
         }
     }

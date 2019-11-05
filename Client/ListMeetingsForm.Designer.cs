@@ -32,8 +32,7 @@ namespace MSDAD_CLI
         {
             this.goToBackButton = new System.Windows.Forms.Button();
             this.ListMeetingsLv = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.MeetingsLb = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // goToBackButton
@@ -48,34 +47,31 @@ namespace MSDAD_CLI
             // 
             // ListMeetingsLv
             // 
-            this.ListMeetingsLv.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2});
             this.ListMeetingsLv.FullRowSelect = true;
             this.ListMeetingsLv.GridLines = true;
             this.ListMeetingsLv.HideSelection = false;
-            this.ListMeetingsLv.Location = new System.Drawing.Point(50, 80);
+            this.ListMeetingsLv.Location = new System.Drawing.Point(58, 119);
             this.ListMeetingsLv.Name = "ListMeetingsLv";
             this.ListMeetingsLv.Size = new System.Drawing.Size(332, 181);
             this.ListMeetingsLv.TabIndex = 5;
             this.ListMeetingsLv.UseCompatibleStateImageBehavior = false;
-            this.ListMeetingsLv.View = System.Windows.Forms.View.Details;
+            this.ListMeetingsLv.View = System.Windows.Forms.View.List;
             // 
-            // columnHeader1
+            // MeetingsLb
             // 
-            this.columnHeader1.Text = "Topic";
-            this.columnHeader1.Width = 114;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Min Participants";
-            this.columnHeader2.Width = 109;
+            this.MeetingsLb.AutoSize = true;
+            this.MeetingsLb.Location = new System.Drawing.Point(179, 89);
+            this.MeetingsLb.Name = "MeetingsLb";
+            this.MeetingsLb.Size = new System.Drawing.Size(69, 17);
+            this.MeetingsLb.TabIndex = 6;
+            this.MeetingsLb.Text = "Meetings:";
             // 
             // ListMeetingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(463, 450);
+            this.Controls.Add(this.MeetingsLb);
             this.Controls.Add(this.ListMeetingsLv);
             this.Controls.Add(this.goToBackButton);
             this.DoubleBuffered = true;
@@ -85,6 +81,7 @@ namespace MSDAD_CLI
             this.Text = "List Meetings";
             this.Load += new System.EventHandler(this.ListMeetingsForm_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -92,7 +89,6 @@ namespace MSDAD_CLI
 
         private System.Windows.Forms.Button goToBackButton;
         private System.Windows.Forms.ListView ListMeetingsLv;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.Label MeetingsLb;
     }
 }
