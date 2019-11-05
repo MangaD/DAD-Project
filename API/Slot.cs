@@ -33,5 +33,41 @@ namespace API
         {
             return location + "," + date.ToString("yyyy-MM-dd");
         }
+
+        public static bool operator ==(Slot lhs, Slot rhs)
+        {
+            return lhs.location == rhs.location && lhs.date == rhs.date;
+        }
+        public static bool operator !=(Slot lhs, Slot rhs)
+        {
+            return lhs.location != rhs.location || lhs.date != rhs.date;
+        }
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Slot))
+            {
+                return false;
+            }
+
+            Slot ra = (Slot)obj;
+
+            return this.location.Equals(ra.location) && this.date.Equals(ra.date);
+        }
+
+        // https://www.loganfranken.com/blog/692/overriding-equals-in-c-part-2/
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                // Choose large primes to avoid hashing collisions
+                const int HashingBase = (int)2166136261;
+                const int HashingMultiplier = 16777619;
+
+                int hash = HashingBase;
+                hash = (hash * HashingMultiplier) ^ (!Object.ReferenceEquals(null, location) ? location.GetHashCode() : 0);
+                hash = (hash * HashingMultiplier) ^ (!Object.ReferenceEquals(null, date) ? date.GetHashCode() : 0);
+                return hash;
+            }
+        }
     }
 }
