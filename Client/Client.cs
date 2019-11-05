@@ -32,7 +32,7 @@ namespace MSDAD_CLI
             {
                 string error = "This program must take at least 3 arguments. " +
                     "client name, client remoting address, and server remoting address. " +
-                    "Optionally a 4th argument - script filename.";
+                    "Optionally a 4th argument, the script filename.";
                 Utilities.WriteError(error);
                 MessageBox.Show(error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
