@@ -32,7 +32,7 @@ namespace Server
         {
             foreach (MeetingProposal mp in Server.meetingPropList)
             {
-                if (mp.Topic == topic && mp.Invitees == null && mp.State == 0)
+                if (mp.Topic == topic && mp.Invitees.Count == 0 && mp.State == 0)
                 {
                     mp.JoinClientToMeeting(clientName, clientRA, n_slots, locationDates);
                     return true;
@@ -57,7 +57,7 @@ namespace Server
             List<string> meetingsTopic = new List<string>();
             foreach (MeetingProposal mp in Server.meetingPropList)
             {
-                if (mp.Invitees == null && mp.State == 0)
+                if (mp.Invitees.Count == 0 && mp.State == 0)
                 {
                     meetingsTopic.Add(mp.Topic);
                 }
