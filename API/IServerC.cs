@@ -15,6 +15,8 @@ namespace API
 
         //Used to list Usernames to Invitee
         List<string> GetClientsUsername();
+        //Used to client choose a location 
+        List<string> GetLocations();
 
         //Metodos de Teste
         void ClientSaysHelloToServer(UInt16 clientPort);

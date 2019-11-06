@@ -19,6 +19,7 @@ namespace MSDAD_CLI
 
         private void goToCreateMeetingButton_Click(object sender, EventArgs e)
         {
+            Client.clientFormUtilities.createMeetingForm.FillLocationsAndUsers();
             ClientFormUtilities.switchForm(this, Client.clientFormUtilities.createMeetingForm);
         }
 

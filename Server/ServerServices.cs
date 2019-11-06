@@ -106,6 +106,16 @@ namespace Server
             return usernamesList;
         }
 
+        public List<string> GetLocations()
+        {
+            List<string> loc = new List<string>();
+            foreach(string s in Server.locationRooms.Keys)
+            {
+                loc.Add(s);
+            }
+            return loc;
+        }
+
         public void ClientSaysHelloToServer(UInt16 clientPort)
         {
             //Find client in client list

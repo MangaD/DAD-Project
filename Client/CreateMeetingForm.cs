@@ -20,6 +20,7 @@ namespace MSDAD_CLI
         }
         private void goToBackButton_Click(object sender, EventArgs e)
         {
+            ClientFormUtilities.ResetAllControls(this);
             ClientFormUtilities.switchForm(this, Client.clientFormUtilities.mainForm);
         }
 
@@ -45,24 +46,14 @@ namespace MSDAD_CLI
 
         private void AddSlotBtn_Click(object sender, EventArgs e)
         {
-            DateTime date = DateDTP.Value.Date;
-            string location = LocationTB.Text;
-
             ListViewItem lvi = new ListViewItem(DateDTP.Text);
-            lvi.SubItems.Add(LocationTB.Text);
+            lvi.SubItems.Add(LocationLBox.SelectedItem.ToString());
             SlotsLv.Items.Add(lvi);
         }
 
         private void CreateMeetingForm_Load(object sender, EventArgs e)
         {
-            List<string> usernamesList = Client.server.GetClientsUsername();
-            foreach(string user in usernamesList)
-            {
-                if (user != Client.Username)
-                {
-                    InviteesLBox.Items.Add(user);
-                }
-            }
+         
         }
 
         private void InviteUserBtn_Click(object sender, EventArgs e)
@@ -75,6 +66,27 @@ namespace MSDAD_CLI
                 MessageBox.Show("Selecione um User!");
             }
             
+        }
+
+        public void FillLocationsAndUsers()
+        {
+            InviteesLBox.Items.Clear();
+            LocationLBox.Items.Clear();
+
+            List<string> usernamesList = Client.server.GetClientsUsername();
+            foreach (string user in usernamesList)
+            {
+                if (user != Client.Username)
+                {
+                    InviteesLBox.Items.Add(user);
+                }
+            }
+
+            List<string> locationsList = Client.server.GetLocations();
+            foreach (string location in locationsList)
+            {
+                LocationLBox.Items.Add(location);
+            }
         }
     }
 }

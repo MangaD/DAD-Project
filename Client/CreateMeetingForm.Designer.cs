@@ -35,7 +35,6 @@
             this.TopicTb = new System.Windows.Forms.TextBox();
             this.MinPartLb = new System.Windows.Forms.Label();
             this.DateDTP = new System.Windows.Forms.DateTimePicker();
-            this.LocationTB = new System.Windows.Forms.TextBox();
             this.DateLb = new System.Windows.Forms.Label();
             this.LocationLb = new System.Windows.Forms.Label();
             this.SlotsLv = new System.Windows.Forms.ListView();
@@ -47,6 +46,7 @@
             this.InviteesLBox = new System.Windows.Forms.ListBox();
             this.InviteesLv = new System.Windows.Forms.ListView();
             this.InviteUserBtn = new System.Windows.Forms.Button();
+            this.LocationLBox = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.MinPartNud)).BeginInit();
             this.SuspendLayout();
             // 
@@ -111,13 +111,6 @@
             this.DateDTP.Size = new System.Drawing.Size(130, 22);
             this.DateDTP.TabIndex = 10;
             // 
-            // LocationTB
-            // 
-            this.LocationTB.Location = new System.Drawing.Point(112, 138);
-            this.LocationTB.Name = "LocationTB";
-            this.LocationTB.Size = new System.Drawing.Size(130, 22);
-            this.LocationTB.TabIndex = 11;
-            // 
             // DateLb
             // 
             this.DateLb.AutoSize = true;
@@ -161,9 +154,9 @@
             // 
             // AddSlotBtn
             // 
-            this.AddSlotBtn.Location = new System.Drawing.Point(112, 172);
+            this.AddSlotBtn.Location = new System.Drawing.Point(38, 161);
             this.AddSlotBtn.Name = "AddSlotBtn";
-            this.AddSlotBtn.Size = new System.Drawing.Size(130, 35);
+            this.AddSlotBtn.Size = new System.Drawing.Size(67, 46);
             this.AddSlotBtn.TabIndex = 15;
             this.AddSlotBtn.Text = "Add Slot";
             this.AddSlotBtn.UseVisualStyleBackColor = true;
@@ -216,11 +209,21 @@
             this.InviteUserBtn.UseVisualStyleBackColor = true;
             this.InviteUserBtn.Click += new System.EventHandler(this.InviteUserBtn_Click);
             // 
+            // LocationLBox
+            // 
+            this.LocationLBox.FormattingEnabled = true;
+            this.LocationLBox.ItemHeight = 16;
+            this.LocationLBox.Location = new System.Drawing.Point(111, 123);
+            this.LocationLBox.Name = "LocationLBox";
+            this.LocationLBox.Size = new System.Drawing.Size(131, 84);
+            this.LocationLBox.TabIndex = 21;
+            // 
             // CreateMeetingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(551, 450);
+            this.Controls.Add(this.LocationLBox);
             this.Controls.Add(this.InviteUserBtn);
             this.Controls.Add(this.InviteesLv);
             this.Controls.Add(this.InviteesLBox);
@@ -230,7 +233,6 @@
             this.Controls.Add(this.SlotsLv);
             this.Controls.Add(this.LocationLb);
             this.Controls.Add(this.DateLb);
-            this.Controls.Add(this.LocationTB);
             this.Controls.Add(this.DateDTP);
             this.Controls.Add(this.MinPartLb);
             this.Controls.Add(this.TopicTb);
@@ -259,7 +261,6 @@
         private System.Windows.Forms.TextBox TopicTb;
         private System.Windows.Forms.Label MinPartLb;
         private System.Windows.Forms.DateTimePicker DateDTP;
-        private System.Windows.Forms.TextBox LocationTB;
         private System.Windows.Forms.Label DateLb;
         private System.Windows.Forms.Label LocationLb;
         private System.Windows.Forms.ListView SlotsLv;
@@ -271,5 +272,6 @@
         private System.Windows.Forms.ListBox InviteesLBox;
         private System.Windows.Forms.ListView InviteesLv;
         private System.Windows.Forms.Button InviteUserBtn;
+        private System.Windows.Forms.ListBox LocationLBox;
     }
 }
