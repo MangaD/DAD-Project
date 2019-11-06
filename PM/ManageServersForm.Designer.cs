@@ -245,7 +245,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ManageServersForm";
             this.Text = "Puppet Master";
-            this.Shown += new System.EventHandler(this.ManageServersForm_Shown);
+            this.VisibleChanged += new System.EventHandler(this.ManageServersForm_VisibleChanged);
             ((System.ComponentModel.ISupportInitialize)(this.capacityNUD)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

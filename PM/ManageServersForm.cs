@@ -144,7 +144,7 @@ namespace PM
             MessageBox.Show($"Room '{name}' for {location} has been created.");
         }
 
-        private void ManageServersForm_Shown(object sender, EventArgs e)
+        private void ManageServersForm_VisibleChanged(object sender, EventArgs e)
         {
             if (Program.serverList.Count > 0)
             {
