@@ -8,7 +8,7 @@ namespace Server
     {
         public void AddRoom(string location, uint capacity, string roomName)
         {
-            throw new NotImplementedException();
+            Server.AddRoom(location, capacity, roomName);
         }
 
         public string SystemStatus()
@@ -18,17 +18,17 @@ namespace Server
 
         public void Crash()
         {
-            throw new NotImplementedException();
+            Environment.Exit(0);
         }
 
         public void Freeze()
         {
-            throw new NotImplementedException();
+            Server.freezeHandle.Reset();
         }
 
         public void Unfreeze()
         {
-            throw new NotImplementedException();
+            Server.freezeHandle.Set();
         }
     }
 }

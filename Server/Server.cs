@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
@@ -9,18 +10,6 @@ using API;
 namespace Server
 {
 
-    class Room
-    {
-        public Room(string name, int capacity)
-        {
-            Name = name;
-            Capacity = capacity;
-        }
-
-        public string Name { get; set; }
-        public int Capacity { get; set; }
-    }
-
     static class Server
     {
         public static List<MeetingProposal> meetingPropList = new List<MeetingProposal>();
@@ -29,6 +18,8 @@ namespace Server
 
         public static TcpChannel servChannel;
         public static RemotingAddress serverRA;
+
+        public static readonly EventWaitHandle freezeHandle = new EventWaitHandle(true, EventResetMode.ManualReset);
 
         static void Main(string[] args)
         {
@@ -66,6 +57,18 @@ namespace Server
                 serverRA.channel, WellKnownObjectMode.Singleton);
         }
 
+        public static void AddRoom(string location, uint capacity, string roomName)
+        {
+            if (!locationRooms.ContainsKey(location))
+            {
+                throw new ApplicationException($"Location '{location}' does not exist.");
+            }
+
+            locationRooms[location].Add(new Room(roomName, capacity));
+
+            Console.WriteLine($"Room '{roomName}' with capacity of {capacity} added to location '{location}'.");
+        }
+
         public static void GenerateLocationRooms()
         {
             List<Room> LisboaRooms = new List<Room>();
@@ -75,27 +78,27 @@ namespace Server
             locationRooms.Add("Lisboa", LisboaRooms);
 
             List<Room> PortoRooms = new List<Room>();
-            LisboaRooms.Add(new Room("D", 9));
-            LisboaRooms.Add(new Room("E", 10));
-            LisboaRooms.Add(new Room("F", 15));
+            PortoRooms.Add(new Room("D", 9));
+            PortoRooms.Add(new Room("E", 10));
+            PortoRooms.Add(new Room("F", 15));
             locationRooms.Add("Porto", PortoRooms);
 
             List<Room> LeiriaRooms = new List<Room>();
-            LisboaRooms.Add(new Room("G", 20));
-            LisboaRooms.Add(new Room("H", 25));
-            LisboaRooms.Add(new Room("I", 5));
+            LeiriaRooms.Add(new Room("G", 20));
+            LeiriaRooms.Add(new Room("H", 25));
+            LeiriaRooms.Add(new Room("I", 5));
             locationRooms.Add("Leiria", LeiriaRooms);
 
             List<Room> CoimbraRooms = new List<Room>();
-            LisboaRooms.Add(new Room("J", 12));
-            LisboaRooms.Add(new Room("K", 7));
-            LisboaRooms.Add(new Room("L", 5));
+            CoimbraRooms.Add(new Room("J", 12));
+            CoimbraRooms.Add(new Room("K", 7));
+            CoimbraRooms.Add(new Room("L", 5));
             locationRooms.Add("Coimbra", CoimbraRooms);
 
             List<Room> AveiroRooms = new List<Room>();
-            LisboaRooms.Add(new Room("M", 22));
-            LisboaRooms.Add(new Room("N", 17));
-            LisboaRooms.Add(new Room("O", 15));
+            AveiroRooms.Add(new Room("M", 22));
+            AveiroRooms.Add(new Room("N", 17));
+            AveiroRooms.Add(new Room("O", 15));
             locationRooms.Add("Aveiro", AveiroRooms);
         }
     }

@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using API;
@@ -61,9 +55,9 @@ namespace MSDAD_CLI
             try
             { 
                 InviteesLv.Items.Add(InviteesLBox.SelectedItem.ToString());
-            } catch(NullReferenceException ex)
+            } catch(NullReferenceException)
             {
-                MessageBox.Show("Selecione um User!");
+                MessageBox.Show("Must select a user.");
             }
             
         }

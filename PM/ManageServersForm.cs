@@ -95,5 +95,52 @@ namespace PM
 
             MessageBox.Show($"Server '{serverID}' has been crashed.");
         }
+
+        private void addRoomBtn_Click(object sender, EventArgs e)
+        {
+            if (serverListBox.SelectedItem == null || serverListBox.SelectedItem.ToString() == "")
+            {
+                MessageBox.Show("Must select a server from the list.");
+                return;
+            }
+
+            string serverID = serverListBox.SelectedItem.ToString();
+
+            if (nameTb.Text == "")
+            {
+                MessageBox.Show("Room name cannot be empty.");
+                return;
+            }
+
+            if (locationTb.Text == "")
+            {
+                MessageBox.Show("Room location cannot be empty.");
+                return;
+            }
+
+            if (capacityNUD.Value < 1)
+            {
+                MessageBox.Show("Room capacity must be bigger than 0.");
+                return;
+            }
+
+            string name = nameTb.Text;
+            string location = locationTb.Text;
+            uint capacity = Convert.ToUInt32(capacityNUD.Value);
+
+            IServerPM server = Program.GetServer(serverID);
+
+            try
+            {
+                server.AddRoom(location, capacity, name);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            MessageBox.Show($"Room '{name}' for {location} has been created.");
+        }
     }
 }

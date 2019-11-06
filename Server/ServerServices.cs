@@ -10,6 +10,8 @@ namespace Server
     {
         public bool CloseMeeting(string topic, string coordinatorURL)
         {
+            Server.freezeHandle.WaitOne(); // For Freeze command
+
             foreach (MeetingProposal mp in Server.meetingPropList)
             {
                 if (mp.Topic == topic && mp.CoodinatorURL == coordinatorURL && mp.State == 0)
@@ -23,13 +25,17 @@ namespace Server
 
         public void CreateMeeting(string coordinatorUser, string coordinatorURL, string topic, uint minAttendees, List<Slot> slots, List<string> invitees)
         {
+            Server.freezeHandle.WaitOne(); // For Freeze command
+
             Server.meetingPropList.Add(new MeetingProposal(coordinatorUser, coordinatorURL, topic, minAttendees, slots, invitees));
 
-            Console.WriteLine("[Server] Criei a Meeting: " + topic + " CoordinatorURL: " + coordinatorURL);
+            Console.WriteLine("[Server] Created meeting: " + topic + " CoordinatorURL: " + coordinatorURL);
         }
 
         public bool JoinMeeting(string topic, string clientName, string clientRA, int n_slots, List<Slot> locationDates)
         {
+            Server.freezeHandle.WaitOne(); // For Freeze command
+
             foreach (MeetingProposal mp in Server.meetingPropList)
             {
                 if (mp.Topic == topic && mp.Invitees.Count == 0 && mp.State == 0)
@@ -54,6 +60,8 @@ namespace Server
 
         public List<MeetingProposal> ListMeetings(string clientName)
         {
+            Server.freezeHandle.WaitOne(); // For Freeze command
+
             List<MeetingProposal> meetings = new List<MeetingProposal>();
             foreach (MeetingProposal mp in Server.meetingPropList)
             {
@@ -85,6 +93,8 @@ namespace Server
 
         public List<string> RegisterClient(string clientName, string clientRA)
         {
+            Server.freezeHandle.WaitOne(); // For Freeze command
+
             IClient newClientChannel =
                 (IClient)Activator.GetObject(
                     typeof(IClient), clientRA);
@@ -98,6 +108,8 @@ namespace Server
 
         public List<string> GetClientsUsername()
         {
+            Server.freezeHandle.WaitOne(); // For Freeze command
+
             List<string> usernamesList = new List<string>();
             foreach(Client client in Server.clients)
             {
@@ -108,6 +120,8 @@ namespace Server
 
         public List<string> GetLocations()
         {
+            Server.freezeHandle.WaitOne(); // For Freeze command
+
             List<string> loc = new List<string>();
             foreach(string s in Server.locationRooms.Keys)
             {
@@ -118,6 +132,8 @@ namespace Server
 
         public void ClientSaysHelloToServer(UInt16 clientPort)
         {
+            Server.freezeHandle.WaitOne(); // For Freeze command
+
             //Find client in client list
             Client client = Server.clients.First(item => item.ClientRA.port == clientPort);
 

@@ -262,7 +262,22 @@ namespace PM
                 }
                 else if (command[0].Equals("AddRoom", StringComparison.OrdinalIgnoreCase))
                 {
-                    //TODO
+                    if (Program.serverList.Count == 0)
+                    {
+                        MessageBox.Show($"Cannot add room '{command[3]}' because there are no servers running.",
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    try
+                    {
+                        Program.serverList[0].Item3.AddRoom(command[1], Convert.ToUInt32(command[2]), command[3]);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
                 }
 
                 foreach (string s in command)
