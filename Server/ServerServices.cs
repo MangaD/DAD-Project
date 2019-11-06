@@ -4,7 +4,7 @@ using System.Linq;
 
 using API;
 
-namespace Server
+namespace API
 {
     partial class ServerServices : MarshalByRefObject, IServerC
     {
@@ -52,14 +52,14 @@ namespace Server
             return false;
         }
 
-        public List<string> ListMeetings(string clientName)
+        public List<MeetingProposal> ListMeetings(string clientName)
         {
-            List<string> meetingsTopic = new List<string>();
+            List<MeetingProposal> meetings = new List<MeetingProposal>();
             foreach (MeetingProposal mp in Server.meetingPropList)
             {
                 if (mp.Invitees.Count == 0 && mp.State == 0)
                 {
-                    meetingsTopic.Add(mp.Topic);
+                    meetings.Add(mp);
                 }
                 else
                 {
@@ -67,18 +67,18 @@ namespace Server
                     {
                         if (inv == clientName && mp.State == 0)
                         {
-                            meetingsTopic.Add(mp.Topic);
+                            meetings.Add(mp);
                         }
                     }
                 }
             }
 
-            foreach(string meeting in meetingsTopic)
+            foreach(MeetingProposal meeting in meetings)
             {
-                Console.WriteLine("Meeting: " + meeting);
+                Console.WriteLine("Meeting: " + meeting.Topic);
             }
 
-            return meetingsTopic;
+            return meetings;
         }
 
         public List<string> RegisterClient(string clientName, string clientRA)
