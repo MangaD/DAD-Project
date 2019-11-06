@@ -95,6 +95,7 @@
             this.freezeBtn.TabIndex = 11;
             this.freezeBtn.Text = "Freeze";
             this.freezeBtn.UseVisualStyleBackColor = false;
+            this.freezeBtn.Click += new System.EventHandler(this.freezeBtn_Click);
             // 
             // unfreezeBtn
             // 
@@ -107,6 +108,7 @@
             this.unfreezeBtn.TabIndex = 12;
             this.unfreezeBtn.Text = "Unfreeze";
             this.unfreezeBtn.UseVisualStyleBackColor = false;
+            this.unfreezeBtn.Click += new System.EventHandler(this.unfreezeBtn_Click);
             // 
             // crashBtn
             // 
@@ -120,6 +122,7 @@
             this.crashBtn.TabIndex = 13;
             this.crashBtn.Text = "Crash";
             this.crashBtn.UseVisualStyleBackColor = false;
+            this.crashBtn.Click += new System.EventHandler(this.crashBtn_Click);
             // 
             // ManageServersForm
             // 

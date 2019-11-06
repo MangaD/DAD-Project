@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace PM
@@ -15,7 +16,7 @@ namespace PM
         private void loadScriptLbl_Click(object sender, EventArgs e)
         {
             openScriptDialog.ShowDialog();
-            if (openScriptDialog.FileName != "")
+            if (openScriptDialog.FileName != "" && File.Exists(openScriptDialog.FileName))
             {
                 Parser p = new Parser(openScriptDialog.FileName);
                 p.Parse();

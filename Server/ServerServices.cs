@@ -6,7 +6,7 @@ using API;
 
 namespace Server
 {
-    partial class ServerServicesC : MarshalByRefObject, IServerC
+    partial class ServerServices : MarshalByRefObject, IServerC
     {
         public bool CloseMeeting(string topic, string coordinatorURL)
         {

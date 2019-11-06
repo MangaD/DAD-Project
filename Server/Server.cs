@@ -47,7 +47,7 @@ namespace Server
             ChannelServices.RegisterChannel(servChannel, false);
             //ServerServices servObj = new ServerServices(this);
             //RemotingServices.Marshal(servObj, serverRA.channel, typeof(ServerServices));
-            RemotingConfiguration.RegisterWellKnownServiceType(typeof(ServerServicesC),
+            RemotingConfiguration.RegisterWellKnownServiceType(typeof(ServerServices),
                 serverRA.channel, WellKnownObjectMode.Singleton);
         }
     }

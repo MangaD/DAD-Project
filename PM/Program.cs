@@ -25,7 +25,7 @@ namespace PM
         private static string PCSChannel = "MSPCS";
         private static UInt16 PCSPort = 10000;
 
-        public static List<Tuple<RemotingAddress, IServerPM>> serverList;
+        public static List<Tuple<string, RemotingAddress, IServerPM>> serverList;
 
         /**
          * Form stuff
@@ -45,7 +45,7 @@ namespace PM
             formUtilities = new FormUtilities();
 
             PCSList = new List<Tuple<RemotingAddress, IPCS>>();
-            serverList = new List<Tuple<RemotingAddress, IServerPM>>();
+            serverList = new List<Tuple<string, RemotingAddress, IServerPM>>();
 
             Application.Run(formUtilities.mainForm);
         }
@@ -53,6 +53,11 @@ namespace PM
         public static void CreateServer(string serverID, RemotingAddress serverRA,
             uint maxFaults, uint minDelay, uint maxDelay)
         {
+            if (serverList.Exists(x => x.Item1 == serverID))
+            {
+                throw new ApplicationException($"Server with ID '{serverID}' already exists.");
+            }
+
             RemotingAddress pcsRA = new RemotingAddress(serverRA.address, PCSPort, PCSChannel);
 
             IPCS pcs = GetPCS(pcsRA);
@@ -99,20 +104,35 @@ namespace PM
 
         private static IServerPM ConnectToServer(string serverID, RemotingAddress serverRA)
         {
-            if (!serverList.Exists(x => x.Item1 == serverRA))
+            if (!serverList.Exists(x => x.Item2 == serverRA))
             {
+                if (serverList.Exists(x => x.Item1 == serverID))
+                {
+                    throw new ApplicationException($"Server with ID '{serverID}' already exists.");
+                }
+
                 IServerPM server = (IServerPM)Activator.GetObject(typeof(IServerPM), serverRA.ToString());
                 if (server == null)
                 {
                     throw new ApplicationException("Could not locate Server: " + serverRA.ToString());
                 }
-                serverList.Add(new Tuple<RemotingAddress, IServerPM>(serverRA, server));
+                serverList.Add(new Tuple<string, RemotingAddress, IServerPM>(serverID, serverRA, server));
                 return server;
             }
             else
             {
                 throw new ApplicationException("Already connected to server: " + serverRA.ToString());
             }
+        }
+
+        public static IServerPM GetServer(string serverID)
+        {
+            return serverList.Find(x => x.Item1 == serverID).Item3;
+        }
+
+        public static IServerPM GetServer(RemotingAddress serverRA)
+        {
+            return serverList.Find(x => x.Item2 == serverRA).Item3;
         }
     }
 }

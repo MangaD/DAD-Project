@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
-
+using System.Windows.Forms;
 using API;
 
 namespace PM
@@ -182,15 +182,45 @@ namespace PM
             {
                 if (command[0].Equals("crash", StringComparison.OrdinalIgnoreCase))
                 {
-                    // TODO
+                    IServerPM server = Program.GetServer(command[1]);
+
+                    try
+                    {
+                        server.Crash();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
                 }
                 else if (command[0].Equals("freeze", StringComparison.OrdinalIgnoreCase))
                 {
-                    // TODO
+                    IServerPM server = Program.GetServer(command[1]);
+
+                    try
+                    {
+                        server.Freeze();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
                 }
                 else if (command[0].Equals("unfreeze", StringComparison.OrdinalIgnoreCase))
                 {
-                    // TODO
+                    IServerPM server = Program.GetServer(command[1]);
+
+                    try
+                    {
+                        server.Unfreeze();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
                 }
                 else if (command[0].Equals("wait", StringComparison.OrdinalIgnoreCase))
                 {
@@ -202,13 +232,33 @@ namespace PM
                 }
                 else if (command[0].Equals("server", StringComparison.OrdinalIgnoreCase))
                 {
-                    Program.CreateServer(command[1], RemotingAddress.FromString(command[2]),
-                        Convert.ToUInt32(command[3]), Convert.ToUInt32(command[4]), Convert.ToUInt32(command[5]));
+                    try
+                    {
+                        Program.CreateServer(command[1], RemotingAddress.FromString(command[2]),
+                            Convert.ToUInt32(command[3]), Convert.ToUInt32(command[4]), Convert.ToUInt32(command[5]));
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error creating server: {ex.Message}",
+                            "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
                 }
                 else if (command[0].Equals("client", StringComparison.OrdinalIgnoreCase))
                 {
-                    Program.CreateClient(command[1], RemotingAddress.FromString(command[2]),
-                        RemotingAddress.FromString(command[3]), command[4]);
+                    try
+                    {
+                        Program.CreateClient(command[1], RemotingAddress.FromString(command[2]),
+                            RemotingAddress.FromString(command[3]), command[4]);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error creating client: {ex.Message}",
+                            "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
                 }
                 else if (command[0].Equals("AddRoom", StringComparison.OrdinalIgnoreCase))
                 {
