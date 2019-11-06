@@ -7,7 +7,7 @@ namespace API
     public interface IServerC
     {
         List<string> RegisterClient(string clientName, string clientRA);
-        List<string> ListMeetings(string clientName);
+        List<MeetingProposal> ListMeetings(string clientName);
         void CreateMeeting(string coordinatorURL, string topic, uint minAttendees,
             List<Slot> slots, List<string> invitees);
         bool JoinMeeting(string topic, string clientName, string clientRA, int n_slots, List<Slot> locationDates);

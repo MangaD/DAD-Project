@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using API;
+
 namespace MSDAD_CLI
 {
     public partial class ListMeetingsForm : Form
@@ -24,12 +26,12 @@ namespace MSDAD_CLI
 
         private void ListMeetingsForm_Load(object sender, EventArgs e)
         {
-            List<string> TopicsList = Client.server.ListMeetings(Client.Username);
+            List<MeetingProposal> MeetingsList = Client.server.ListMeetings(Client.Username);
 
-            foreach (string topic in TopicsList)
+            foreach (MeetingProposal mp in MeetingsList)
             {
-                MessageBox.Show(topic);
-                ListMeetingsLv.Items.Add(new ListViewItem(topic));
+                MessageBox.Show(mp.Topic);
+                ListMeetingsLv.Items.Add(new ListViewItem(mp.Topic));
             }
         }
     }
