@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 using API;
 
 namespace Server
@@ -29,6 +29,16 @@ namespace Server
         public void Unfreeze()
         {
             Server.freezeHandle.Set();
+        }
+
+        public List<string> GetLocationsPM()
+        {
+            List<string> loc = new List<string>();
+            foreach (string s in Server.locationRooms.Keys)
+            {
+                loc.Add(s);
+            }
+            return loc;
         }
     }
 }

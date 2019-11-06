@@ -1,4 +1,6 @@
-﻿namespace API
+﻿using System.Collections.Generic;
+
+namespace API
 {
     //PuppetMaster must invoke methods to Servers here
     public interface IServerPM
@@ -8,5 +10,7 @@
         void Crash();
         void Freeze();
         void Unfreeze();
+
+        List<string> GetLocationsPM();
     }
 }

@@ -19,6 +19,10 @@ namespace Server
         public static TcpChannel servChannel;
         public static RemotingAddress serverRA;
 
+        /**
+         * https://stackoverflow.com/questions/29089417/c-sharp-wait-until-condition-is-true
+         * https://www.c-sharpcorner.com/article/thread-synchronization-signaling-constructs-with-eventwaithandle-in-c-sharp/
+         */
         public static readonly EventWaitHandle freezeHandle = new EventWaitHandle(true, EventResetMode.ManualReset);
 
         static void Main(string[] args)

@@ -37,13 +37,13 @@
             this.unfreezeBtn = new System.Windows.Forms.Button();
             this.crashBtn = new System.Windows.Forms.Button();
             this.addRoomLbl = new System.Windows.Forms.Label();
-            this.locationTb = new System.Windows.Forms.TextBox();
             this.locationLbl = new System.Windows.Forms.Label();
             this.capacityLbl = new System.Windows.Forms.Label();
             this.capacityNUD = new System.Windows.Forms.NumericUpDown();
             this.nameLbl = new System.Windows.Forms.Label();
             this.nameTb = new System.Windows.Forms.TextBox();
             this.addRoomBtn = new System.Windows.Forms.Button();
+            this.locationCb = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.capacityNUD)).BeginInit();
             this.SuspendLayout();
             // 
@@ -145,13 +145,6 @@
             this.addRoomLbl.TabIndex = 14;
             this.addRoomLbl.Text = "Add room:";
             // 
-            // locationTb
-            // 
-            this.locationTb.Location = new System.Drawing.Point(213, 191);
-            this.locationTb.Name = "locationTb";
-            this.locationTb.Size = new System.Drawing.Size(122, 20);
-            this.locationTb.TabIndex = 15;
-            // 
             // locationLbl
             // 
             this.locationLbl.AutoSize = true;
@@ -216,6 +209,14 @@
             this.addRoomBtn.UseVisualStyleBackColor = false;
             this.addRoomBtn.Click += new System.EventHandler(this.addRoomBtn_Click);
             // 
+            // locationCb
+            // 
+            this.locationCb.FormattingEnabled = true;
+            this.locationCb.Location = new System.Drawing.Point(213, 191);
+            this.locationCb.Name = "locationCb";
+            this.locationCb.Size = new System.Drawing.Size(122, 21);
+            this.locationCb.TabIndex = 23;
+            // 
             // ManageServersForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -224,13 +225,13 @@
             this.BackgroundImage = global::PM.Properties.Resources.puppetBg;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(347, 366);
+            this.Controls.Add(this.locationCb);
             this.Controls.Add(this.addRoomBtn);
             this.Controls.Add(this.nameLbl);
             this.Controls.Add(this.nameTb);
             this.Controls.Add(this.capacityNUD);
             this.Controls.Add(this.capacityLbl);
             this.Controls.Add(this.locationLbl);
-            this.Controls.Add(this.locationTb);
             this.Controls.Add(this.addRoomLbl);
             this.Controls.Add(this.crashBtn);
             this.Controls.Add(this.unfreezeBtn);
@@ -244,6 +245,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ManageServersForm";
             this.Text = "Puppet Master";
+            this.Shown += new System.EventHandler(this.ManageServersForm_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.capacityNUD)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -260,12 +262,12 @@
         private System.Windows.Forms.Button unfreezeBtn;
         private System.Windows.Forms.Button crashBtn;
         private System.Windows.Forms.Label addRoomLbl;
-        private System.Windows.Forms.TextBox locationTb;
         private System.Windows.Forms.Label locationLbl;
         private System.Windows.Forms.Label capacityLbl;
         private System.Windows.Forms.NumericUpDown capacityNUD;
         private System.Windows.Forms.Label nameLbl;
         private System.Windows.Forms.TextBox nameTb;
         private System.Windows.Forms.Button addRoomBtn;
+        private System.Windows.Forms.ComboBox locationCb;
     }
 }

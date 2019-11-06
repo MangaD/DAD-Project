@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 using API;
@@ -112,7 +113,7 @@ namespace PM
                 return;
             }
 
-            if (locationTb.Text == "")
+            if (locationCb.Text == "")
             {
                 MessageBox.Show("Room location cannot be empty.");
                 return;
@@ -125,7 +126,7 @@ namespace PM
             }
 
             string name = nameTb.Text;
-            string location = locationTb.Text;
+            string location = locationCb.Text;
             uint capacity = Convert.ToUInt32(capacityNUD.Value);
 
             IServerPM server = Program.GetServer(serverID);
@@ -141,6 +142,19 @@ namespace PM
             }
 
             MessageBox.Show($"Room '{name}' for {location} has been created.");
+        }
+
+        private void ManageServersForm_Shown(object sender, EventArgs e)
+        {
+            if (Program.serverList.Count > 0)
+            {
+                List<string> locations = Program.serverList[0].Item3.GetLocationsPM();
+                locationCb.Items.Clear();
+                foreach (string loc in locations)
+                {
+                    locationCb.Items.Add(loc);
+                }
+            }
         }
     }
 }
