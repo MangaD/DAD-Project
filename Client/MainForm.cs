@@ -34,12 +34,18 @@ namespace MSDAD_CLI
 
         private void goToListMeetingsButton_Click(object sender, EventArgs e)
         {
+            Client.clientFormUtilities.listMeetingsForm.FillListView();
             ClientFormUtilities.switchForm(this, Client.clientFormUtilities.listMeetingsForm);
         }
 
         private void goToBackButton_Click(object sender, EventArgs e)
         {
             ClientFormUtilities.switchForm(this, Client.clientFormUtilities.signInForm);
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

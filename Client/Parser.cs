@@ -252,7 +252,7 @@ namespace MSDAD_CLI
                         invitees.Add(command[i]);
                     }
 
-                    Client.server.CreateMeeting(Client.Username, command[1], (uint) minAttendees, slots, invitees);
+                    Client.server.CreateMeeting(Client.Username, Client.ClientRA.ToString(), command[1], (uint) minAttendees, slots, invitees);
                 }
                 else if (command[0].Equals("wait", StringComparison.OrdinalIgnoreCase))
                 {

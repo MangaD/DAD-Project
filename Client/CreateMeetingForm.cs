@@ -20,6 +20,7 @@ namespace MSDAD_CLI
         }
         private void goToBackButton_Click(object sender, EventArgs e)
         {
+            ClientFormUtilities.ResetAllControls(this);
             ClientFormUtilities.switchForm(this, Client.clientFormUtilities.mainForm);
         }
 
@@ -37,7 +38,10 @@ namespace MSDAD_CLI
                 invitees.Add(i.Text);
             }
 
-            Client.server.CreateMeeting(Client.ClientRA.ToString(), TopicTb.Text, Convert.ToUInt16(MinPartNud.Value), slots, invitees);
+            Client.server.CreateMeeting(Client.Username, Client.ClientRA.ToString(), TopicTb.Text, Convert.ToUInt16(MinPartNud.Value), slots, invitees);
+
+            ClientFormUtilities.ResetAllControls(this);
+            ClientFormUtilities.switchForm(this, Client.clientFormUtilities.mainForm);
         }
 
         private void AddSlotBtn_Click(object sender, EventArgs e)
@@ -73,5 +77,7 @@ namespace MSDAD_CLI
             }
             
         }
+
+
     }
 }

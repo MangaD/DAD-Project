@@ -8,7 +8,7 @@ namespace API
     {
         List<string> RegisterClient(string clientName, string clientRA);
         List<MeetingProposal> ListMeetings(string clientName);
-        void CreateMeeting(string coordinatorURL, string topic, uint minAttendees,
+        void CreateMeeting(string coordinatorUser, string coordinatorURL, string topic, uint minAttendees,
             List<Slot> slots, List<string> invitees);
         bool JoinMeeting(string topic, string clientName, string clientRA, int n_slots, List<Slot> locationDates);
         bool CloseMeeting(string topic, string coordinatorURL);

@@ -6,9 +6,10 @@ namespace API
     [Serializable]
     public class MeetingProposal
     {
-        public MeetingProposal(string coordinatorURL, string topic, uint minAttendees, List<Slot> slots, List<string> invitees)
+        public MeetingProposal(string coordinatorUser, string coordinatorURL, string topic, uint minAttendees, List<Slot> slots, List<string> invitees)
         {
-            CoodinatorURL = CoodinatorURL;
+            CoordinatorUsername = coordinatorUser;
+            CoodinatorURL = coordinatorURL;
             Topic = topic;
             MinAttendees = minAttendees;
             Slots = slots;
@@ -17,6 +18,7 @@ namespace API
             State = 0;
         }
 
+        public string CoordinatorUsername { get; set; }
         public string CoodinatorURL { get; set; }
         public string Topic { get; set; }
         public uint MinAttendees { get; set; }

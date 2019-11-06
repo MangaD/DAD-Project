@@ -21,9 +21,9 @@ namespace Server
             return false;
         }
 
-        public void CreateMeeting(string coordinatorURL, string topic, uint minAttendees, List<Slot> slots, List<string> invitees)
+        public void CreateMeeting(string coordinatorUser, string coordinatorURL, string topic, uint minAttendees, List<Slot> slots, List<string> invitees)
         {
-            Server.meetingPropList.Add(new MeetingProposal(coordinatorURL, topic, minAttendees, slots, invitees));
+            Server.meetingPropList.Add(new MeetingProposal(coordinatorUser, coordinatorURL, topic, minAttendees, slots, invitees));
 
             Console.WriteLine("[Server] Criei a Meeting: " + topic + " CoordinatorURL: " + coordinatorURL);
         }
@@ -57,7 +57,9 @@ namespace Server
             List<MeetingProposal> meetings = new List<MeetingProposal>();
             foreach (MeetingProposal mp in Server.meetingPropList)
             {
-                if (mp.Invitees.Count == 0 && mp.State == 0)
+                Console.WriteLine("mp.Invitees.Count = " + mp.Invitees.Count);
+
+                if (mp.Invitees.Count == 0 && mp.State == 0 &&  mp.CoordinatorUsername != clientName)
                 {
                     meetings.Add(mp);
                 }

@@ -26,11 +26,16 @@ namespace MSDAD_CLI
 
         private void ListMeetingsForm_Load(object sender, EventArgs e)
         {
-            List<MeetingProposal> MeetingsList = Client.server.ListMeetings(Client.Username);
+ 
+        }
 
+        public void FillListView(){
+
+            ListMeetingsLv.Items.Clear();
+
+            List<MeetingProposal> MeetingsList = Client.server.ListMeetings(Client.Username);
             foreach (MeetingProposal mp in MeetingsList)
             {
-                MessageBox.Show(mp.Topic);
                 ListMeetingsLv.Items.Add(new ListViewItem(mp.Topic));
             }
         }
