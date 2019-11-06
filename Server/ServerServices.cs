@@ -4,7 +4,7 @@ using System.Linq;
 
 using API;
 
-namespace API
+namespace Server
 {
     partial class ServerServices : MarshalByRefObject, IServerC
     {
