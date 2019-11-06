@@ -28,7 +28,7 @@ See [documentation/FAQ.md](documentation/FAQ.md)
 
 ## Run Instructions
 
-*Note: Service addresses are in the form `tcp://ip:port/channel`*
+*Note: Service addresses (aka. Remoting Address) are in the form `tcp://ip:port/channel`*
 
 ### Puppet Master
 
