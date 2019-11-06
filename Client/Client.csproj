@@ -106,6 +106,9 @@
     <EmbeddedResource Include="CreateMeetingForm.resx">
       <DependentUpon>CreateMeetingForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="JoinMeetingForm.resx">
+      <DependentUpon>JoinMeetingForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ListMeetingsForm.resx">
       <DependentUpon>ListMeetingsForm.cs</DependentUpon>
     </EmbeddedResource>

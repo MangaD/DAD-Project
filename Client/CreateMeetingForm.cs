@@ -20,7 +20,6 @@ namespace MSDAD_CLI
         }
         private void goToBackButton_Click(object sender, EventArgs e)
         {
-            ClientFormUtilities.ResetAllControls(this);
             ClientFormUtilities.switchForm(this, Client.clientFormUtilities.mainForm);
         }
 
@@ -77,7 +76,5 @@ namespace MSDAD_CLI
             }
             
         }
-
-
     }
 }
