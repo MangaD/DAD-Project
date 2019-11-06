@@ -34,7 +34,7 @@ See [documentation/FAQ.md](documentation/FAQ.md)
 
 The Puppet Master is the program we use to start and manage servers and clients. It can also run a script file to automate this task (specification in the assignment). The script file can also contain comments (start with ';'). In order for the PM to work, a PCS must be running on the machine where processes will be created.
 
-**Process Creation Service**
+### Process Creation Service
 
 This process runs on the machines where servers and clients will be launched. It listens on port 10000.
 
