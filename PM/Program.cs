@@ -30,7 +30,7 @@ namespace PM
         /**
          * Form stuff
          */
-        public static FormUtilities formUtilities;
+        public static MainForm mainForm;
 
 
         /// <summary>
@@ -42,12 +42,11 @@ namespace PM
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            formUtilities = new FormUtilities();
-
             PCSList = new List<Tuple<RemotingAddress, IPCS>>();
             serverList = new List<Tuple<string, RemotingAddress, IServerPM>>();
 
-            Application.Run(formUtilities.mainForm);
+            mainForm = new MainForm();
+            Application.Run(mainForm);
         }
 
         public static void CreateServer(string serverID, RemotingAddress serverRA,
@@ -62,11 +61,27 @@ namespace PM
 
             IPCS pcs = GetPCS(pcsRA);
 
-            pcs.StartServer(serverID, serverRA, maxFaults, minDelay, maxDelay);
+            try
+            {
+                pcs.StartServer(serverID, serverRA, maxFaults, minDelay, maxDelay);
+            }
+            catch (System.Net.Sockets.SocketException)
+            {
+                MessageBox.Show($"Connection with PCS on remoting address '{pcsRA.ToString()}' was lost.\n" +
+                    "If the PCS has been restarted you may try again.");
+                Program.RemovePCSFromList(pcsRA);
+                return;
+            }
 
-            ConnectToServer(serverID, serverRA);
+            IServerPM server = ConnectToServer(serverID, serverRA);
 
-            formUtilities.manageServersForm.AddServerToList(serverID);
+            // Fill location list
+            if (serverList.Count == 1)
+            {
+                mainForm.manageServersPage.FillLocationCb(server.GetLocationsPM());
+            }
+
+            mainForm.manageServersPage.AddServerToList(serverID);
         }
 
         public static void CreateClient(string username, RemotingAddress clientRA,
@@ -76,7 +91,17 @@ namespace PM
 
             IPCS pcs = GetPCS(pcsRA);
 
-            pcs.StartClient(username, clientRA, serverRA, scriptFile);
+            try
+            {
+                pcs.StartClient(username, clientRA, serverRA, scriptFile);
+            }
+            catch (System.Net.Sockets.SocketException)
+            {
+                MessageBox.Show($"Connection with PCS on remoting address '{pcsRA.ToString()}' was lost.\n" +
+                    "If the PCS has been restarted you may try again.");
+                Program.RemovePCSFromList(pcsRA);
+                return;
+            }
         }
 
         private static IPCS ConnectToPCS(RemotingAddress PCSRemotingAddress)
@@ -133,6 +158,17 @@ namespace PM
         public static IServerPM GetServer(RemotingAddress serverRA)
         {
             return serverList.Find(x => x.Item2 == serverRA).Item3;
+        }
+
+        public static void RemoveServerFromList(string serverID)
+        {
+            mainForm.manageServersPage.RemoveServerFromList(serverID);
+            serverList.RemoveAll(p => p.Item1 == serverID);
+        }
+
+        private static void RemovePCSFromList(RemotingAddress pcsRA)
+        {
+            PCSList.RemoveAll(p => p.Item1 == pcsRA);
         }
     }
 }

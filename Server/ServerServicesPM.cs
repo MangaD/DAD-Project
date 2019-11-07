@@ -31,6 +31,10 @@ namespace Server
             Server.freezeHandle.Set();
         }
 
+        public void Ping()
+        {
+            // does nothing
+        }
         public List<string> GetLocationsPM()
         {
             List<string> loc = new List<string>();

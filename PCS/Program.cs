@@ -37,7 +37,7 @@ namespace PCS
         {
             if (Program.clientProcesses.ContainsKey(username))
             {
-                throw new RemotingException($"Client with username '{ username }' already exists.");
+                throw new RemotingException($"PCS: Client with username '{ username }' already exists.");
             }
 
             var procPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory() +
@@ -53,6 +53,12 @@ namespace PCS
             Process client = RunProcess(procPath,
                 $"{username} {clientRA.ToString()} {serverRA.ToString()} {scriptFile}");
 
+            client.Exited += new EventHandler(delegate (Object o, EventArgs a)
+            {
+                Program.clientProcesses.Remove(username);
+                Console.WriteLine($"Client '{username}' has exited.");
+            });
+
             Program.clientProcesses.Add(username, client);
         }
 
@@ -60,7 +66,7 @@ namespace PCS
         {
             if (Program.serverProcesses.ContainsKey(serverId))
             {
-                throw new RemotingException($"Server with ID '{ serverId }' already exists.");
+                throw new RemotingException($"PCS: Server with ID '{ serverId }' already exists.");
             }
 
             var procPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory() +
@@ -77,6 +83,12 @@ namespace PCS
             Process server = RunProcess(procPath,
                 $"{serverId} {serverRA.ToString()} {maxFaults} {minDelay} {maxDelay}");
 
+            server.Exited += new EventHandler(delegate (Object o, EventArgs a)
+            {
+                Program.serverProcesses.Remove(serverId);
+                Console.WriteLine($"Server '{serverId}' has exited.");
+            });
+
             Program.serverProcesses.Add(serverId, server);
         }
 
@@ -84,11 +96,22 @@ namespace PCS
         {
             Process proc = new Process();
             proc.StartInfo.FileName = path;
-            proc.StartInfo.WorkingDirectory = new FileInfo(path).Directory.FullName;
             proc.StartInfo.Arguments = args;
+
+            // Set working directory to this process path instead of PCS path
+            proc.StartInfo.WorkingDirectory = new FileInfo(path).Directory.FullName;
+
+            // In case we want them to use the PCS shell we set this to false
             proc.StartInfo.UseShellExecute = true;
+
+            // In case we want to redirect output to PCS we set these to true
             proc.StartInfo.RedirectStandardError = false;
             proc.StartInfo.RedirectStandardInput = false;
+
+            // Necessary for Exited event to fire
+            // https://stackoverflow.com/questions/4504170/why-is-my-processs-exited-method-not-being-called
+            proc.EnableRaisingEvents = true;
+
             proc.Start();
 
             return proc;

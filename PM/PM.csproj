@@ -47,45 +47,53 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CreateClientForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CreateClientForm.Designer.cs">
-      <DependentUpon>CreateClientForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ManageServersForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ManageServersForm.Designer.cs">
-      <DependentUpon>ManageServersForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CreateServerForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CreateServerForm.Designer.cs">
-      <DependentUpon>CreateServerForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormUtilities.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="pages\CreateClientPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="pages\CreateClientPage.Designer.cs">
+      <DependentUpon>CreateClientPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pages\ManageServersPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="pages\ManageServersPage.Designer.cs">
+      <DependentUpon>ManageServersPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pages\CreateServerPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="pages\CreateServerPage.Designer.cs">
+      <DependentUpon>CreateServerPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pages\MainPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="pages\MainPage.Designer.cs">
+      <DependentUpon>MainPage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Parser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="CreateClientForm.resx">
-      <DependentUpon>CreateClientForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ManageServersForm.resx">
-      <DependentUpon>ManageServersForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CreateServerForm.resx">
-      <DependentUpon>CreateServerForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\CreateClientPage.resx">
+      <DependentUpon>CreateClientPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\ManageServersPage.resx">
+      <DependentUpon>ManageServersPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\CreateServerPage.resx">
+      <DependentUpon>CreateServerPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\MainPage.resx">
+      <DependentUpon>MainPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -122,5 +130,6 @@
   <ItemGroup>
     <None Include="Resources\IST_Logo.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

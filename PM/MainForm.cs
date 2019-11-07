@@ -1,42 +1,43 @@
-﻿using System;
-using System.IO;
+﻿using System.Drawing;
 using System.Windows.Forms;
+
+using PM.pages;
 
 namespace PM
 {
     public partial class MainForm : Form
     {
+        public MainPage mainPage = new MainPage();
+        public CreateServerPage createServerPage = new CreateServerPage();
+        public CreateClientPage createClientPage = new CreateClientPage();
+        public ManageServersPage manageServersPage = new ManageServersPage();
 
         public MainForm()
         {
             InitializeComponent();
+
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer |
+                ControlStyles.DoubleBuffer | ControlStyles.SupportsTransparentBackColor, true);
+
+            setPageAttributes(mainPage);
+            setPageAttributes(createServerPage);
+            setPageAttributes(createClientPage);
+            setPageAttributes(manageServersPage);
+
+            switchPage(mainPage);
         }
 
-
-        private void loadScriptLbl_Click(object sender, EventArgs e)
+        private void setPageAttributes(UserControl page)
         {
-            openScriptDialog.ShowDialog();
-            if (openScriptDialog.FileName != "" && File.Exists(openScriptDialog.FileName))
-            {
-                Parser p = new Parser(openScriptDialog.FileName);
-                p.Parse();
-                p.ExecCommands();
-            }
+            page.BackColor = Color.Transparent;
+            page.Dock = DockStyle.Fill;
         }
 
-        private void createSrvBtn_Click(object sender, EventArgs e)
+        public void switchPage(UserControl page)
         {
-            FormUtilities.switchForm(this, Program.formUtilities.createServerForm);
+            pagesPanel.Controls.Clear();
+            pagesPanel.Controls.Add(page);
         }
 
-        private void createCliBtn_Click(object sender, EventArgs e)
-        {
-            FormUtilities.switchForm(this, Program.formUtilities.createClientForm);
-        }
-
-        private void manageServersLbl_Click(object sender, EventArgs e)
-        {
-            FormUtilities.switchForm(this, Program.formUtilities.manageServersForm);
-        }
     }
 }

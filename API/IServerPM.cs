@@ -10,6 +10,7 @@ namespace API
         void Crash();
         void Freeze();
         void Unfreeze();
+        void Ping();
 
         List<string> GetLocationsPM();
     }

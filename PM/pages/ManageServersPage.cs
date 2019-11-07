@@ -4,23 +4,30 @@ using System.Windows.Forms;
 
 using API;
 
-namespace PM
+namespace PM.pages
 {
-    public partial class ManageServersForm : Form
+    public partial class ManageServersPage : UserControl
     {
-        public ManageServersForm()
+        public ManageServersPage()
         {
             InitializeComponent();
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.DoubleBuffer |
+                ControlStyles.SupportsTransparentBackColor, true);
         }
 
         private void backLbl_Click(object sender, EventArgs e)
         {
-            FormUtilities.switchForm(this, Program.formUtilities.mainForm);
+            Program.mainForm.switchPage(Program.mainForm.mainPage);
         }
 
         public void AddServerToList(string serverID)
         {
             serverListBox.Items.Add(serverID);
+        }
+
+        public void RemoveServerFromList(string serverID)
+        {
+            serverListBox.Items.Remove(serverID);
         }
 
         private void freezeBtn_Click(object sender, EventArgs e)
@@ -35,10 +42,24 @@ namespace PM
 
             IServerPM server = Program.GetServer(serverID);
 
+            if (server == null)
+            {
+                MessageBox.Show($"Server '{serverID}' is disconnected.");
+                Program.RemoveServerFromList(serverID);
+                return;
+            }
+
             try
             {
                 server.Freeze();
-            } catch (Exception ex)
+            }
+            catch (System.Net.Sockets.SocketException)
+            {
+                MessageBox.Show($"Server '{serverID}' is disconnected.");
+                Program.RemoveServerFromList(serverID);
+                return;
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -59,9 +80,22 @@ namespace PM
 
             IServerPM server = Program.GetServer(serverID);
 
+            if (server == null)
+            {
+                MessageBox.Show($"Server '{serverID}' is disconnected.");
+                Program.RemoveServerFromList(serverID);
+                return;
+            }
+
             try
             {
                 server.Unfreeze();
+            }
+            catch (System.Net.Sockets.SocketException)
+            {
+                MessageBox.Show($"Server '{serverID}' is disconnected.");
+                Program.RemoveServerFromList(serverID);
+                return;
             }
             catch (Exception ex)
             {
@@ -84,17 +118,27 @@ namespace PM
 
             IServerPM server = Program.GetServer(serverID);
 
+            if (server == null)
+            {
+                MessageBox.Show($"Server '{serverID}' is disconnected.");
+                Program.RemoveServerFromList(serverID);
+                return;
+            }
+
             try
             {
                 server.Crash();
+            }
+            catch (System.Net.Sockets.SocketException)
+            {
+                MessageBox.Show($"Server '{serverID}' has been crashed.");
+                Program.RemoveServerFromList(serverID);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
-            MessageBox.Show($"Server '{serverID}' has been crashed.");
         }
 
         private void addRoomBtn_Click(object sender, EventArgs e)
@@ -131,9 +175,22 @@ namespace PM
 
             IServerPM server = Program.GetServer(serverID);
 
+            if (server == null)
+            {
+                MessageBox.Show($"Server '{serverID}' is disconnected.");
+                Program.RemoveServerFromList(serverID);
+                return;
+            }
+
             try
             {
                 server.AddRoom(location, capacity, name);
+            }
+            catch (System.Net.Sockets.SocketException)
+            {
+                MessageBox.Show($"Server '{serverID}' is disconnected.");
+                Program.RemoveServerFromList(serverID);
+                return;
             }
             catch (Exception ex)
             {
@@ -144,16 +201,13 @@ namespace PM
             MessageBox.Show($"Room '{name}' for {location} has been created.");
         }
 
-        private void ManageServersForm_VisibleChanged(object sender, EventArgs e)
+        public void FillLocationCb(List<string> locations)
         {
-            if (Program.serverList.Count > 0)
+            locationCb.Items.Clear();
+
+            foreach (string loc in locations)
             {
-                List<string> locations = Program.serverList[0].Item3.GetLocationsPM();
-                locationCb.Items.Clear();
-                foreach (string loc in locations)
-                {
-                    locationCb.Items.Add(loc);
-                }
+                locationCb.Items.Add(loc);
             }
         }
     }

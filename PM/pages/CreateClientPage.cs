@@ -3,18 +3,30 @@ using System.Windows.Forms;
 
 using API;
 
-namespace PM
+namespace PM.pages
 {
-    public partial class CreateClientForm : Form
+    public partial class CreateClientPage : UserControl
     {
-        public CreateClientForm()
+        public CreateClientPage()
         {
             InitializeComponent();
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.DoubleBuffer |
+                ControlStyles.SupportsTransparentBackColor, true);
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Enter)
+            {
+                createCliBtn.PerformClick();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
         }
 
         private void backLbl_Click(object sender, EventArgs e)
         {
-            FormUtilities.switchForm(this, Program.formUtilities.mainForm);
+            Program.mainForm.switchPage(Program.mainForm.mainPage);
         }
 
         private void createCliBtn_Click(object sender, EventArgs e)
@@ -92,7 +104,7 @@ namespace PM
                 {
                     Program.CreateClient(username, clientRA, serverRA, scriptPath);
 
-                    FormUtilities.switchForm(this, Program.formUtilities.mainForm);
+                    Program.mainForm.switchPage(Program.mainForm.mainPage);
                 }
                 catch (Exception ex)
                 {

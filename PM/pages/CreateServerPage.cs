@@ -3,18 +3,30 @@ using System.Windows.Forms;
 
 using API;
 
-namespace PM
+namespace PM.pages
 {
-    public partial class CreateServerForm : Form
+    public partial class CreateServerPage : UserControl
     {
-        public CreateServerForm()
+        public CreateServerPage()
         {
             InitializeComponent();
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.DoubleBuffer |
+                ControlStyles.SupportsTransparentBackColor, true);
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Enter)
+            {
+                createSrvBtn.PerformClick();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
         }
 
         private void backLbl_Click(object sender, EventArgs e)
         {
-            FormUtilities.switchForm(this, Program.formUtilities.mainForm);
+            Program.mainForm.switchPage(Program.mainForm.mainPage);
         }
 
         private void createSrvBtn_Click(object sender, EventArgs e)
@@ -87,8 +99,9 @@ namespace PM
                     Program.CreateServer(serverIDTb.Text, serverRA, Convert.ToUInt16(maxFaultsNUD.Value),
                         Convert.ToUInt16(minDelayNUD.Value), Convert.ToUInt16(maxDelayNUD.Value));
 
-                    FormUtilities.switchForm(this, Program.formUtilities.mainForm);
-                } catch (Exception ex)
+                    Program.mainForm.switchPage(Program.mainForm.mainPage);
+                }
+                catch (Exception ex)
                 {
                     MessageBox.Show($"Error creating server: {ex.Message}",
                         "Error",
