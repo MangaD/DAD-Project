@@ -16,7 +16,7 @@ namespace MSDAD_CLI.pages
 
         private void closeMeetingButton_Click(object sender, EventArgs e)
         {
-            if (Client.server.CloseMeeting(topicTb.Text, Client.Username))
+            if (Client.server.CloseMeeting(topicCB.Text, Client.Username))
             {
                 //success
                 MessageBox.Show("Meeting was booked.",

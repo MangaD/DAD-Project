@@ -42,7 +42,7 @@ namespace MSDAD_CLI.pages
         private void AddSlotBtn_Click(object sender, EventArgs e)
         {
             ListViewItem lvi = new ListViewItem(DateDTP.Text);
-            lvi.SubItems.Add(LocationLBox.SelectedItem.ToString());
+            lvi.SubItems.Add(locationCB.SelectedItem.ToString());
             SlotsLv.Items.Add(lvi);
         }
 
@@ -50,7 +50,7 @@ namespace MSDAD_CLI.pages
         {
             try
             {
-                InviteesLv.Items.Add(InviteesLBox.SelectedItem.ToString());
+                InviteesLv.Items.Add(inviteesCB.SelectedItem.ToString());
             }
             catch (NullReferenceException)
             {
@@ -63,24 +63,25 @@ namespace MSDAD_CLI.pages
         {
             this.BeginInvoke(new MethodInvoker(delegate
             {
-                InviteesLBox.Items.Clear();
-                LocationLBox.Items.Clear();
+                inviteesCB.Items.Clear();
+                locationCB.Items.Clear();
 
                 List<string> usernamesList = Client.server.GetClientsUsername();
                 foreach (string user in usernamesList)
                 {
                     if (user != Client.Username)
                     {
-                        InviteesLBox.Items.Add(user);
+                        inviteesCB.Items.Add(user);
                     }
                 }
 
                 List<string> locationsList = Client.server.GetLocations();
                 foreach (string location in locationsList)
                 {
-                    LocationLBox.Items.Add(location);
+                    locationCB.Items.Add(location);
                 }
             }));
         }
+
     }
 }

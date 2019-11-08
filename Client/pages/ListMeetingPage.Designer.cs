@@ -60,7 +60,7 @@
             // 
             // goToBackButton
             // 
-            this.goToBackButton.Location = new System.Drawing.Point(276, 332);
+            this.goToBackButton.Location = new System.Drawing.Point(20, 332);
             this.goToBackButton.Margin = new System.Windows.Forms.Padding(2);
             this.goToBackButton.Name = "goToBackButton";
             this.goToBackButton.Size = new System.Drawing.Size(56, 19);
