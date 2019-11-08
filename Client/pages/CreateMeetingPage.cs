@@ -51,7 +51,7 @@ namespace MSDAD_CLI.pages
                 Client.server.CreateMeeting(Client.Username, Client.ClientRA.ToString(),
                     topicTb.Text, Convert.ToUInt16(MinPartNud.Value), slots, invitees);
 
-                MessageBox.Show($"Joined meeting '{topicTb.Text}'");
+                MessageBox.Show($"Created meeting '{topicTb.Text}'");
 
                 Client.mainForm.ResetAllControls(this);
                 Client.mainForm.switchPage(Client.mainForm.mainPage);

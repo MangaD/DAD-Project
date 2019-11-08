@@ -93,16 +93,26 @@ namespace Server
             return false;
         }
 
-        public bool CreateMeeting(string coordinatorUser, string coordinatorURL, string topic, uint minAttendees, List<Slot> slots, List<string> invitees)
+        public void CreateMeeting(string coordinatorUser, string coordinatorURL, string topic,
+            uint minAttendees, List<Slot> slots, List<string> invitees)
         {
             Server.freezeHandle.WaitOne(); // For Freeze command
             this.Delay(); // For induced delay
 
-            foreach(MeetingProposal mp in Server.meetingPropList)
+            if (topic == "")
+            {
+                throw new ApplicationException("Must add a topic!");
+            }
+            if (slots.Count == 0)
+            {
+                throw new ApplicationException("Must add slots to the meeting!");
+            }
+
+            foreach (MeetingProposal mp in Server.meetingPropList)
             {
                 if(mp.Topic == topic)
                 {
-                    return false;
+                    throw new ApplicationException("A meeting with this topic already exists.");
                 }
             }
 
@@ -117,8 +127,6 @@ namespace Server
                 "\n\tCoordinator: " + coordinatorUser +
                 "\n\tCoordinator URL: " + coordinatorURL +
                 "\n\tMinimum participants: " + minAttendees);
-
-            return true;
         }
 
         public void JoinMeeting(string topic, string clientName, string clientRA, int n_slots, List<Slot> locationDates)
@@ -126,6 +134,14 @@ namespace Server
             Server.freezeHandle.WaitOne(); // For Freeze command
             this.Delay(); // For induced delay
 
+            if (topic == "")
+            {
+                throw new ApplicationException("Must select a topic!");
+            }
+            if (locationDates.Count == 0)
+            {
+                throw new ApplicationException("Must select slots on which you are available.");
+            }
 
             foreach (MeetingProposal mp in Server.meetingPropList)
             {

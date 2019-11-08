@@ -9,7 +9,7 @@ namespace API
         List<string> RegisterClient(string clientName, string clientRA);
         List<MeetingProposal> ListMeetings(string clientName);
         MeetingProposal GetMeeting(string topic);
-        bool CreateMeeting(string coordinatorUser, string coordinatorURL, string topic, uint minAttendees,
+        void CreateMeeting(string coordinatorUser, string coordinatorURL, string topic, uint minAttendees,
             List<Slot> slots, List<string> invitees);
         void JoinMeeting(string topic, string clientName, string clientRA, int n_slots, List<Slot> locationDates);
         bool CloseMeeting(string topic, string coordinatorURL);
