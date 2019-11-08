@@ -73,6 +73,7 @@ And may receive one 4th optional argument, a script file path (specification in 
   - list meetings should show more information
   - close meeting 
   - server not informing client when a client joins (the client queries the server instead)
+  - sign in form in case arguments are not passed at startup
 - Server replication
 - PM Status command
 - Fault tolerance

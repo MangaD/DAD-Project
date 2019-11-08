@@ -77,7 +77,17 @@ namespace MSDAD_CLI
         {
             Username = clientName;
             server = (IServerC) Activator.GetObject(typeof(IServerC), serverRA);
-            server.RegisterClient(clientName, clientRA);
+            try
+            {
+                server.RegisterClient(clientName, clientRA);
+            }
+            catch (System.Net.Sockets.SocketException)
+            {
+                MessageBox.Show("Lost connection to the server.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
 
         public static void ListenClient(UInt16 clientPort, string cliChannelName)

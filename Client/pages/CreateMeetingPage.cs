@@ -73,6 +73,13 @@ namespace MSDAD_CLI.pages
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
 
             Client.mainForm.ResetAllControls(this);
             Client.mainForm.switchPage(Client.mainForm.mainPage);
