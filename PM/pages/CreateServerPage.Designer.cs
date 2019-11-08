@@ -64,6 +64,11 @@
             // maxDelayNUD
             // 
             this.maxDelayNUD.Location = new System.Drawing.Point(104, 228);
+            this.maxDelayNUD.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
             this.maxDelayNUD.Name = "maxDelayNUD";
             this.maxDelayNUD.Size = new System.Drawing.Size(138, 20);
             this.maxDelayNUD.TabIndex = 19;
@@ -71,6 +76,11 @@
             // minDelayNUD
             // 
             this.minDelayNUD.Location = new System.Drawing.Point(104, 196);
+            this.minDelayNUD.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
             this.minDelayNUD.Name = "minDelayNUD";
             this.minDelayNUD.Size = new System.Drawing.Size(138, 20);
             this.minDelayNUD.TabIndex = 18;
@@ -78,6 +88,11 @@
             // maxFaultsNUD
             // 
             this.maxFaultsNUD.Location = new System.Drawing.Point(104, 164);
+            this.maxFaultsNUD.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
             this.maxFaultsNUD.Name = "maxFaultsNUD";
             this.maxFaultsNUD.Size = new System.Drawing.Size(138, 20);
             this.maxFaultsNUD.TabIndex = 17;

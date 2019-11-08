@@ -91,6 +91,14 @@ namespace PM.pages
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
+            if (minDelayNUD.Value > maxDelayNUD.Value)
+            {
+                valid = false;
+                MessageBox.Show("Minimum delay cannot be bigger than maximum delay.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
 
             if (valid)
             {

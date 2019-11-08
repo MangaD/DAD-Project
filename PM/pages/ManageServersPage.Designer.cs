@@ -96,6 +96,11 @@
             // capacityNUD
             // 
             this.capacityNUD.Location = new System.Drawing.Point(217, 230);
+            this.capacityNUD.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
             this.capacityNUD.Name = "capacityNUD";
             this.capacityNUD.Size = new System.Drawing.Size(120, 20);
             this.capacityNUD.TabIndex = 29;

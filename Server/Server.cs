@@ -9,9 +9,13 @@ using API;
 
 namespace Server
 {
-
     static class Server
     {
+        public static string serverID;
+        public static int maxFaults;
+        public static int minDelay;
+        public static int maxDelay;
+
         public static List<MeetingProposal> meetingPropList = new List<MeetingProposal>();
         public static List<Client> clients = new List<Client>();
         public static Dictionary<string, List<Room>> locationRooms = new Dictionary<string, List<Room>>();
@@ -30,20 +34,43 @@ namespace Server
 
             if (args.Length != 5)
             {
-                string error = "This program must take 5 arguments. " +
+                string err = "This program must take 5 arguments. " +
                     "server id, server remoting address, max. faults, " +
                     "min delay, max delay.";
+                Utilities.WriteError(err);
+                return;
+            }
+
+            serverID = args[0];
+            serverRA = RemotingAddress.FromString(args[1]);
+            maxFaults = Convert.ToInt32(args[2]);
+            minDelay = Convert.ToInt32(args[3]);
+            maxDelay = Convert.ToInt32(args[4]);
+
+            string error = "";
+            if (maxFaults < 0)
+            {
+                error = "Max. faults cannot be less than 0.";
+            }
+            else if (minDelay < 0)
+            {
+                error = "Min. delay cannot be less than 0.";
+            }
+            else if (maxDelay < 0)
+            {
+                error = "Max. delay cannot be less than 0.";
+            }
+            else if (minDelay > maxDelay)
+            {
+                error = "Min. delay cannot be bigger than max. delay.";
+            }
+            if (error != "")
+            {
                 Utilities.WriteError(error);
                 return;
             }
 
             GenerateLocationRooms();
-
-            string serverID = args[0];
-            serverRA = RemotingAddress.FromString(args[1]);
-            uint maxFaults = Convert.ToUInt32(args[2]);
-            uint minDelay = Convert.ToUInt32(args[3]);
-            uint maxDelay = Convert.ToUInt32(args[4]);
 
             ListenServer();
 
@@ -104,6 +131,12 @@ namespace Server
             AveiroRooms.Add(new Room("N", 17));
             AveiroRooms.Add(new Room("O", 15));
             locationRooms.Add("Aveiro", AveiroRooms);
+        }
+
+        public static int GetRandomDelay()
+        {
+            Random rnd = new Random();
+            return rnd.Next(minDelay, maxDelay+1);
         }
     }
 }

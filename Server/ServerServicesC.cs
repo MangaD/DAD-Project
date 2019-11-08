@@ -8,9 +8,17 @@ namespace Server
 {
     partial class ServerServices : MarshalByRefObject, IServerC
     {
+        public void Delay()
+        {
+            int delay = Server.GetRandomDelay();
+            //Utilities.WriteDebug($"Delaying for {delay}.");
+            Utilities.Wait(delay);
+        }
+
         public bool CloseMeeting(string topic, string coordinatorURL)
         {
             Server.freezeHandle.WaitOne(); // For Freeze command
+            this.Delay(); // For induced delay
 
             foreach (MeetingProposal mp in Server.meetingPropList)
             {
@@ -88,6 +96,7 @@ namespace Server
         public void CreateMeeting(string coordinatorUser, string coordinatorURL, string topic, uint minAttendees, List<Slot> slots, List<string> invitees)
         {
             Server.freezeHandle.WaitOne(); // For Freeze command
+            this.Delay(); // For induced delay
 
             Server.meetingPropList.Add(new MeetingProposal(coordinatorUser, coordinatorURL, topic, minAttendees, slots, invitees));
 
@@ -97,6 +106,7 @@ namespace Server
         public bool JoinMeeting(string topic, string clientName, string clientRA, int n_slots, List<Slot> locationDates)
         {
             Server.freezeHandle.WaitOne(); // For Freeze command
+            this.Delay(); // For induced delay
 
             foreach (MeetingProposal mp in Server.meetingPropList)
             {
@@ -126,6 +136,7 @@ namespace Server
         public List<MeetingProposal> ListMeetings(string clientName)
         {
             Server.freezeHandle.WaitOne(); // For Freeze command
+            this.Delay(); // For induced delay
 
             List<MeetingProposal> meetings = new List<MeetingProposal>();
             foreach (MeetingProposal mp in Server.meetingPropList)
@@ -159,6 +170,7 @@ namespace Server
         public List<string> RegisterClient(string clientName, string clientRA)
         {
             Server.freezeHandle.WaitOne(); // For Freeze command
+            this.Delay(); // For induced delay
 
             IClient newClientChannel =
                 (IClient)Activator.GetObject(
@@ -174,6 +186,7 @@ namespace Server
         public List<string> GetClientsUsername()
         {
             Server.freezeHandle.WaitOne(); // For Freeze command
+            this.Delay(); // For induced delay
 
             List<string> usernamesList = new List<string>();
             foreach(Client client in Server.clients)
@@ -186,6 +199,7 @@ namespace Server
         public List<string> GetLocations()
         {
             Server.freezeHandle.WaitOne(); // For Freeze command
+            this.Delay(); // For induced delay
 
             List<string> loc = new List<string>();
             foreach(string s in Server.locationRooms.Keys)
