@@ -19,6 +19,16 @@ namespace MSDAD_CLI.pages
             Client.mainForm.switchPage(Client.mainForm.mainPage);
         }
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Enter)
+            {
+                CreateMeetingButton.PerformClick();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
         private void CreateMeetingButton_Click(object sender, EventArgs e)
         {
             if (topicTb == null || topicTb.Text == null || topicTb.Text == "")

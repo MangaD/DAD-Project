@@ -19,6 +19,16 @@ namespace MSDAD_CLI.pages
             Client.mainForm.switchPage(Client.mainForm.mainPage);
         }
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Enter)
+            {
+                joinMeetingButton.PerformClick();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
         private void topicCB_SelectedIndexChanged(object sender, EventArgs e)
         {
             availableSlotsLv.Items.Clear();

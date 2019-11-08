@@ -15,7 +15,7 @@ namespace Server
             Utilities.Wait(delay);
         }
 
-        public bool CloseMeeting(string topic, string coordinatorURL)
+        public void CloseMeeting(string topic, string coordinatorURL)
         {
             Server.freezeHandle.WaitOne(); // For Freeze command
             this.Delay(); // For induced delay
@@ -81,16 +81,16 @@ namespace Server
                             mp.ClientsAccepted.Add(clientName, mp.ClientsJoined[clientName]);
                         }
                         //slot was available and room is filled with max or less than max capacity
-                        return true;
+                        //return true;
                     }
                     else
                     {
                         //no slot was available for min atendees
-                        return false;
+                        //return false;
                     }
                 }
             }
-            return false;
+            //return false;
         }
 
         public void CreateMeeting(string coordinatorUser, string coordinatorURL, string topic,
