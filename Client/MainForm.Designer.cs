@@ -28,89 +28,39 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.goToCreateMeetingButton = new System.Windows.Forms.Button();
-            this.goToJoinMeetingButton = new System.Windows.Forms.Button();
-            this.goToCloseMeetingButton = new System.Windows.Forms.Button();
-            this.goToListMeetingsButton = new System.Windows.Forms.Button();
-            this.goToBackButton = new System.Windows.Forms.Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            this.pagesPanel = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
-            // goToCreateMeetingButton
+            // pagesPanel
             // 
-            this.goToCreateMeetingButton.Location = new System.Drawing.Point(12, 35);
-            this.goToCreateMeetingButton.Name = "goToCreateMeetingButton";
-            this.goToCreateMeetingButton.Size = new System.Drawing.Size(439, 49);
-            this.goToCreateMeetingButton.TabIndex = 0;
-            this.goToCreateMeetingButton.Text = "Create Meeting";
-            this.goToCreateMeetingButton.UseVisualStyleBackColor = true;
-            this.goToCreateMeetingButton.Click += new System.EventHandler(this.goToCreateMeetingButton_Click);
-            // 
-            // goToJoinMeetingButton
-            // 
-            this.goToJoinMeetingButton.Location = new System.Drawing.Point(12, 90);
-            this.goToJoinMeetingButton.Name = "goToJoinMeetingButton";
-            this.goToJoinMeetingButton.Size = new System.Drawing.Size(439, 49);
-            this.goToJoinMeetingButton.TabIndex = 1;
-            this.goToJoinMeetingButton.Text = "Join Meeting";
-            this.goToJoinMeetingButton.UseVisualStyleBackColor = true;
-            this.goToJoinMeetingButton.Click += new System.EventHandler(this.goToJoinMeeting_Click);
-            // 
-            // goToCloseMeetingButton
-            // 
-            this.goToCloseMeetingButton.Location = new System.Drawing.Point(12, 145);
-            this.goToCloseMeetingButton.Name = "goToCloseMeetingButton";
-            this.goToCloseMeetingButton.Size = new System.Drawing.Size(439, 49);
-            this.goToCloseMeetingButton.TabIndex = 2;
-            this.goToCloseMeetingButton.Text = "Close Meeting";
-            this.goToCloseMeetingButton.UseVisualStyleBackColor = true;
-            this.goToCloseMeetingButton.Click += new System.EventHandler(this.goToCloseMeetingButton_Click);
-            // 
-            // goToListMeetingsButton
-            // 
-            this.goToListMeetingsButton.Location = new System.Drawing.Point(12, 201);
-            this.goToListMeetingsButton.Name = "goToListMeetingsButton";
-            this.goToListMeetingsButton.Size = new System.Drawing.Size(439, 49);
-            this.goToListMeetingsButton.TabIndex = 3;
-            this.goToListMeetingsButton.Text = "List Meetings";
-            this.goToListMeetingsButton.UseVisualStyleBackColor = true;
-            this.goToListMeetingsButton.Click += new System.EventHandler(this.goToListMeetingsButton_Click);
-            // 
-            // goToBackButton
-            // 
-            this.goToBackButton.Location = new System.Drawing.Point(376, 415);
-            this.goToBackButton.Name = "goToBackButton";
-            this.goToBackButton.Size = new System.Drawing.Size(75, 23);
-            this.goToBackButton.TabIndex = 4;
-            this.goToBackButton.Text = "Back";
-            this.goToBackButton.UseVisualStyleBackColor = true;
-            this.goToBackButton.Click += new System.EventHandler(this.goToBackButton_Click);
+            this.pagesPanel.BackColor = System.Drawing.Color.Transparent;
+            this.pagesPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pagesPanel.Location = new System.Drawing.Point(0, 0);
+            this.pagesPanel.Name = "pagesPanel";
+            this.pagesPanel.Size = new System.Drawing.Size(349, 366);
+            this.pagesPanel.TabIndex = 0;
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(463, 450);
-            this.Controls.Add(this.goToBackButton);
-            this.Controls.Add(this.goToListMeetingsButton);
-            this.Controls.Add(this.goToCloseMeetingButton);
-            this.Controls.Add(this.goToJoinMeetingButton);
-            this.Controls.Add(this.goToCreateMeetingButton);
+            this.BackgroundImage = global::Client.Properties.Resources.background;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(349, 366);
+            this.Controls.Add(this.pagesPanel);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MainForm";
-            this.Text = "MSDAD";
-            this.Load += new System.EventHandler(this.MainForm_Load);
+            this.Text = "Meeting Scheduler";
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button goToCreateMeetingButton;
-        private System.Windows.Forms.Button goToJoinMeetingButton;
-        private System.Windows.Forms.Button goToCloseMeetingButton;
-        private System.Windows.Forms.Button goToListMeetingsButton;
-        private System.Windows.Forms.Button goToBackButton;
+        private System.Windows.Forms.Panel pagesPanel;
     }
 }

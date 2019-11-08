@@ -11,8 +11,6 @@ namespace MSDAD_CLI
 {
     public static class Client
     {
-        public static ClientFormUtilities clientFormUtilities;
-
         private static TcpChannel clientChannel;
         public static IServerC server;
 
@@ -20,14 +18,14 @@ namespace MSDAD_CLI
         public static RemotingAddress ClientRA { get; set; }
         public static RemotingAddress ServerRA { get; set; }
 
+        public static MainForm mainForm;
+
         [STAThread]
         static void Main(string[] args)
         {
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-            clientFormUtilities = new ClientFormUtilities();
 
             if (args.Length < 3 || args.Length > 4)
             {
@@ -71,7 +69,8 @@ namespace MSDAD_CLI
                 }
             }
 
-            Application.Run(clientFormUtilities.mainForm);
+            mainForm = new MainForm();
+            Application.Run(mainForm);
         }
 
         public static void ConnectToServer(string serverRA, string clientName, string clientRA)

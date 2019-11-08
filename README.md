@@ -59,3 +59,13 @@ The client program **must** receive 3 arguments:
 And may receive one 4th optional argument, a script file path (specification in the assignment). If running with Visual Studio, this can be our test script file `../../script.txt`. The script file can also contain comments (start with ';').
 
 ![startup_projects](documentation/startup_projects.png)
+
+## Checkpoint
+
+**Not yet implemented:**
+
+- Server replication
+- PM Status command
+- Fault tolerance
+- Meeting diffusion algorithm
+

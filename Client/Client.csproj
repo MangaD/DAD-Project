@@ -49,35 +49,46 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CreateMeetingForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CreateMeetingForm.Designer.cs">
-      <DependentUpon>CreateMeetingForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CloseMeetingForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CloseMeetingForm.Designer.cs">
-      <DependentUpon>CloseMeetingForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="JoinMeetingForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="JoinMeetingForm.Designer.cs">
-      <DependentUpon>JoinMeetingForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ListMeetingsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ListMeetingsForm.Designer.cs">
-      <DependentUpon>ListMeetingsForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pages\CloseMeetingPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="pages\CloseMeetingPage.Designer.cs">
+      <DependentUpon>CloseMeetingPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pages\ListMeetingPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="pages\ListMeetingPage.Designer.cs">
+      <DependentUpon>ListMeetingPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pages\CreateMeetingPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="pages\CreateMeetingPage.Designer.cs">
+      <DependentUpon>CreateMeetingPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pages\JoinMeetingPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="pages\JoinMeetingPage.Designer.cs">
+      <DependentUpon>JoinMeetingPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="pages\MainPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="pages\MainPage.Designer.cs">
+      <DependentUpon>MainPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="SignInForm.cs">
       <SubType>Form</SubType>
@@ -85,7 +96,6 @@
     <Compile Include="SignInForm.Designer.cs">
       <DependentUpon>SignInForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ClientFormUtilities.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -100,21 +110,32 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CloseMeetingForm.resx">
-      <DependentUpon>CloseMeetingForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CreateMeetingForm.resx">
-      <DependentUpon>CreateMeetingForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="JoinMeetingForm.resx">
-      <DependentUpon>JoinMeetingForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ListMeetingsForm.resx">
-      <DependentUpon>ListMeetingsForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="pages\CloseMeetingPage.resx">
+      <DependentUpon>CloseMeetingPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\ListMeetingPage.resx">
+      <DependentUpon>ListMeetingPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\CreateMeetingPage.resx">
+      <DependentUpon>CreateMeetingPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\JoinMeetingPage.resx">
+      <DependentUpon>JoinMeetingPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="pages\MainPage.resx">
+      <DependentUpon>MainPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\background.jpg" />
+    <Content Include="Resources\IST_Logo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,24 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MSDAD_CLI
+namespace MSDAD_CLI.pages
 {
-    public partial class CloseMeetingForm : Form
+    public partial class CloseMeetingPage : UserControl
     {
-        public CloseMeetingForm()
+        public CloseMeetingPage()
         {
             InitializeComponent();
         }
         private void goToBackButton_Click(object sender, EventArgs e)
         {
-            ClientFormUtilities.switchForm(this, Client.clientFormUtilities.mainForm);
+            Client.mainForm.switchPage(Client.mainForm.mainPage);
         }
 
         private void closeMeetingButton_Click(object sender, EventArgs e)

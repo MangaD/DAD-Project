@@ -1,26 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+
 using API;
 
-namespace MSDAD_CLI
+namespace MSDAD_CLI.pages
 {
-    public partial class JoinMeetingForm : Form
+    public partial class JoinMeetingPage : UserControl
     {
-        public JoinMeetingForm()
+        public JoinMeetingPage()
         {
             InitializeComponent();
         }
 
         private void goToBackButton_Click(object sender, EventArgs e)
         {
-            ClientFormUtilities.switchForm(this, Client.clientFormUtilities.mainForm);
+            Client.mainForm.switchPage(Client.mainForm.mainPage);
         }
 
         private void searchTopicButton_Click(object sender, EventArgs e)
@@ -47,7 +42,7 @@ namespace MSDAD_CLI
             ListViewItem lvi = SlotsLv.SelectedItems[0];
             SlotsLv.Items.Remove(lvi);
             SelectedSlotsLv.Items.Add(lvi);
-            
+
         }
 
         private void SelectedSlotsLv_Click(object sender, EventArgs e)

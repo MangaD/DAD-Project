@@ -1,52 +1,95 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 using System.Windows.Forms;
+
+using MSDAD_CLI.pages;
 
 namespace MSDAD_CLI
 {
     public partial class MainForm : Form
     {
+        public MainPage mainPage = new MainPage();
+        public CreateMeetingPage createMeetingPage = new CreateMeetingPage();
+        public JoinMeetingPage joinMeetingPage = new JoinMeetingPage();
+        public CloseMeetingPage closeMeetingPage = new CloseMeetingPage();
+        public ListMeetingPage listMeetingPage = new ListMeetingPage();
+
         public MainForm()
         {
             InitializeComponent();
+
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer |
+                ControlStyles.DoubleBuffer | ControlStyles.SupportsTransparentBackColor, true);
+
+            setPageAttributes(mainPage);
+            setPageAttributes(createMeetingPage);
+            setPageAttributes(joinMeetingPage);
+            setPageAttributes(closeMeetingPage);
+            setPageAttributes(listMeetingPage);
+
+            switchPage(mainPage);
         }
 
-        private void goToCreateMeetingButton_Click(object sender, EventArgs e)
+        private void setPageAttributes(UserControl page)
         {
-            Client.clientFormUtilities.createMeetingForm.FillLocationsAndUsers();
-            ClientFormUtilities.switchForm(this, Client.clientFormUtilities.createMeetingForm);
+            page.BackColor = Color.Transparent;
+            page.Dock = DockStyle.Fill;
+
+            // https://www.codeproject.com/Questions/549373/InvokeplusorplusBeginInvokepluscannotplusbepluscal
+            if (!page.IsHandleCreated)
+            {
+                page.CreateControl();
+            }
         }
 
-        private void goToJoinMeeting_Click(object sender, EventArgs e)
+        public void switchPage(UserControl page)
         {
-            ClientFormUtilities.switchForm(this, Client.clientFormUtilities.joinMeetingForm);
+            pagesPanel.Controls.Clear();
+            pagesPanel.Controls.Add(page);
         }
 
-        private void goToCloseMeetingButton_Click(object sender, EventArgs e)
+        public void ResetAllControls(Control page)
         {
-            ClientFormUtilities.switchForm(this, Client.clientFormUtilities.closeMeetingForm);
+            foreach (Control control in page.Controls)
+            {
+                if (control is TextBox)
+                {
+                    TextBox textBox = (TextBox)control;
+                    textBox.Text = null;
+                }
+
+                if (control is ComboBox)
+                {
+                    ComboBox comboBox = (ComboBox)control;
+                    if (comboBox.Items.Count > 0)
+                        comboBox.SelectedIndex = 0;
+                }
+
+                if (control is CheckBox)
+                {
+                    CheckBox checkBox = (CheckBox)control;
+                    checkBox.Checked = false;
+                }
+
+                if (control is ListBox)
+                {
+                    ListBox listBox = (ListBox)control;
+                    listBox.ClearSelected();
+                }
+
+                if (control is ListView)
+                {
+                    ListView listView = (ListView)control;
+                    if (listView.Items.Count > 0)
+                        listView.Items.Clear();
+                }
+
+                if (control is NumericUpDown)
+                {
+                    NumericUpDown numericUpDown = (NumericUpDown)control;
+                    numericUpDown.Value = 0;
+                }
+            }
         }
 
-        private void goToListMeetingsButton_Click(object sender, EventArgs e)
-        {
-            Client.clientFormUtilities.listMeetingsForm.FillListView();
-            ClientFormUtilities.switchForm(this, Client.clientFormUtilities.listMeetingsForm);
-        }
-
-        private void goToBackButton_Click(object sender, EventArgs e)
-        {
-            ClientFormUtilities.switchForm(this, Client.clientFormUtilities.signInForm);
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }
