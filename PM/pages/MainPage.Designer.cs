@@ -75,6 +75,7 @@
             this.createCliBtn.Name = "createCliBtn";
             this.createCliBtn.Size = new System.Drawing.Size(83, 63);
             this.createCliBtn.TabIndex = 10;
+            this.createCliBtn.TabStop = false;
             this.createCliBtn.Text = "Create Client";
             this.createCliBtn.UseVisualStyleBackColor = false;
             this.createCliBtn.Click += new System.EventHandler(this.createCliBtn_Click);
@@ -93,6 +94,7 @@
             this.createServBtn.Name = "createServBtn";
             this.createServBtn.Size = new System.Drawing.Size(83, 63);
             this.createServBtn.TabIndex = 9;
+            this.createServBtn.TabStop = false;
             this.createServBtn.Text = "Create Server";
             this.createServBtn.UseVisualStyleBackColor = false;
             this.createServBtn.Click += new System.EventHandler(this.createSrvBtn_Click);

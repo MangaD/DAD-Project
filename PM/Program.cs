@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Remoting;
+using System.Runtime.Remoting.Channels;
+using System.Runtime.Remoting.Channels.Tcp;
 using System.Windows.Forms;
 
 using API;
@@ -25,6 +28,12 @@ namespace PM
         private static string PCSChannel = "MSPCS";
         private static UInt16 PCSPort = 10000;
 
+        /**
+         * PM stuff
+         */
+        public static RemotingAddress PMRA = new RemotingAddress("localhost", 10001, "MSPM");
+        public static TcpChannel PMChannel;
+
         public static List<Tuple<string, RemotingAddress, IServerPM>> serverList;
 
         /**
@@ -45,8 +54,18 @@ namespace PM
             PCSList = new List<Tuple<RemotingAddress, IPCS>>();
             serverList = new List<Tuple<string, RemotingAddress, IServerPM>>();
 
+            ListenPM();
+
             mainForm = new MainForm();
             Application.Run(mainForm);
+        }
+
+        public static void ListenPM()
+        {
+            PMChannel = new TcpChannel((int)PMRA.port);
+            ChannelServices.RegisterChannel(PMChannel, false);
+            RemotingConfiguration.RegisterWellKnownServiceType(typeof(PMService),
+                PMRA.channel, WellKnownObjectMode.Singleton);
         }
 
         public static void CreateServer(string serverID, RemotingAddress serverRA,
@@ -164,6 +183,7 @@ namespace PM
         {
             mainForm.manageServersPage.RemoveServerFromList(serverID);
             serverList.RemoveAll(p => p.Item1 == serverID);
+            MessageBox.Show($"Server '{serverID}' has exited.");
         }
 
         private static void RemovePCSFromList(RemotingAddress pcsRA)

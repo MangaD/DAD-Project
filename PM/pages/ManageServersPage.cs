@@ -27,7 +27,8 @@ namespace PM.pages
 
         public void RemoveServerFromList(string serverID)
         {
-            serverListBox.Items.Remove(serverID);
+            // https://stackoverflow.com/questions/142003/cross-thread-operation-not-valid-control-accessed-from-a-thread-other-than-the
+            serverListBox.BeginInvoke(new MethodInvoker(delegate { serverListBox.Items.Remove(serverID); }));
         }
 
         private void freezeBtn_Click(object sender, EventArgs e)
