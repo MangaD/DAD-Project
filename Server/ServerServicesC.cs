@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading;
 using API;
 
 namespace Server
 {
     partial class ServerServices : MarshalByRefObject, IServerC
     {
-        public void Delay()
+        private void Delay()
         {
             int delay = Server.GetRandomDelay();
             //Utilities.WriteDebug($"Delaying for {delay}.");
@@ -23,7 +23,7 @@ namespace Server
             foreach (MeetingProposal mp in Server.meetingPropList)
             {
                 //Closing wanted meeting and client closing is coordinator and meeting is not yet closed
-                if (mp.Topic == topic && mp.CoodinatorURL == coordinatorURL && mp.State == 0)
+                if (mp.Topic == topic && mp.CoodinatorURL == coordinatorURL && !mp.IsClosed)
                 {
                     //Check which date is most wanted
                     List<Slot> maxClientsSlots = new List<Slot>();
@@ -53,7 +53,7 @@ namespace Server
 
                     foreach (Slot slot in maxClientsSlots)
                     {
-                        if (mp.State == 1) break;
+                        if (mp.IsClosed) break;
                         if (Server.locationRooms[slot.location].Count() > 0)
                         {
                             foreach (Room room in Server.locationRooms[slot.location])
@@ -63,7 +63,7 @@ namespace Server
                                 {
                                     selectedSlot = slot;
                                     room.Available = false;
-                                    mp.State = 1;
+                                    mp.IsClosed = true;
                                     break;
                                 }
                             }
@@ -100,7 +100,15 @@ namespace Server
 
             Server.meetingPropList.Add(new MeetingProposal(coordinatorUser, coordinatorURL, topic, minAttendees, slots, invitees));
 
-            Console.WriteLine("[Server] Created meeting: " + topic + " CoordinatorURL: " + coordinatorURL);
+            // Run in a separate thread because this client is informed too.
+            Thread thread = new Thread(() => Server.InformAllClientsOfNewMeeting(topic));
+            thread.Start();
+
+            Console.WriteLine("[Server] Created meeting:" +
+                "\n\tTopic: " + topic +
+                "\n\tCoordinator: " + coordinatorUser +
+                "\n\tCoordinator URL: " + coordinatorURL +
+                "\n\tMinimum participants: " + minAttendees);
         }
 
         public bool JoinMeeting(string topic, string clientName, string clientRA, int n_slots, List<Slot> locationDates)
@@ -110,7 +118,7 @@ namespace Server
 
             foreach (MeetingProposal mp in Server.meetingPropList)
             {
-                if (mp.Topic == topic && mp.State == 0 && !mp.ClientsJoined.Keys.Contains(clientName))
+                if (mp.Topic == topic && !mp.IsClosed && !mp.ClientsJoined.Keys.Contains(clientName))
                 {
                     if (mp.Invitees.Count == 0)
                     {
@@ -121,7 +129,7 @@ namespace Server
                     {
                         foreach (string inv in mp.Invitees)
                         {
-                            if (inv == clientName && mp.State == 0)
+                            if (inv == clientName && !mp.IsClosed)
                             {
                                 mp.JoinClientToMeeting(clientName, clientRA, n_slots, locationDates);
                                 return true;
@@ -143,7 +151,7 @@ namespace Server
             {
                 Console.WriteLine("mp.Invitees.Count = " + mp.Invitees.Count);
 
-                if (mp.Invitees.Count == 0 && mp.State == 0 &&  mp.CoordinatorUsername != clientName)
+                if (mp.Invitees.Count == 0 && !mp.IsClosed &&  mp.CoordinatorUsername != clientName)
                 {
                     meetings.Add(mp);
                 }
@@ -151,7 +159,7 @@ namespace Server
                 {
                     foreach (string inv in mp.Invitees)
                     {
-                        if (inv == clientName && mp.State == 0)
+                        if (inv == clientName && !mp.IsClosed)
                         {
                             meetings.Add(mp);
                         }
@@ -165,6 +173,31 @@ namespace Server
             }
 
             return meetings;
+        }
+
+        public MeetingProposal GetMeeting(string topic)
+        {
+            Server.freezeHandle.WaitOne(); // For Freeze command
+            this.Delay(); // For induced delay
+
+            foreach (MeetingProposal mp in Server.meetingPropList)
+            {
+                if (mp.Invitees.Count == 0 && !mp.IsClosed && mp.Topic == topic)
+                {
+                    return mp;
+                }
+                else
+                {
+                    foreach (string inv in mp.Invitees)
+                    {
+                        if (!mp.IsClosed && mp.Topic == topic)
+                        {
+                            return mp;
+                        }
+                    }
+                }
+            }
+            return null;
         }
 
         public List<string> RegisterClient(string clientName, string clientRA)

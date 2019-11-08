@@ -17,7 +17,7 @@ namespace API
             ClientsJoined = new Dictionary<string, string>();
             ClientsAccepted = new Dictionary<string, string>();
             ClientPerSlot = new Dictionary<Slot, List<string>>();
-            State = 0;
+            IsClosed = false;
         }
 
         public string CoordinatorUsername { get; set; }
@@ -29,7 +29,7 @@ namespace API
         public Dictionary<string, string> ClientsJoined { get; set; }
         public Dictionary<string, string> ClientsAccepted { get; set; }
         public Dictionary<Slot, List<string>> ClientPerSlot { get; set; }
-        public int State { get; set; } //0 - open, 1- closed, ...
+        public bool IsClosed { get; set; }
 
         public void AddSlotToSlots(Slot s) { Slots.Add(s); }
         public void AddInviteeToInvitees(string i) { Invitees.Add(i); }

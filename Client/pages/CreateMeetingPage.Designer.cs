@@ -42,12 +42,12 @@
             this.TopicLb = new System.Windows.Forms.Label();
             this.MinPartNud = new System.Windows.Forms.NumericUpDown();
             this.CreateMeetingButton = new System.Windows.Forms.Button();
-            this.goToBackButton = new System.Windows.Forms.Button();
             this.inviteesCB = new System.Windows.Forms.ComboBox();
             this.locationCB = new System.Windows.Forms.ComboBox();
             this.AddSlotBtn = new System.Windows.Forms.Button();
             this.locationLbl = new System.Windows.Forms.Label();
             this.titleLbl = new System.Windows.Forms.Label();
+            this.backLbl = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.MinPartNud)).BeginInit();
             this.SuspendLayout();
             // 
@@ -67,10 +67,10 @@
             // InviteesLv
             // 
             this.InviteesLv.HideSelection = false;
-            this.InviteesLv.Location = new System.Drawing.Point(216, 159);
+            this.InviteesLv.Location = new System.Drawing.Point(216, 158);
             this.InviteesLv.Margin = new System.Windows.Forms.Padding(2);
             this.InviteesLv.Name = "InviteesLv";
-            this.InviteesLv.Size = new System.Drawing.Size(116, 94);
+            this.InviteesLv.Size = new System.Drawing.Size(116, 95);
             this.InviteesLv.TabIndex = 35;
             this.InviteesLv.UseCompatibleStateImageBehavior = false;
             this.InviteesLv.View = System.Windows.Forms.View.List;
@@ -79,11 +79,12 @@
             // 
             this.InviteesLb.AutoSize = true;
             this.InviteesLb.BackColor = System.Drawing.Color.Transparent;
+            this.InviteesLb.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.InviteesLb.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.InviteesLb.Location = new System.Drawing.Point(213, 143);
             this.InviteesLb.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.InviteesLb.Name = "InviteesLb";
-            this.InviteesLb.Size = new System.Drawing.Size(47, 13);
+            this.InviteesLb.Size = new System.Drawing.Size(56, 13);
             this.InviteesLb.TabIndex = 33;
             this.InviteesLb.Text = "Invitees:";
             // 
@@ -115,11 +116,12 @@
             // 
             this.slotsLbl.AutoSize = true;
             this.slotsLbl.BackColor = System.Drawing.Color.Transparent;
+            this.slotsLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.slotsLbl.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.slotsLbl.Location = new System.Drawing.Point(17, 143);
             this.slotsLbl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.slotsLbl.Name = "slotsLbl";
-            this.slotsLbl.Size = new System.Drawing.Size(33, 13);
+            this.slotsLbl.Size = new System.Drawing.Size(39, 13);
             this.slotsLbl.TabIndex = 30;
             this.slotsLbl.Text = "Slots:";
             // 
@@ -127,11 +129,12 @@
             // 
             this.DateLb.AutoSize = true;
             this.DateLb.BackColor = System.Drawing.Color.Transparent;
+            this.DateLb.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DateLb.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.DateLb.Location = new System.Drawing.Point(17, 263);
             this.DateLb.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.DateLb.Name = "DateLb";
-            this.DateLb.Size = new System.Drawing.Size(33, 13);
+            this.DateLb.Size = new System.Drawing.Size(38, 13);
             this.DateLb.TabIndex = 29;
             this.DateLb.Text = "Date:";
             // 
@@ -139,50 +142,52 @@
             // 
             this.DateDTP.CustomFormat = "yyyy-MM-dd";
             this.DateDTP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.DateDTP.Location = new System.Drawing.Point(78, 257);
+            this.DateDTP.Location = new System.Drawing.Point(82, 257);
             this.DateDTP.Margin = new System.Windows.Forms.Padding(2);
             this.DateDTP.Name = "DateDTP";
-            this.DateDTP.Size = new System.Drawing.Size(86, 20);
+            this.DateDTP.Size = new System.Drawing.Size(82, 20);
             this.DateDTP.TabIndex = 28;
             // 
             // minPartLb
             // 
             this.minPartLb.AutoSize = true;
             this.minPartLb.BackColor = System.Drawing.Color.Transparent;
+            this.minPartLb.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.minPartLb.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.minPartLb.Location = new System.Drawing.Point(17, 115);
             this.minPartLb.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.minPartLb.Name = "minPartLb";
-            this.minPartLb.Size = new System.Drawing.Size(108, 13);
+            this.minPartLb.Size = new System.Drawing.Size(129, 13);
             this.minPartLb.TabIndex = 27;
             this.minPartLb.Text = "Minimum participants:";
             // 
             // TopicTb
             // 
-            this.TopicTb.Location = new System.Drawing.Point(58, 84);
+            this.TopicTb.Location = new System.Drawing.Point(64, 84);
             this.TopicTb.Margin = new System.Windows.Forms.Padding(2);
             this.TopicTb.Name = "TopicTb";
-            this.TopicTb.Size = new System.Drawing.Size(274, 20);
+            this.TopicTb.Size = new System.Drawing.Size(268, 20);
             this.TopicTb.TabIndex = 26;
             // 
             // TopicLb
             // 
             this.TopicLb.AutoSize = true;
             this.TopicLb.BackColor = System.Drawing.Color.Transparent;
+            this.TopicLb.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TopicLb.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.TopicLb.Location = new System.Drawing.Point(17, 87);
             this.TopicLb.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.TopicLb.Name = "TopicLb";
-            this.TopicLb.Size = new System.Drawing.Size(37, 13);
+            this.TopicLb.Size = new System.Drawing.Size(43, 13);
             this.TopicLb.TabIndex = 25;
             this.TopicLb.Text = "Topic:";
             // 
             // MinPartNud
             // 
-            this.MinPartNud.Location = new System.Drawing.Point(126, 113);
+            this.MinPartNud.Location = new System.Drawing.Point(150, 113);
             this.MinPartNud.Margin = new System.Windows.Forms.Padding(2);
             this.MinPartNud.Name = "MinPartNud";
-            this.MinPartNud.Size = new System.Drawing.Size(206, 20);
+            this.MinPartNud.Size = new System.Drawing.Size(182, 20);
             this.MinPartNud.TabIndex = 24;
             // 
             // CreateMeetingButton
@@ -198,19 +203,6 @@
             this.CreateMeetingButton.UseVisualStyleBackColor = false;
             this.CreateMeetingButton.Click += new System.EventHandler(this.CreateMeetingButton_Click);
             // 
-            // goToBackButton
-            // 
-            this.goToBackButton.BackColor = System.Drawing.Color.LightGray;
-            this.goToBackButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.goToBackButton.Location = new System.Drawing.Point(20, 328);
-            this.goToBackButton.Margin = new System.Windows.Forms.Padding(2);
-            this.goToBackButton.Name = "goToBackButton";
-            this.goToBackButton.Size = new System.Drawing.Size(56, 23);
-            this.goToBackButton.TabIndex = 22;
-            this.goToBackButton.Text = "Back";
-            this.goToBackButton.UseVisualStyleBackColor = false;
-            this.goToBackButton.Click += new System.EventHandler(this.goToBackButton_Click);
-            // 
             // inviteesCB
             // 
             this.inviteesCB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -224,9 +216,9 @@
             // 
             this.locationCB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.locationCB.FormattingEnabled = true;
-            this.locationCB.Location = new System.Drawing.Point(78, 282);
+            this.locationCB.Location = new System.Drawing.Point(82, 282);
             this.locationCB.Name = "locationCB";
-            this.locationCB.Size = new System.Drawing.Size(86, 21);
+            this.locationCB.Size = new System.Drawing.Size(82, 21);
             this.locationCB.TabIndex = 39;
             // 
             // AddSlotBtn
@@ -246,11 +238,12 @@
             // 
             this.locationLbl.AutoSize = true;
             this.locationLbl.BackColor = System.Drawing.Color.Transparent;
+            this.locationLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.locationLbl.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.locationLbl.Location = new System.Drawing.Point(17, 285);
             this.locationLbl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.locationLbl.Name = "locationLbl";
-            this.locationLbl.Size = new System.Drawing.Size(51, 13);
+            this.locationLbl.Size = new System.Drawing.Size(60, 13);
             this.locationLbl.TabIndex = 40;
             this.locationLbl.Text = "Location:";
             // 
@@ -266,11 +259,25 @@
             this.titleLbl.TabIndex = 41;
             this.titleLbl.Text = "Create Meeting";
             // 
+            // backLbl
+            // 
+            this.backLbl.AutoSize = true;
+            this.backLbl.BackColor = System.Drawing.Color.Transparent;
+            this.backLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.backLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.backLbl.Location = new System.Drawing.Point(17, 336);
+            this.backLbl.Name = "backLbl";
+            this.backLbl.Size = new System.Drawing.Size(38, 15);
+            this.backLbl.TabIndex = 42;
+            this.backLbl.Text = "Back";
+            this.backLbl.Click += new System.EventHandler(this.backLbl_Click);
+            // 
             // CreateMeetingPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Controls.Add(this.backLbl);
             this.Controls.Add(this.titleLbl);
             this.Controls.Add(this.locationLbl);
             this.Controls.Add(this.locationCB);
@@ -288,7 +295,6 @@
             this.Controls.Add(this.TopicLb);
             this.Controls.Add(this.MinPartNud);
             this.Controls.Add(this.CreateMeetingButton);
-            this.Controls.Add(this.goToBackButton);
             this.Name = "CreateMeetingPage";
             this.Size = new System.Drawing.Size(349, 366);
             ((System.ComponentModel.ISupportInitialize)(this.MinPartNud)).EndInit();
@@ -312,11 +318,11 @@
         private System.Windows.Forms.Label TopicLb;
         private System.Windows.Forms.NumericUpDown MinPartNud;
         private System.Windows.Forms.Button CreateMeetingButton;
-        private System.Windows.Forms.Button goToBackButton;
         private System.Windows.Forms.ComboBox inviteesCB;
         private System.Windows.Forms.ComboBox locationCB;
         private System.Windows.Forms.Button AddSlotBtn;
         private System.Windows.Forms.Label locationLbl;
         private System.Windows.Forms.Label titleLbl;
+        private System.Windows.Forms.Label backLbl;
     }
 }

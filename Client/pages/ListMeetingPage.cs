@@ -13,22 +13,40 @@ namespace MSDAD_CLI.pages
             InitializeComponent();
         }
 
-        private void goToBackButton_Click(object sender, EventArgs e)
+        private void backLbl_Click(object sender, EventArgs e)
         {
             Client.mainForm.switchPage(Client.mainForm.mainPage);
         }
 
-        public void FillListView()
+        public void FillTopicListView()
         {
             this.BeginInvoke(new MethodInvoker(delegate
             {
-                ListMeetingsLv.Items.Clear();
+                listMeetingsLv.Items.Clear();
 
-                List<MeetingProposal> MeetingsList = Client.server.ListMeetings(Client.Username);
-                foreach (MeetingProposal mp in MeetingsList)
+                try
                 {
-                    ListMeetingsLv.Items.Add(new ListViewItem(mp.Topic));
+                    List<MeetingProposal> MeetingsList = Client.server.ListMeetings(Client.Username);
+                    foreach (MeetingProposal mp in MeetingsList)
+                    {
+                        listMeetingsLv.Items.Add(new ListViewItem(mp.Topic));
+                    }
                 }
+                catch (System.Net.Sockets.SocketException)
+                {
+                    MessageBox.Show("Lost connection to the server.",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            }));
+        }
+
+        public void AddMeetingToList(string topic)
+        {
+            this.BeginInvoke(new MethodInvoker(delegate
+            {
+                listMeetingsLv.Items.Add(new ListViewItem(topic));
             }));
         }
     }

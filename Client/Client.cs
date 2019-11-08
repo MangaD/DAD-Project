@@ -94,10 +94,18 @@ namespace MSDAD_CLI
 
     public class ClientServices : MarshalByRefObject, IClient
     {
-
         public ClientServices()
         {
         }
 
+        public void InformNewMeeting(string topic)
+        {
+            if (Client.mainForm != null && Client.mainForm.listMeetingPage != null)
+            {
+                Client.mainForm.listMeetingPage.AddMeetingToList(topic);
+                Client.mainForm.joinMeetingPage.AddMeetingToCB(topic);
+                Client.mainForm.closeMeetingPage.AddMeetingToCB(topic);
+            }
+        }
     }
 }

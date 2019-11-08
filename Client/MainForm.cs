@@ -26,6 +26,11 @@ namespace MSDAD_CLI
             setPageAttributes(closeMeetingPage);
             setPageAttributes(listMeetingPage);
 
+            // Fill list of meetings at startup
+            listMeetingPage.FillTopicListView();
+            joinMeetingPage.FillTopicCB();
+            closeMeetingPage.FillTopicCB();
+
             switchPage(mainPage);
         }
 

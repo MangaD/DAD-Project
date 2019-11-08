@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
+
+using API;
 
 namespace MSDAD_CLI.pages
 {
@@ -9,6 +12,12 @@ namespace MSDAD_CLI.pages
         {
             InitializeComponent();
         }
+
+        private void backLbl_Click(object sender, EventArgs e)
+        {
+            Client.mainForm.switchPage(Client.mainForm.mainPage);
+        }
+
         private void goToBackButton_Click(object sender, EventArgs e)
         {
             Client.mainForm.switchPage(Client.mainForm.mainPage);
@@ -32,6 +41,38 @@ namespace MSDAD_CLI.pages
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
+        }
+
+        public void FillTopicCB()
+        {
+            this.BeginInvoke(new MethodInvoker(delegate
+            {
+                topicCB.Items.Clear();
+
+                try
+                {
+                    List<MeetingProposal> MeetingsList = Client.server.ListMeetings(Client.Username);
+                    foreach (MeetingProposal mp in MeetingsList)
+                    {
+                        topicCB.Items.Add(new ListViewItem(mp.Topic));
+                    }
+                }
+                catch (System.Net.Sockets.SocketException)
+                {
+                    MessageBox.Show("Lost connection to the server.",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            }));
+        }
+
+        public void AddMeetingToCB(string topic)
+        {
+            this.BeginInvoke(new MethodInvoker(delegate
+            {
+                topicCB.Items.Add(topic);
+            }));
         }
     }
 }

@@ -13,55 +13,57 @@ namespace MSDAD_CLI.pages
             InitializeComponent();
         }
 
-        private void goToBackButton_Click(object sender, EventArgs e)
+        private void backLbl_Click(object sender, EventArgs e)
         {
+            Client.mainForm.ResetAllControls(this);
             Client.mainForm.switchPage(Client.mainForm.mainPage);
         }
 
-        private void searchTopicButton_Click(object sender, EventArgs e)
+        private void topicCB_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SlotsLv.Items.Clear();
-            SelectedSlotsLv.Items.Clear();
-            foreach (MeetingProposal mp in Client.server.ListMeetings(Client.Username))
+            availableSlotsLv.Items.Clear();
+            selectedSlotsLv.Items.Clear();
+
+            if (topicCB == null || topicCB.Text == null || topicCB.Text == "")
             {
-                if (mp.Topic == TopicTb.Text)
-                {
-                    foreach (Slot slot in mp.Slots)
-                    {
-                        ListViewItem lvi = new ListViewItem(slot.date.ToString("yyyy-MM-dd"));
-                        lvi.SubItems.Add(slot.location);
-                        SlotsLv.Items.Add(lvi);
-                    }
-                    break;
-                }
+                return;
+            }
+
+            MeetingProposal mp = Client.server.GetMeeting(topicCB.Text);
+
+            foreach (Slot slot in mp.Slots)
+            {
+                ListViewItem lvi = new ListViewItem(slot.date.ToString("yyyy-MM-dd"));
+                lvi.SubItems.Add(slot.location);
+                availableSlotsLv.Items.Add(lvi);
             }
         }
 
         private void SlotsLv_Click(object sender, EventArgs e)
         {
-            ListViewItem lvi = SlotsLv.SelectedItems[0];
-            SlotsLv.Items.Remove(lvi);
-            SelectedSlotsLv.Items.Add(lvi);
+            ListViewItem lvi = availableSlotsLv.SelectedItems[0];
+            availableSlotsLv.Items.Remove(lvi);
+            selectedSlotsLv.Items.Add(lvi);
 
         }
 
         private void SelectedSlotsLv_Click(object sender, EventArgs e)
         {
-            ListViewItem lvi = SelectedSlotsLv.SelectedItems[0];
-            SelectedSlotsLv.Items.Remove(lvi);
-            SlotsLv.Items.Add(lvi);
+            ListViewItem lvi = selectedSlotsLv.SelectedItems[0];
+            selectedSlotsLv.Items.Remove(lvi);
+            availableSlotsLv.Items.Add(lvi);
         }
 
         private void joinMeetingButton_Click(object sender, EventArgs e)
         {
             List<Slot> selectedSlots = new List<Slot>();
-            foreach (ListViewItem s in SelectedSlotsLv.Items)
+            foreach (ListViewItem s in selectedSlotsLv.Items)
             {
                 Slot slot = Slot.FromString(s.SubItems[1].Text + "," + s.SubItems[0].Text);
                 selectedSlots.Add(slot);
             }
 
-            if (Client.server.JoinMeeting(TopicTb.Text, Client.Username, Client.ClientRA.ToString(), SelectedSlotsLv.Items.Count, selectedSlots))
+            if (Client.server.JoinMeeting(topicCB.Text, Client.Username, Client.ClientRA.ToString(), selectedSlotsLv.Items.Count, selectedSlots))
             {
                 //success
                 MessageBox.Show("Meeting was joined.",
@@ -78,5 +80,37 @@ namespace MSDAD_CLI.pages
                     MessageBoxIcon.Error);
             }
         }
+
+        public void FillTopicCB()
+        {
+            this.BeginInvoke(new MethodInvoker(delegate
+            {
+                topicCB.Items.Clear();
+
+                try
+                {
+                    List<MeetingProposal> MeetingsList = Client.server.ListMeetings(Client.Username);
+                    foreach (MeetingProposal mp in MeetingsList)
+                    {
+                        topicCB.Items.Add(new ListViewItem(mp.Topic));
+                    }
+                } catch (System.Net.Sockets.SocketException)
+                {
+                    MessageBox.Show("Lost connection to the server.",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            }));
+        }
+
+        public void AddMeetingToCB(string topic)
+        {
+            this.BeginInvoke(new MethodInvoker(delegate
+            {
+                topicCB.Items.Add(topic);
+            }));
+        }
+
     }
 }

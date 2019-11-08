@@ -32,11 +32,11 @@ See [documentation/FAQ.md](documentation/FAQ.md)
 
 ### Puppet Master
 
-The Puppet Master is the program we use to start and manage servers and clients. It can also run a script file to automate this task (specification in the assignment). The script file can also contain comments (start with ';'). In order for the PM to work, a PCS must be running on the machine where processes will be created.
+The Puppet Master is the program we use to start and manage servers and clients. It can also run a script file to automate this task (specification in the assignment). The script file can also contain comments (start with ';'). In order for the PM to work, a PCS must be running on the machine where processes will be created. The PM listens on TCP port 10001. For starting servers and clients, their remoting addresses must be provided and are what the user decides.
 
 ### Process Creation Service
 
-This process runs on the machines where servers and clients will be launched. It listens on port 10000.
+This process runs on the machines where servers and clients will be launched. It listens on TCP port 10000.
 
 ### Server
 
@@ -64,8 +64,17 @@ And may receive one 4th optional argument, a script file path (specification in 
 
 **Not yet implemented:**
 
+- Client functionality not 100%
+  - missing error checks
+    - server crash
+    - don't allow adding repeated slots
+    - don't allow joining same meeting twice
+    - don't allow repeated topics
+  - topic combo boxes not yet filled
+  - list meetings could show more information
+  - close meeting not working?
+  - server not informing client when a client joins (the client queries the server instead)
 - Server replication
 - PM Status command
 - Fault tolerance
 - Meeting diffusion algorithm
-

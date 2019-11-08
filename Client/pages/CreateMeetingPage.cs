@@ -13,7 +13,7 @@ namespace MSDAD_CLI.pages
             InitializeComponent();
         }
 
-        private void goToBackButton_Click(object sender, EventArgs e)
+        private void backLbl_Click(object sender, EventArgs e)
         {
             Client.mainForm.ResetAllControls(this);
             Client.mainForm.switchPage(Client.mainForm.mainPage);
@@ -82,6 +82,5 @@ namespace MSDAD_CLI.pages
                 }
             }));
         }
-
     }
 }

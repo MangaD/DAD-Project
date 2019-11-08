@@ -28,7 +28,7 @@ namespace MSDAD_CLI.pages
 
         private void goToListMeetingsButton_Click(object sender, EventArgs e)
         {
-            Client.mainForm.listMeetingPage.FillListView();
+            //Client.mainForm.listMeetingPage.FillListView();
             Client.mainForm.switchPage(Client.mainForm.listMeetingPage);
         }
     }

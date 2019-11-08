@@ -28,55 +28,57 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.MeetingsLb = new System.Windows.Forms.Label();
-            this.ListMeetingsLv = new System.Windows.Forms.ListView();
-            this.goToBackButton = new System.Windows.Forms.Button();
+            this.listMeetingsLv = new System.Windows.Forms.ListView();
+            this.titleLbl = new System.Windows.Forms.Label();
+            this.backLbl = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // MeetingsLb
+            // listMeetingsLv
             // 
-            this.MeetingsLb.AutoSize = true;
-            this.MeetingsLb.BackColor = System.Drawing.Color.Transparent;
-            this.MeetingsLb.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.MeetingsLb.Location = new System.Drawing.Point(128, 67);
-            this.MeetingsLb.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.MeetingsLb.Name = "MeetingsLb";
-            this.MeetingsLb.Size = new System.Drawing.Size(53, 13);
-            this.MeetingsLb.TabIndex = 9;
-            this.MeetingsLb.Text = "Meetings:";
+            this.listMeetingsLv.FullRowSelect = true;
+            this.listMeetingsLv.GridLines = true;
+            this.listMeetingsLv.HideSelection = false;
+            this.listMeetingsLv.Location = new System.Drawing.Point(20, 96);
+            this.listMeetingsLv.Margin = new System.Windows.Forms.Padding(2);
+            this.listMeetingsLv.Name = "listMeetingsLv";
+            this.listMeetingsLv.Size = new System.Drawing.Size(307, 204);
+            this.listMeetingsLv.TabIndex = 8;
+            this.listMeetingsLv.UseCompatibleStateImageBehavior = false;
+            this.listMeetingsLv.View = System.Windows.Forms.View.List;
             // 
-            // ListMeetingsLv
+            // titleLbl
             // 
-            this.ListMeetingsLv.FullRowSelect = true;
-            this.ListMeetingsLv.GridLines = true;
-            this.ListMeetingsLv.HideSelection = false;
-            this.ListMeetingsLv.Location = new System.Drawing.Point(38, 92);
-            this.ListMeetingsLv.Margin = new System.Windows.Forms.Padding(2);
-            this.ListMeetingsLv.Name = "ListMeetingsLv";
-            this.ListMeetingsLv.Size = new System.Drawing.Size(250, 148);
-            this.ListMeetingsLv.TabIndex = 8;
-            this.ListMeetingsLv.UseCompatibleStateImageBehavior = false;
-            this.ListMeetingsLv.View = System.Windows.Forms.View.List;
+            this.titleLbl.AutoSize = true;
+            this.titleLbl.BackColor = System.Drawing.Color.Transparent;
+            this.titleLbl.Font = new System.Drawing.Font("Jokerman", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.titleLbl.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.titleLbl.Location = new System.Drawing.Point(60, 21);
+            this.titleLbl.Name = "titleLbl";
+            this.titleLbl.Size = new System.Drawing.Size(230, 47);
+            this.titleLbl.TabIndex = 42;
+            this.titleLbl.Text = "Meetings List";
             // 
-            // goToBackButton
+            // backLbl
             // 
-            this.goToBackButton.Location = new System.Drawing.Point(20, 332);
-            this.goToBackButton.Margin = new System.Windows.Forms.Padding(2);
-            this.goToBackButton.Name = "goToBackButton";
-            this.goToBackButton.Size = new System.Drawing.Size(56, 19);
-            this.goToBackButton.TabIndex = 7;
-            this.goToBackButton.Text = "Back";
-            this.goToBackButton.UseVisualStyleBackColor = true;
-            this.goToBackButton.Click += new System.EventHandler(this.goToBackButton_Click);
+            this.backLbl.AutoSize = true;
+            this.backLbl.BackColor = System.Drawing.Color.Transparent;
+            this.backLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.backLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.backLbl.Location = new System.Drawing.Point(17, 336);
+            this.backLbl.Name = "backLbl";
+            this.backLbl.Size = new System.Drawing.Size(38, 15);
+            this.backLbl.TabIndex = 43;
+            this.backLbl.Text = "Back";
+            this.backLbl.Click += new System.EventHandler(this.backLbl_Click);
             // 
             // ListMeetingPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.Controls.Add(this.MeetingsLb);
-            this.Controls.Add(this.ListMeetingsLv);
-            this.Controls.Add(this.goToBackButton);
+            this.Controls.Add(this.backLbl);
+            this.Controls.Add(this.titleLbl);
+            this.Controls.Add(this.listMeetingsLv);
             this.Name = "ListMeetingPage";
             this.Size = new System.Drawing.Size(349, 366);
             this.ResumeLayout(false);
@@ -85,9 +87,8 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Label MeetingsLb;
-        private System.Windows.Forms.ListView ListMeetingsLv;
-        private System.Windows.Forms.Button goToBackButton;
+        private System.Windows.Forms.ListView listMeetingsLv;
+        private System.Windows.Forms.Label titleLbl;
+        private System.Windows.Forms.Label backLbl;
     }
 }

@@ -138,5 +138,13 @@ namespace Server
             Random rnd = new Random();
             return rnd.Next(minDelay, maxDelay+1);
         }
+
+        public static void InformAllClientsOfNewMeeting(string topic)
+        {
+            foreach (var c in clients)
+            {
+                c.ClientChannel.InformNewMeeting(topic);
+            }
+        }
     }
 }
