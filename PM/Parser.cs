@@ -191,7 +191,7 @@ namespace PM
                     catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
+                        //return;
                     }
                 }
                 else if (command[0].Equals("freeze", StringComparison.OrdinalIgnoreCase))
@@ -205,7 +205,7 @@ namespace PM
                     catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
+                        //return;
                     }
                 }
                 else if (command[0].Equals("unfreeze", StringComparison.OrdinalIgnoreCase))
@@ -219,7 +219,7 @@ namespace PM
                     catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
+                        //return;
                     }
                 }
                 else if (command[0].Equals("wait", StringComparison.OrdinalIgnoreCase))
@@ -229,6 +229,7 @@ namespace PM
                 else if (command[0].Equals("status", StringComparison.OrdinalIgnoreCase))
                 {
                     // TODO
+                    MessageBox.Show("Status command not yet implemented.");
                 }
                 else if (command[0].Equals("server", StringComparison.OrdinalIgnoreCase))
                 {
@@ -243,6 +244,7 @@ namespace PM
                             "Error",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
+                        //return;
                     }
                 }
                 else if (command[0].Equals("client", StringComparison.OrdinalIgnoreCase))
@@ -258,6 +260,7 @@ namespace PM
                             "Error",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
+                        //return;
                     }
                 }
                 else if (command[0].Equals("AddRoom", StringComparison.OrdinalIgnoreCase))
@@ -266,7 +269,7 @@ namespace PM
                     {
                         MessageBox.Show($"Cannot add room '{command[3]}' because there are no servers running.",
                             "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
+                        continue;//return;
                     }
 
                     try
@@ -276,7 +279,7 @@ namespace PM
                     catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
+                        //return;
                     }
                 }
 

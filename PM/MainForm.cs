@@ -31,6 +31,12 @@ namespace PM
         {
             page.BackColor = Color.Transparent;
             page.Dock = DockStyle.Fill;
+
+            // https://www.codeproject.com/Questions/549373/InvokeplusorplusBeginInvokepluscannotplusbepluscal
+            if (!page.IsHandleCreated)
+            {
+                page.CreateControl();
+            }
         }
 
         public void switchPage(UserControl page)

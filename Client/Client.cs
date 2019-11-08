@@ -2,6 +2,7 @@
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
+using System.Threading;
 using System.Windows.Forms;
 
 using API;
@@ -33,7 +34,6 @@ namespace MSDAD_CLI
                 string error = "This program must take at least 3 arguments. " +
                     "client name, client remoting address, and server remoting address. " +
                     "Optionally a 4th argument, the script filename.";
-                Utilities.WriteError(error);
                 MessageBox.Show(error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -58,23 +58,18 @@ namespace MSDAD_CLI
             {
                 string scriptFilename = args[3];
 
-                Parser parser = new Parser(scriptFilename);
                 try
                 {
+                    Parser parser = new Parser(scriptFilename);
                     parser.Parse();
+                    Thread scriptThread = new Thread(parser.ExecCommands);
+                    scriptThread.Start();
                 }
                 catch (ParserException pe)
                 {
                     MessageBox.Show(pe.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Utilities.WriteError(pe.Message);
-                    Console.ReadKey();
-                    Environment.Exit(0);
                 }
-
-                //parser.ExecCommands();
             }
-
-            server.ClientSaysHelloToServer(ClientRA.port);
 
             Application.Run(clientFormUtilities.mainForm);
         }
@@ -105,9 +100,5 @@ namespace MSDAD_CLI
         {
         }
 
-        public void ServerRespondsHiToClient(UInt16 serverPort)
-        {
-            Console.WriteLine("Server: " + serverPort + " Responded Hi");
-        }
     }
 }

@@ -22,13 +22,18 @@ namespace PM.pages
 
         public void AddServerToList(string serverID)
         {
-            serverListBox.Items.Add(serverID);
+            this.BeginInvoke(new MethodInvoker(delegate
+            {
+                serverListBox.Items.Add(serverID);
+            }));
         }
 
         public void RemoveServerFromList(string serverID)
         {
             // https://stackoverflow.com/questions/142003/cross-thread-operation-not-valid-control-accessed-from-a-thread-other-than-the
-            serverListBox.BeginInvoke(new MethodInvoker(delegate { serverListBox.Items.Remove(serverID); }));
+            this.BeginInvoke(new MethodInvoker(delegate {
+                serverListBox.Items.Remove(serverID);
+            }));
         }
 
         private void freezeBtn_Click(object sender, EventArgs e)
@@ -204,12 +209,15 @@ namespace PM.pages
 
         public void FillLocationCb(List<string> locations)
         {
-            locationCb.Items.Clear();
-
-            foreach (string loc in locations)
+            this.BeginInvoke(new MethodInvoker(delegate
             {
-                locationCb.Items.Add(loc);
-            }
+                locationCb.Items.Clear();
+
+                foreach (string loc in locations)
+                {
+                    locationCb.Items.Add(loc);
+                }
+            }));
         }
     }
 }

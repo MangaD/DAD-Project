@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace PM.pages
@@ -20,7 +21,8 @@ namespace PM.pages
             {
                 Parser p = new Parser(openScriptDialog.FileName);
                 p.Parse();
-                p.ExecCommands();
+                Thread scriptThread = new Thread(p.ExecCommands);
+                scriptThread.Start();
             }
         }
 

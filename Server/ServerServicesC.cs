@@ -195,23 +195,5 @@ namespace Server
             return loc;
         }
 
-        public void ClientSaysHelloToServer(UInt16 clientPort)
-        {
-            Server.freezeHandle.WaitOne(); // For Freeze command
-
-            //Find client in client list
-            Client client = Server.clients.First(item => item.ClientRA.port == clientPort);
-
-            Console.WriteLine("Client: " + client.ClientName + " Port: " + client.ClientRA.port + " Says: Hello");
-
-            //Server responds to that talked to him.
-            //client.getClientChannel().serverRespondsHiToClient(server.getServerPort());
-
-            //Server Broadcasts to all clients include client that talked to him.
-            foreach (Client c in Server.clients)
-            {
-                c.ClientChannel.ServerRespondsHiToClient(Server.serverRA.port);
-            }
-        }
     }
 }
