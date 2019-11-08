@@ -21,9 +21,9 @@ namespace MSDAD_CLI.pages
 
         private void CreateMeetingButton_Click(object sender, EventArgs e)
         {
-            if (TopicTb == null || TopicTb.Text == null || TopicTb.Text == "")
+            if (topicTb == null || topicTb.Text == null || topicTb.Text == "")
             {
-                MessageBox.Show("You must add topic to the meeting.");
+                MessageBox.Show("You must add a topic to the meeting.");
                 return;
             }
 
@@ -49,7 +49,12 @@ namespace MSDAD_CLI.pages
             try
             {
                 Client.server.CreateMeeting(Client.Username, Client.ClientRA.ToString(),
-                    TopicTb.Text, Convert.ToUInt16(MinPartNud.Value), slots, invitees);
+                    topicTb.Text, Convert.ToUInt16(MinPartNud.Value), slots, invitees);
+
+                MessageBox.Show($"Joined meeting '{topicTb.Text}'");
+
+                Client.mainForm.ResetAllControls(this);
+                Client.mainForm.switchPage(Client.mainForm.mainPage);
             }
             catch (System.Net.Sockets.SocketException)
             {
