@@ -63,18 +63,21 @@ namespace MSDAD_CLI.pages
                 selectedSlots.Add(slot);
             }
 
-            if (Client.server.JoinMeeting(topicCB.Text, Client.Username, Client.ClientRA.ToString(), selectedSlotsLv.Items.Count, selectedSlots))
+            try
             {
-                //success
-                MessageBox.Show("Meeting was joined.",
-                    "Success",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+                Client.server.JoinMeeting(topicCB.Text, Client.Username, Client.ClientRA.ToString(),
+                    selectedSlotsLv.Items.Count, selectedSlots);
             }
-            else
+            catch (System.Net.Sockets.SocketException)
             {
-                //fail
-                MessageBox.Show("Meeting couldn't be joined.",
+                MessageBox.Show("Lost connection to the server.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);

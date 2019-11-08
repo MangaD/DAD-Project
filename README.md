@@ -70,6 +70,7 @@ And may receive one 4th optional argument, a script file path (specification in 
     - don't allow adding repeated slots
     - don't allow joining same meeting twice
     - don't allow repeated topics
+    - join meetings topic combo box should not show already joined meetings
   - topic combo boxes not yet filled
   - list meetings could show more information
   - close meeting not working?

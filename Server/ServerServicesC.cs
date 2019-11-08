@@ -111,34 +111,41 @@ namespace Server
                 "\n\tMinimum participants: " + minAttendees);
         }
 
-        public bool JoinMeeting(string topic, string clientName, string clientRA, int n_slots, List<Slot> locationDates)
+        public void JoinMeeting(string topic, string clientName, string clientRA, int n_slots, List<Slot> locationDates)
         {
             Server.freezeHandle.WaitOne(); // For Freeze command
             this.Delay(); // For induced delay
 
+
             foreach (MeetingProposal mp in Server.meetingPropList)
             {
-                if (mp.Topic == topic && !mp.IsClosed && !mp.ClientsJoined.Keys.Contains(clientName))
+                if (mp.Topic == topic)
                 {
+                    if (mp.IsClosed)
+                    {
+                        throw new ApplicationException($"Meeting '{topic}' is closed.");
+                    }
+                    else if (mp.ClientsJoined.Keys.Contains(clientName))
+                    {
+                        throw new ApplicationException($"You have already joined meeting '{topic}'.");
+                    }
+
                     if (mp.Invitees.Count == 0)
                     {
                         mp.JoinClientToMeeting(clientName, clientRA, n_slots, locationDates);
-                        return true;
                     }
                     else
                     {
                         foreach (string inv in mp.Invitees)
                         {
-                            if (inv == clientName && !mp.IsClosed)
+                            if (inv == clientName || clientName == mp.CoordinatorUsername)
                             {
                                 mp.JoinClientToMeeting(clientName, clientRA, n_slots, locationDates);
-                                return true;
                             }
                         }
                     }
                 }
             }
-            return false;
         }
 
         public List<MeetingProposal> ListMeetings(string clientName)
