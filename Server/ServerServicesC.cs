@@ -93,10 +93,18 @@ namespace Server
             return false;
         }
 
-        public void CreateMeeting(string coordinatorUser, string coordinatorURL, string topic, uint minAttendees, List<Slot> slots, List<string> invitees)
+        public bool CreateMeeting(string coordinatorUser, string coordinatorURL, string topic, uint minAttendees, List<Slot> slots, List<string> invitees)
         {
             Server.freezeHandle.WaitOne(); // For Freeze command
             this.Delay(); // For induced delay
+
+            foreach(MeetingProposal mp in Server.meetingPropList)
+            {
+                if(mp.Topic == topic)
+                {
+                    return false;
+                }
+            }
 
             Server.meetingPropList.Add(new MeetingProposal(coordinatorUser, coordinatorURL, topic, minAttendees, slots, invitees));
 
@@ -109,6 +117,8 @@ namespace Server
                 "\n\tCoordinator: " + coordinatorUser +
                 "\n\tCoordinator URL: " + coordinatorURL +
                 "\n\tMinimum participants: " + minAttendees);
+
+            return true;
         }
 
         public void JoinMeeting(string topic, string clientName, string clientRA, int n_slots, List<Slot> locationDates)
