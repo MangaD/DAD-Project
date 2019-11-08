@@ -25,15 +25,15 @@ namespace MSDAD_CLI
 
         private void searchTopicButton_Click(object sender, EventArgs e)
         {
-            SlotsLv.Clear();
-            SelectedSlotsLv.Clear();
+            SlotsLv.Items.Clear();
+            SelectedSlotsLv.Items.Clear();
             foreach (MeetingProposal mp in Client.server.ListMeetings(Client.Username))
             {
                 if (mp.Topic == TopicTb.Text)
                 {
                     foreach (Slot slot in mp.Slots)
                     {
-                        ListViewItem lvi = new ListViewItem(slot.date.ToString());
+                        ListViewItem lvi = new ListViewItem(slot.date.ToString("yyyy-MM-dd"));
                         lvi.SubItems.Add(slot.location);
                         SlotsLv.Items.Add(lvi);
                     }
@@ -66,7 +66,22 @@ namespace MSDAD_CLI
                 selectedSlots.Add(slot);
             }
 
-            Client.server.JoinMeeting(TopicTb.Text, Client.Username, Client.ClientRA.ToString(), SelectedSlotsLv.Items.Count, selectedSlots);
+            if (Client.server.JoinMeeting(TopicTb.Text, Client.Username, Client.ClientRA.ToString(), SelectedSlotsLv.Items.Count, selectedSlots))
+            {
+                //success
+                MessageBox.Show("Meeting was joined.",
+                    "Success",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            else
+            {
+                //fail
+                MessageBox.Show("Meeting couldn't be joined.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
     }
 }

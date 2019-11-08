@@ -20,5 +20,25 @@ namespace MSDAD_CLI
         {
             ClientFormUtilities.switchForm(this, Client.clientFormUtilities.mainForm);
         }
+
+        private void closeMeetingButton_Click(object sender, EventArgs e)
+        {
+            if (Client.server.CloseMeeting(topicTb.Text, Client.Username))
+            {
+                //success
+                MessageBox.Show("Meeting was booked.",
+                    "Success",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            else
+            {
+                //fail
+                MessageBox.Show("Meeting was cancelled.\nNot enough participants.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
     }
 }
