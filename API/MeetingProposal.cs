@@ -33,9 +33,9 @@ namespace API
 
         public void AddSlotToSlots(Slot s) { Slots.Add(s); }
         public void AddInviteeToInvitees(string i) { Invitees.Add(i); }
-        public void JoinClientToMeeting(string clientName, string clientURL, int slotCount, List<Slot> slots) { 
+        public void JoinClientToMeeting(string clientName, string clientURL, List<Slot> slots) { 
             ClientsJoined.Add(clientName, clientURL);
-            for(int i=0; i<slotCount; i++)
+            for(int i = 0; i < slots.Count; i++)
             {
                 Slot slot = slots[i];
                 if (!ClientPerSlot.ContainsKey(slot)) ClientPerSlot.Add(slot, new List<string>());

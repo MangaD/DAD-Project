@@ -226,7 +226,7 @@ namespace MSDAD_CLI
                         slots.Add(Slot.FromString(command[i]));
                     }
 
-                    Client.server.JoinMeeting(topic, Client.Username, Client.ClientRA.ToString(), slotCount, slots);
+                    Client.server.JoinMeeting(topic, Client.Username, Client.ClientRA.ToString(), slots);
                 }
                 else if (command[0].Equals("close", StringComparison.OrdinalIgnoreCase))
                 {

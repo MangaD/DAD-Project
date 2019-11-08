@@ -88,8 +88,7 @@ namespace MSDAD_CLI.pages
 
             try
             {
-                Client.server.JoinMeeting(topicCB.Text, Client.Username, Client.ClientRA.ToString(),
-                    selectedSlotsLv.Items.Count, selectedSlots);
+                Client.server.JoinMeeting(topicCB.Text, Client.Username, Client.ClientRA.ToString(), selectedSlots);
 
                 MessageBox.Show($"Joined meeting '{topicCB.Text}'");
 

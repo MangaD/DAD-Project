@@ -129,7 +129,7 @@ namespace Server
                 "\n\tMinimum participants: " + minAttendees);
         }
 
-        public void JoinMeeting(string topic, string clientName, string clientRA, int n_slots, List<Slot> locationDates)
+        public void JoinMeeting(string topic, string clientName, string clientRA, List<Slot> locationDates)
         {
             Server.freezeHandle.WaitOne(); // For Freeze command
             this.Delay(); // For induced delay
@@ -158,7 +158,7 @@ namespace Server
 
                     if (mp.Invitees.Count == 0)
                     {
-                        mp.JoinClientToMeeting(clientName, clientRA, n_slots, locationDates);
+                        mp.JoinClientToMeeting(clientName, clientRA, locationDates);
                     }
                     else
                     {
@@ -166,7 +166,7 @@ namespace Server
                         {
                             if (inv == clientName || clientName == mp.CoordinatorUsername)
                             {
-                                mp.JoinClientToMeeting(clientName, clientRA, n_slots, locationDates);
+                                mp.JoinClientToMeeting(clientName, clientRA, locationDates);
                             }
                         }
                     }
