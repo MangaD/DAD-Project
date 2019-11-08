@@ -68,12 +68,12 @@ And may receive one 4th optional argument, a script file path (specification in 
   - missing error checks
     - server crash
     - don't allow adding repeated slots
-    - don't allow joining same meeting twice
     - don't allow repeated topics
     - join meetings topic combo box should not show already joined meetings
+    - don't allow adding meeting without slots and joining meeting without slots
   - topic combo boxes not yet filled
   - list meetings could show more information
-  - close meeting not working?
+  - close meeting 
   - server not informing client when a client joins (the client queries the server instead)
 - Server replication
 - PM Status command

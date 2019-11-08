@@ -29,17 +29,28 @@ namespace MSDAD_CLI.pages
                 return;
             }
 
-            MeetingProposal mp = Client.server.GetMeeting(topicCB.Text);
-
-            foreach (Slot slot in mp.Slots)
+            try
             {
-                ListViewItem lvi = new ListViewItem(slot.date.ToString("yyyy-MM-dd"));
-                lvi.SubItems.Add(slot.location);
-                availableSlotsLv.Items.Add(lvi);
+                MeetingProposal mp = Client.server.GetMeeting(topicCB.Text);
+
+                foreach (Slot slot in mp.Slots)
+                {
+                    ListViewItem lvi = new ListViewItem(slot.date.ToString("yyyy-MM-dd"));
+                    lvi.SubItems.Add(slot.location);
+                    availableSlotsLv.Items.Add(lvi);
+                }
             }
+            catch (System.Net.Sockets.SocketException)
+            {
+                MessageBox.Show("Lost connection to the server.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+
         }
 
-        private void SlotsLv_Click(object sender, EventArgs e)
+        private void availableSlotsLv_Click(object sender, EventArgs e)
         {
             ListViewItem lvi = availableSlotsLv.SelectedItems[0];
             availableSlotsLv.Items.Remove(lvi);
@@ -47,7 +58,7 @@ namespace MSDAD_CLI.pages
 
         }
 
-        private void SelectedSlotsLv_Click(object sender, EventArgs e)
+        private void selectedSlotsLv_Click(object sender, EventArgs e)
         {
             ListViewItem lvi = selectedSlotsLv.SelectedItems[0];
             selectedSlotsLv.Items.Remove(lvi);
@@ -56,6 +67,12 @@ namespace MSDAD_CLI.pages
 
         private void joinMeetingButton_Click(object sender, EventArgs e)
         {
+            if (topicCB == null || topicCB.Text == null || topicCB.Text == "")
+            {
+                MessageBox.Show($"Must select a topic.");
+                return;
+            }
+
             List<Slot> selectedSlots = new List<Slot>();
             foreach (ListViewItem s in selectedSlotsLv.Items)
             {
@@ -63,10 +80,21 @@ namespace MSDAD_CLI.pages
                 selectedSlots.Add(slot);
             }
 
+            if (selectedSlots.Count == 0)
+            {
+                MessageBox.Show($"Must select at least one slot from the list.");
+                return;
+            }
+
             try
             {
                 Client.server.JoinMeeting(topicCB.Text, Client.Username, Client.ClientRA.ToString(),
                     selectedSlotsLv.Items.Count, selectedSlots);
+
+                MessageBox.Show($"Joined meeting '{topicCB.Text}'");
+
+                Client.mainForm.ResetAllControls(this);
+                Client.mainForm.switchPage(Client.mainForm.mainPage);
             }
             catch (System.Net.Sockets.SocketException)
             {
@@ -97,7 +125,8 @@ namespace MSDAD_CLI.pages
                     {
                         topicCB.Items.Add(new ListViewItem(mp.Topic));
                     }
-                } catch (System.Net.Sockets.SocketException)
+                }
+                catch (System.Net.Sockets.SocketException)
                 {
                     MessageBox.Show("Lost connection to the server.",
                         "Error",
@@ -114,6 +143,5 @@ namespace MSDAD_CLI.pages
                 topicCB.Items.Add(topic);
             }));
         }
-
     }
 }

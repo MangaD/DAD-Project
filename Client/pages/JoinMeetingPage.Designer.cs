@@ -97,7 +97,7 @@
             this.selectedSlotsLv.TabIndex = 27;
             this.selectedSlotsLv.UseCompatibleStateImageBehavior = false;
             this.selectedSlotsLv.View = System.Windows.Forms.View.Details;
-            this.selectedSlotsLv.Click += new System.EventHandler(this.SelectedSlotsLv_Click);
+            this.selectedSlotsLv.Click += new System.EventHandler(this.selectedSlotsLv_Click);
             // 
             // columnHeader3
             // 
@@ -124,7 +124,7 @@
             this.availableSlotsLv.TabIndex = 26;
             this.availableSlotsLv.UseCompatibleStateImageBehavior = false;
             this.availableSlotsLv.View = System.Windows.Forms.View.Details;
-            this.availableSlotsLv.Click += new System.EventHandler(this.SlotsLv_Click);
+            this.availableSlotsLv.Click += new System.EventHandler(this.availableSlotsLv_Click);
             // 
             // columnHeader1
             // 

@@ -21,19 +21,43 @@ namespace MSDAD_CLI.pages
 
         private void CreateMeetingButton_Click(object sender, EventArgs e)
         {
+            if (TopicTb == null || TopicTb.Text == null || TopicTb.Text == "")
+            {
+                MessageBox.Show("You must add topic to the meeting.");
+                return;
+            }
+
             List<Slot> slots = new List<Slot>();
             foreach (ListViewItem s in SlotsLv.Items)
             {
                 Slot slot = Slot.FromString(s.SubItems[1].Text + "," + s.SubItems[0].Text);
                 slots.Add(new Slot(slot.location, slot.date));
             }
+
+            if (slots.Count == 0)
+            {
+                MessageBox.Show("You must add slots to the meeting.");
+                return;
+            }
+
             List<string> invitees = new List<string>();
             foreach (ListViewItem i in InviteesLv.Items)
             {
                 invitees.Add(i.Text);
             }
 
-            Client.server.CreateMeeting(Client.Username, Client.ClientRA.ToString(), TopicTb.Text, Convert.ToUInt16(MinPartNud.Value), slots, invitees);
+            try
+            {
+                Client.server.CreateMeeting(Client.Username, Client.ClientRA.ToString(),
+                    TopicTb.Text, Convert.ToUInt16(MinPartNud.Value), slots, invitees);
+            }
+            catch (System.Net.Sockets.SocketException)
+            {
+                MessageBox.Show("Lost connection to the server.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
 
             Client.mainForm.ResetAllControls(this);
             Client.mainForm.switchPage(Client.mainForm.mainPage);
@@ -41,6 +65,33 @@ namespace MSDAD_CLI.pages
 
         private void AddSlotBtn_Click(object sender, EventArgs e)
         {
+            if (DateDTP == null || DateDTP.Text == null || DateDTP.Text == "")
+            {
+                MessageBox.Show("Must select a date for the slot!");
+                return;
+            }
+            if (locationCB == null || locationCB.SelectedItem == null ||
+                locationCB.SelectedItem.ToString() == "")
+            {
+                MessageBox.Show("Must select a location for the slot!");
+                return;
+            }
+
+            foreach (ListViewItem item in SlotsLv.Items)
+            {
+                if (item.Text == DateDTP.Text)
+                {
+                    foreach (ListViewItem.ListViewSubItem subitem in item.SubItems)
+                    {
+                        if (subitem.Text == locationCB.SelectedItem.ToString())
+                        {
+                            MessageBox.Show("You have already added this slot.");
+                            return;
+                        }
+                    }
+                }
+            }
+
             ListViewItem lvi = new ListViewItem(DateDTP.Text);
             lvi.SubItems.Add(locationCB.SelectedItem.ToString());
             SlotsLv.Items.Add(lvi);
@@ -48,6 +99,12 @@ namespace MSDAD_CLI.pages
 
         private void InviteUserBtn_Click(object sender, EventArgs e)
         {
+            if (inviteesCB == null || inviteesCB.Text == null || inviteesCB.Text == "")
+            {
+                MessageBox.Show("Must select a user to invite!");
+                return;
+            }
+
             try
             {
                 InviteesLv.Items.Add(inviteesCB.SelectedItem.ToString());
@@ -66,19 +123,29 @@ namespace MSDAD_CLI.pages
                 inviteesCB.Items.Clear();
                 locationCB.Items.Clear();
 
-                List<string> usernamesList = Client.server.GetClientsUsername();
-                foreach (string user in usernamesList)
+                try
                 {
-                    if (user != Client.Username)
+                    List<string> usernamesList = Client.server.GetClientsUsername();
+                    foreach (string user in usernamesList)
                     {
-                        inviteesCB.Items.Add(user);
+                        if (user != Client.Username)
+                        {
+                            inviteesCB.Items.Add(user);
+                        }
+                    }
+
+                    List<string> locationsList = Client.server.GetLocations();
+                    foreach (string location in locationsList)
+                    {
+                        locationCB.Items.Add(location);
                     }
                 }
-
-                List<string> locationsList = Client.server.GetLocations();
-                foreach (string location in locationsList)
+                catch (System.Net.Sockets.SocketException)
                 {
-                    locationCB.Items.Add(location);
+                    MessageBox.Show("Lost connection to the server.",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
                 }
             }));
         }
