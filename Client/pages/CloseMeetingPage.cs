@@ -18,6 +18,16 @@ namespace MSDAD_CLI.pages
             Client.mainForm.switchPage(Client.mainForm.mainPage);
         }
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Enter)
+            {
+                closeMeetingButton.PerformClick();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
         private void goToBackButton_Click(object sender, EventArgs e)
         {
             Client.mainForm.switchPage(Client.mainForm.mainPage);
@@ -25,18 +35,31 @@ namespace MSDAD_CLI.pages
 
         private void closeMeetingButton_Click(object sender, EventArgs e)
         {
-            if (Client.server.CloseMeeting(topicCB.Text, Client.Username))
+            if (topicCB == null || topicCB.Text == null || topicCB.Text == "")
             {
-                //success
-                MessageBox.Show("Meeting was booked.",
-                    "Success",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+                MessageBox.Show($"Must select a topic.");
+                return;
             }
-            else
+
+            try
             {
-                //fail
-                MessageBox.Show("Meeting was cancelled.\nNot enough participants.",
+                Client.server.CloseMeeting(topicCB.Text, Client.Username);
+
+                MessageBox.Show($"Meeting '{topicCB.Text}' was booked.");
+
+                Client.mainForm.ResetAllControls(this);
+                Client.mainForm.switchPage(Client.mainForm.mainPage);
+            }
+            catch (System.Net.Sockets.SocketException)
+            {
+                MessageBox.Show("Lost connection to the server.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);

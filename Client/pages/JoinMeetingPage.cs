@@ -19,6 +19,16 @@ namespace MSDAD_CLI.pages
             Client.mainForm.switchPage(Client.mainForm.mainPage);
         }
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Enter)
+            {
+                joinMeetingButton.PerformClick();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
         private void topicCB_SelectedIndexChanged(object sender, EventArgs e)
         {
             availableSlotsLv.Items.Clear();
@@ -88,8 +98,7 @@ namespace MSDAD_CLI.pages
 
             try
             {
-                Client.server.JoinMeeting(topicCB.Text, Client.Username, Client.ClientRA.ToString(),
-                    selectedSlotsLv.Items.Count, selectedSlots);
+                Client.server.JoinMeeting(topicCB.Text, Client.Username, Client.ClientRA.ToString(), selectedSlots);
 
                 MessageBox.Show($"Joined meeting '{topicCB.Text}'");
 

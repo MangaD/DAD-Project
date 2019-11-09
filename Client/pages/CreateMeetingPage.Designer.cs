@@ -38,8 +38,8 @@
             this.DateLb = new System.Windows.Forms.Label();
             this.DateDTP = new System.Windows.Forms.DateTimePicker();
             this.minPartLb = new System.Windows.Forms.Label();
-            this.TopicTb = new System.Windows.Forms.TextBox();
-            this.TopicLb = new System.Windows.Forms.Label();
+            this.topicTb = new System.Windows.Forms.TextBox();
+            this.topicLbl = new System.Windows.Forms.Label();
             this.MinPartNud = new System.Windows.Forms.NumericUpDown();
             this.CreateMeetingButton = new System.Windows.Forms.Button();
             this.inviteesCB = new System.Windows.Forms.ComboBox();
@@ -161,26 +161,26 @@
             this.minPartLb.TabIndex = 27;
             this.minPartLb.Text = "Minimum participants:";
             // 
-            // TopicTb
+            // topicTb
             // 
-            this.TopicTb.Location = new System.Drawing.Point(64, 84);
-            this.TopicTb.Margin = new System.Windows.Forms.Padding(2);
-            this.TopicTb.Name = "TopicTb";
-            this.TopicTb.Size = new System.Drawing.Size(268, 20);
-            this.TopicTb.TabIndex = 26;
+            this.topicTb.Location = new System.Drawing.Point(64, 84);
+            this.topicTb.Margin = new System.Windows.Forms.Padding(2);
+            this.topicTb.Name = "topicTb";
+            this.topicTb.Size = new System.Drawing.Size(268, 20);
+            this.topicTb.TabIndex = 26;
             // 
-            // TopicLb
+            // topicLbl
             // 
-            this.TopicLb.AutoSize = true;
-            this.TopicLb.BackColor = System.Drawing.Color.Transparent;
-            this.TopicLb.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TopicLb.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.TopicLb.Location = new System.Drawing.Point(17, 87);
-            this.TopicLb.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.TopicLb.Name = "TopicLb";
-            this.TopicLb.Size = new System.Drawing.Size(43, 13);
-            this.TopicLb.TabIndex = 25;
-            this.TopicLb.Text = "Topic:";
+            this.topicLbl.AutoSize = true;
+            this.topicLbl.BackColor = System.Drawing.Color.Transparent;
+            this.topicLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.topicLbl.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.topicLbl.Location = new System.Drawing.Point(17, 87);
+            this.topicLbl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.topicLbl.Name = "topicLbl";
+            this.topicLbl.Size = new System.Drawing.Size(43, 13);
+            this.topicLbl.TabIndex = 25;
+            this.topicLbl.Text = "Topic:";
             // 
             // MinPartNud
             // 
@@ -291,8 +291,8 @@
             this.Controls.Add(this.DateLb);
             this.Controls.Add(this.DateDTP);
             this.Controls.Add(this.minPartLb);
-            this.Controls.Add(this.TopicTb);
-            this.Controls.Add(this.TopicLb);
+            this.Controls.Add(this.topicTb);
+            this.Controls.Add(this.topicLbl);
             this.Controls.Add(this.MinPartNud);
             this.Controls.Add(this.CreateMeetingButton);
             this.Name = "CreateMeetingPage";
@@ -314,8 +314,8 @@
         private System.Windows.Forms.Label DateLb;
         private System.Windows.Forms.DateTimePicker DateDTP;
         private System.Windows.Forms.Label minPartLb;
-        private System.Windows.Forms.TextBox TopicTb;
-        private System.Windows.Forms.Label TopicLb;
+        private System.Windows.Forms.TextBox topicTb;
+        private System.Windows.Forms.Label topicLbl;
         private System.Windows.Forms.NumericUpDown MinPartNud;
         private System.Windows.Forms.Button CreateMeetingButton;
         private System.Windows.Forms.ComboBox inviteesCB;

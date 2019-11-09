@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using API;
 
 namespace MSDAD_CLI
@@ -212,7 +213,17 @@ namespace MSDAD_CLI
             {
                 if (command[0].Equals("list", StringComparison.OrdinalIgnoreCase))
                 {
-                    Client.server.ListMeetings(Client.Username);
+                    try
+                    {
+                        Client.server.ListMeetings(Client.Username);
+                    }
+                    catch (System.Net.Sockets.SocketException)
+                    {
+                        MessageBox.Show("Lost connection to the server.",
+                            "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
                 }
                 else if (command[0].Equals("join", StringComparison.OrdinalIgnoreCase))
                 {
@@ -226,11 +237,45 @@ namespace MSDAD_CLI
                         slots.Add(Slot.FromString(command[i]));
                     }
 
-                    Client.server.JoinMeeting(topic, Client.Username, Client.ClientRA.ToString(), slotCount, slots);
+                    try
+                    {
+                        Client.server.JoinMeeting(topic, Client.Username, Client.ClientRA.ToString(), slots);
+                    }
+                    catch (System.Net.Sockets.SocketException)
+                    {
+                        MessageBox.Show("Lost connection to the server.",
+                            "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message,
+                            "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
                 }
                 else if (command[0].Equals("close", StringComparison.OrdinalIgnoreCase))
                 {
-                    Client.server.CloseMeeting(command[1], Client.Username);
+                    try
+                    {
+                        Client.server.CloseMeeting(command[1], Client.Username);
+                    }
+                    catch (System.Net.Sockets.SocketException)
+                    {
+                        MessageBox.Show("Lost connection to the server.",
+                            "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message,
+                            "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
                 }
                 else if (command[0].Equals("create", StringComparison.OrdinalIgnoreCase))
                 {
@@ -252,7 +297,24 @@ namespace MSDAD_CLI
                         invitees.Add(command[i]);
                     }
 
-                    Client.server.CreateMeeting(Client.Username, Client.ClientRA.ToString(), command[1], (uint) minAttendees, slots, invitees);
+                    try
+                    {
+                        Client.server.CreateMeeting(Client.Username, Client.ClientRA.ToString(), command[1], (uint)minAttendees, slots, invitees);
+                    }
+                    catch (System.Net.Sockets.SocketException)
+                    {
+                        MessageBox.Show("Lost connection to the server.",
+                            "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message,
+                            "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
                 }
                 else if (command[0].Equals("wait", StringComparison.OrdinalIgnoreCase))
                 {

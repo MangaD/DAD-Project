@@ -19,11 +19,21 @@ namespace MSDAD_CLI.pages
             Client.mainForm.switchPage(Client.mainForm.mainPage);
         }
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Enter)
+            {
+                CreateMeetingButton.PerformClick();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
         private void CreateMeetingButton_Click(object sender, EventArgs e)
         {
-            if (TopicTb == null || TopicTb.Text == null || TopicTb.Text == "")
+            if (topicTb == null || topicTb.Text == null || topicTb.Text == "")
             {
-                MessageBox.Show("You must add topic to the meeting.");
+                MessageBox.Show("You must add a topic to the meeting.");
                 return;
             }
 
@@ -49,11 +59,23 @@ namespace MSDAD_CLI.pages
             try
             {
                 Client.server.CreateMeeting(Client.Username, Client.ClientRA.ToString(),
-                    TopicTb.Text, Convert.ToUInt16(MinPartNud.Value), slots, invitees);
+                    topicTb.Text, Convert.ToUInt16(MinPartNud.Value), slots, invitees);
+
+                MessageBox.Show($"Created meeting '{topicTb.Text}'");
+
+                Client.mainForm.ResetAllControls(this);
+                Client.mainForm.switchPage(Client.mainForm.mainPage);
             }
             catch (System.Net.Sockets.SocketException)
             {
                 MessageBox.Show("Lost connection to the server.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
