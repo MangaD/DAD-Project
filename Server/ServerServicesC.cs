@@ -15,7 +15,7 @@ namespace Server
             Utilities.Wait(delay);
         }
 
-        public void CloseMeeting(string topic, string coordinatorURL)
+        public void CloseMeeting(string topic, string coordinatorUsername)
         {
             Server.freezeHandle.WaitOne(); // For Freeze command
             this.Delay(); // For induced delay
@@ -23,74 +23,43 @@ namespace Server
             foreach (MeetingProposal mp in Server.meetingPropList)
             {
                 //Closing wanted meeting and client closing is coordinator and meeting is not yet closed
-                if (mp.Topic == topic && mp.CoodinatorURL == coordinatorURL && !mp.IsClosed)
+                if (mp.Topic == topic && mp.CoordinatorUsername == coordinatorUsername && !mp.IsClosed)
                 {
-                    //Check which date is most wanted
-                    List<Slot> maxClientsSlots = new List<Slot>();
+                    // Get most wanted slot by users
+                    Slot most = mp.ChoosedSlots.GroupBy(i => i).OrderByDescending(grp => grp.Count()).Select(grp => grp.Key).First();
+                    Console.WriteLine("Most: " + most.location + " " + most.date);
 
-                    uint maxClients = mp.MinAttendees;
-                    uint nClients;
-
-                    foreach (Slot slot in mp.Slots)
+                    //Check if there is Room available in location choosed
+                    if (Server.locationRooms.ContainsKey(most.location))
                     {
-                        nClients = (uint) mp.ClientPerSlot[slot].Count();
-                        if (nClients > maxClients)
+                        List<Room> rooms = Server.locationRooms[most.location];
+                        foreach(Room r in rooms)
                         {
-                            maxClientsSlots.Clear();
-                            maxClients = nClients;
-                        }
-                        if (nClients == maxClients)
-                        {
-                            maxClientsSlots.Add(slot);
-                        }
-                    }
-
-                    //Check if slot with most clients has available room
-                    Slot selectedSlot = Slot.FromString("empty,0000-00-00");
-
-                    Room maxSizeRoom = new Room("empty", 0);
-                    maxSizeRoom.Available = false;
-
-                    foreach (Slot slot in maxClientsSlots)
-                    {
-                        if (mp.IsClosed) break;
-                        if (Server.locationRooms[slot.location].Count() > 0)
-                        {
-                            foreach (Room room in Server.locationRooms[slot.location])
+                            if(r.Capacity >= mp.ClientsJoined.Keys.Count && r.Available == true)
                             {
-                                if (room.Capacity >= maxSizeRoom.Capacity) maxSizeRoom = room;
-                                if (room.Available && room.Capacity >= maxClients)
-                                {
-                                    selectedSlot = slot;
-                                    room.Available = false;
-                                    mp.IsClosed = true;
-                                    break;
-                                }
+                                r.Available = false;
+                                mp.BookedSlot1 = most;
+                                mp.BookedRoom1 = r;
+                                mp.IsClosed = true;
+                                //slot was available and room is filled with max or less than max capacity
+
+
+                                Console.WriteLine("Meeting Booked with: " + mp.ClientsJoined.Keys.Count +
+                                    " Clients, in Slot: " + mp.BookedSlot1.location + " " + mp.BookedSlot1.date + " " +
+                                    " and in Room: " + mp.BookedRoom1.Name);
+
+                                //return true;
+                                throw new ApplicationException("Meeting Booked with: " + mp.ClientsJoined.Keys.Count +
+                                    " Clients, in Slot: " + mp.BookedSlot1.location + " " + mp.BookedSlot1.date + " " +
+                                    " and in Room: " + mp.BookedRoom1.Name);
                             }
                         }
                     }
-
-                    //Make a list with all the clients that want the slot chosen that has a room
-                    if (selectedSlot.location != "empty")
-                    {
-                        uint del = maxSizeRoom.Capacity;
-                        foreach (string clientName in mp.ClientPerSlot[selectedSlot])
-                        {
-                            //Only add Clients up to max room size
-                            if (del-- == 0) break;
-                            mp.ClientsAccepted.Add(clientName, mp.ClientsJoined[clientName]);
-                        }
-                        //slot was available and room is filled with max or less than max capacity
-                        //return true;
-                    }
-                    else
-                    {
-                        //no slot was available for min atendees
-                        //return false;
-                    }
+                    
                 }
             }
-            //return false;
+
+            throw new ApplicationException("Error Closing Meeting! Try again =(");
         }
 
         public void CreateMeeting(string coordinatorUser, string coordinatorURL, string topic,
