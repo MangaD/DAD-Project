@@ -31,10 +31,17 @@
             this.listMeetingsLv = new System.Windows.Forms.ListView();
             this.titleLbl = new System.Windows.Forms.Label();
             this.backLbl = new System.Windows.Forms.Label();
+            this.topicHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.coordinatorHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.minimumParticipantsHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // listMeetingsLv
             // 
+            this.listMeetingsLv.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.topicHeader,
+            this.coordinatorHeader,
+            this.minimumParticipantsHeader});
             this.listMeetingsLv.FullRowSelect = true;
             this.listMeetingsLv.GridLines = true;
             this.listMeetingsLv.HideSelection = false;
@@ -42,9 +49,9 @@
             this.listMeetingsLv.Margin = new System.Windows.Forms.Padding(2);
             this.listMeetingsLv.Name = "listMeetingsLv";
             this.listMeetingsLv.Size = new System.Drawing.Size(307, 204);
-            this.listMeetingsLv.TabIndex = 8;
+            this.listMeetingsLv.TabIndex = 1;
             this.listMeetingsLv.UseCompatibleStateImageBehavior = false;
-            this.listMeetingsLv.View = System.Windows.Forms.View.List;
+            this.listMeetingsLv.View = System.Windows.Forms.View.Details;
             // 
             // titleLbl
             // 
@@ -67,9 +74,24 @@
             this.backLbl.Location = new System.Drawing.Point(17, 336);
             this.backLbl.Name = "backLbl";
             this.backLbl.Size = new System.Drawing.Size(38, 15);
-            this.backLbl.TabIndex = 43;
+            this.backLbl.TabIndex = 2;
             this.backLbl.Text = "Back";
             this.backLbl.Click += new System.EventHandler(this.backLbl_Click);
+            // 
+            // topicHeader
+            // 
+            this.topicHeader.Text = "Topic";
+            this.topicHeader.Width = 100;
+            // 
+            // coordinatorHeader
+            // 
+            this.coordinatorHeader.Text = "Coordinator";
+            this.coordinatorHeader.Width = 100;
+            // 
+            // minimumParticipantsHeader
+            // 
+            this.minimumParticipantsHeader.Text = "Min. Participants";
+            this.minimumParticipantsHeader.Width = 90;
             // 
             // ListMeetingPage
             // 
@@ -90,5 +112,8 @@
         private System.Windows.Forms.ListView listMeetingsLv;
         private System.Windows.Forms.Label titleLbl;
         private System.Windows.Forms.Label backLbl;
+        private System.Windows.Forms.ColumnHeader topicHeader;
+        private System.Windows.Forms.ColumnHeader coordinatorHeader;
+        private System.Windows.Forms.ColumnHeader minimumParticipantsHeader;
     }
 }

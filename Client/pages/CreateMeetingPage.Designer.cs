@@ -59,7 +59,7 @@
             this.InviteUserBtn.Margin = new System.Windows.Forms.Padding(2);
             this.InviteUserBtn.Name = "InviteUserBtn";
             this.InviteUserBtn.Size = new System.Drawing.Size(116, 23);
-            this.InviteUserBtn.TabIndex = 36;
+            this.InviteUserBtn.TabIndex = 7;
             this.InviteUserBtn.Text = "Invite User";
             this.InviteUserBtn.UseVisualStyleBackColor = false;
             this.InviteUserBtn.Click += new System.EventHandler(this.InviteUserBtn_Click);
@@ -146,7 +146,7 @@
             this.DateDTP.Margin = new System.Windows.Forms.Padding(2);
             this.DateDTP.Name = "DateDTP";
             this.DateDTP.Size = new System.Drawing.Size(82, 20);
-            this.DateDTP.TabIndex = 28;
+            this.DateDTP.TabIndex = 3;
             // 
             // minPartLb
             // 
@@ -167,7 +167,7 @@
             this.topicTb.Margin = new System.Windows.Forms.Padding(2);
             this.topicTb.Name = "topicTb";
             this.topicTb.Size = new System.Drawing.Size(268, 20);
-            this.topicTb.TabIndex = 26;
+            this.topicTb.TabIndex = 1;
             // 
             // topicLbl
             // 
@@ -186,9 +186,14 @@
             // 
             this.MinPartNud.Location = new System.Drawing.Point(150, 113);
             this.MinPartNud.Margin = new System.Windows.Forms.Padding(2);
+            this.MinPartNud.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
             this.MinPartNud.Name = "MinPartNud";
             this.MinPartNud.Size = new System.Drawing.Size(182, 20);
-            this.MinPartNud.TabIndex = 24;
+            this.MinPartNud.TabIndex = 2;
             // 
             // CreateMeetingButton
             // 
@@ -198,7 +203,7 @@
             this.CreateMeetingButton.Margin = new System.Windows.Forms.Padding(2);
             this.CreateMeetingButton.Name = "CreateMeetingButton";
             this.CreateMeetingButton.Size = new System.Drawing.Size(125, 35);
-            this.CreateMeetingButton.TabIndex = 23;
+            this.CreateMeetingButton.TabIndex = 8;
             this.CreateMeetingButton.Text = "Create Meeting";
             this.CreateMeetingButton.UseVisualStyleBackColor = false;
             this.CreateMeetingButton.Click += new System.EventHandler(this.CreateMeetingButton_Click);
@@ -210,7 +215,7 @@
             this.inviteesCB.Location = new System.Drawing.Point(216, 256);
             this.inviteesCB.Name = "inviteesCB";
             this.inviteesCB.Size = new System.Drawing.Size(116, 21);
-            this.inviteesCB.TabIndex = 38;
+            this.inviteesCB.TabIndex = 6;
             // 
             // locationCB
             // 
@@ -219,7 +224,7 @@
             this.locationCB.Location = new System.Drawing.Point(82, 282);
             this.locationCB.Name = "locationCB";
             this.locationCB.Size = new System.Drawing.Size(82, 21);
-            this.locationCB.TabIndex = 39;
+            this.locationCB.TabIndex = 4;
             // 
             // AddSlotBtn
             // 
@@ -229,7 +234,7 @@
             this.AddSlotBtn.Margin = new System.Windows.Forms.Padding(2);
             this.AddSlotBtn.Name = "AddSlotBtn";
             this.AddSlotBtn.Size = new System.Drawing.Size(43, 46);
-            this.AddSlotBtn.TabIndex = 32;
+            this.AddSlotBtn.TabIndex = 5;
             this.AddSlotBtn.Text = "Add Slot";
             this.AddSlotBtn.UseVisualStyleBackColor = false;
             this.AddSlotBtn.Click += new System.EventHandler(this.AddSlotBtn_Click);
@@ -268,7 +273,7 @@
             this.backLbl.Location = new System.Drawing.Point(17, 336);
             this.backLbl.Name = "backLbl";
             this.backLbl.Size = new System.Drawing.Size(38, 15);
-            this.backLbl.TabIndex = 42;
+            this.backLbl.TabIndex = 9;
             this.backLbl.Text = "Back";
             this.backLbl.Click += new System.EventHandler(this.backLbl_Click);
             // 

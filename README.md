@@ -75,7 +75,8 @@ And may receive one 4th optional argument, a script file path (specification in 
 **Not yet implemented:**
 
 - Client functionality not 100%
-  - UC tab indexes
+  - on create meeting page, right click listview item to remove
+    -  https://stackoverflow.com/questions/13437889/showing-a-context-menu-for-an-item-in-a-listview 
   - missing error checks
     - server does not detect repeated slots in a meeting
     - join meetings topic combo box should not show already joined meetings
@@ -87,6 +88,8 @@ And may receive one 4th optional argument, a script file path (specification in 
   - close meeting of another coordinator throws non specific error
   - sign in form in case arguments are not passed at startup
 - Server should have different list methods for different situations
+- Server error checks
+  - check if method parameters are valid
 - Client list in script?
 - Server replication
 - PM Status command

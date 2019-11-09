@@ -4,7 +4,7 @@ namespace API
 {    
     public interface IClient
     {
-        void InformNewMeeting(string topic);
+        void InformNewMeeting(MeetingProposal mp);
         void InformNewClient(string username);
     }
 }

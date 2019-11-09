@@ -42,7 +42,7 @@
             this.closeMeetingButton.Margin = new System.Windows.Forms.Padding(2);
             this.closeMeetingButton.Name = "closeMeetingButton";
             this.closeMeetingButton.Size = new System.Drawing.Size(125, 35);
-            this.closeMeetingButton.TabIndex = 8;
+            this.closeMeetingButton.TabIndex = 2;
             this.closeMeetingButton.Text = "Close Meeting";
             this.closeMeetingButton.UseVisualStyleBackColor = false;
             this.closeMeetingButton.Click += new System.EventHandler(this.closeMeetingButton_Click);
@@ -54,7 +54,7 @@
             this.topicCB.Location = new System.Drawing.Point(20, 154);
             this.topicCB.Name = "topicCB";
             this.topicCB.Size = new System.Drawing.Size(304, 21);
-            this.topicCB.TabIndex = 9;
+            this.topicCB.TabIndex = 1;
             // 
             // titleLbl
             // 
@@ -77,7 +77,7 @@
             this.backLbl.Location = new System.Drawing.Point(17, 336);
             this.backLbl.Name = "backLbl";
             this.backLbl.Size = new System.Drawing.Size(38, 15);
-            this.backLbl.TabIndex = 43;
+            this.backLbl.TabIndex = 3;
             this.backLbl.Text = "Back";
             this.backLbl.Click += new System.EventHandler(this.backLbl_Click);
             // 

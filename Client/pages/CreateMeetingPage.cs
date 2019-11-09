@@ -37,6 +37,12 @@ namespace MSDAD_CLI.pages
                 return;
             }
 
+            if (MinPartNud.Value <= 0)
+            {
+                MessageBox.Show("Minimum participants must be bigger than 0.");
+                return;
+            }
+
             List<Slot> slots = new List<Slot>();
             foreach (ListViewItem s in SlotsLv.Items)
             {

@@ -29,7 +29,10 @@ namespace MSDAD_CLI.pages
                     List<MeetingProposal> MeetingsList = Client.server.ListMeetings(Client.Username);
                     foreach (MeetingProposal mp in MeetingsList)
                     {
-                        listMeetingsLv.Items.Add(new ListViewItem(mp.Topic));
+                        ListViewItem lvi = new ListViewItem(new string[] { mp.Topic,
+                            mp.CoordinatorUsername, mp.MinAttendees.ToString() });
+                        listMeetingsLv.Items.Add(lvi);
+
                     }
                 }
                 catch (System.Net.Sockets.SocketException)
@@ -42,11 +45,12 @@ namespace MSDAD_CLI.pages
             }));
         }
 
-        public void AddMeetingToList(string topic)
+        public void AddMeetingToList(MeetingProposal mp)
         {
             this.BeginInvoke(new MethodInvoker(delegate
             {
-                listMeetingsLv.Items.Add(new ListViewItem(topic));
+                listMeetingsLv.Items.Add(new ListViewItem(new string[] { mp.Topic,
+                    mp.CoordinatorUsername, mp.MinAttendees.ToString() }));
             }));
         }
     }

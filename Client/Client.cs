@@ -116,13 +116,13 @@ namespace MSDAD_CLI
             }
         }
 
-        public void InformNewMeeting(string topic)
+        public void InformNewMeeting(MeetingProposal mp)
         {
             if (Client.mainForm != null && Client.mainForm.listMeetingPage != null)
             {
-                Client.mainForm.listMeetingPage.AddMeetingToList(topic);
-                Client.mainForm.joinMeetingPage.AddMeetingToCB(topic);
-                Client.mainForm.closeMeetingPage.AddMeetingToCB(topic);
+                Client.mainForm.listMeetingPage.AddMeetingToList(mp);
+                Client.mainForm.joinMeetingPage.AddMeetingToCB(mp.Topic);
+                Client.mainForm.closeMeetingPage.AddMeetingToCB(mp.Topic);
             }
         }
     }

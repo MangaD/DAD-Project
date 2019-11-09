@@ -77,7 +77,7 @@
             this.joinMeetingButton.Margin = new System.Windows.Forms.Padding(2);
             this.joinMeetingButton.Name = "joinMeetingButton";
             this.joinMeetingButton.Size = new System.Drawing.Size(125, 35);
-            this.joinMeetingButton.TabIndex = 29;
+            this.joinMeetingButton.TabIndex = 4;
             this.joinMeetingButton.Text = "Join Meeting";
             this.joinMeetingButton.UseVisualStyleBackColor = false;
             this.joinMeetingButton.Click += new System.EventHandler(this.joinMeetingButton_Click);
@@ -94,7 +94,7 @@
             this.selectedSlotsLv.MultiSelect = false;
             this.selectedSlotsLv.Name = "selectedSlotsLv";
             this.selectedSlotsLv.Size = new System.Drawing.Size(152, 128);
-            this.selectedSlotsLv.TabIndex = 27;
+            this.selectedSlotsLv.TabIndex = 3;
             this.selectedSlotsLv.UseCompatibleStateImageBehavior = false;
             this.selectedSlotsLv.View = System.Windows.Forms.View.Details;
             this.selectedSlotsLv.Click += new System.EventHandler(this.selectedSlotsLv_Click);
@@ -121,7 +121,7 @@
             this.availableSlotsLv.MultiSelect = false;
             this.availableSlotsLv.Name = "availableSlotsLv";
             this.availableSlotsLv.Size = new System.Drawing.Size(152, 128);
-            this.availableSlotsLv.TabIndex = 26;
+            this.availableSlotsLv.TabIndex = 2;
             this.availableSlotsLv.UseCompatibleStateImageBehavior = false;
             this.availableSlotsLv.View = System.Windows.Forms.View.Details;
             this.availableSlotsLv.Click += new System.EventHandler(this.availableSlotsLv_Click);
@@ -156,7 +156,7 @@
             this.topicCB.Location = new System.Drawing.Point(65, 100);
             this.topicCB.Name = "topicCB";
             this.topicCB.Size = new System.Drawing.Size(263, 21);
-            this.topicCB.TabIndex = 32;
+            this.topicCB.TabIndex = 1;
             this.topicCB.SelectedIndexChanged += new System.EventHandler(this.topicCB_SelectedIndexChanged);
             // 
             // titleLbl
@@ -180,7 +180,7 @@
             this.backLbl.Location = new System.Drawing.Point(17, 336);
             this.backLbl.Name = "backLbl";
             this.backLbl.Size = new System.Drawing.Size(38, 15);
-            this.backLbl.TabIndex = 43;
+            this.backLbl.TabIndex = 5;
             this.backLbl.Text = "Back";
             this.backLbl.Click += new System.EventHandler(this.backLbl_Click);
             // 

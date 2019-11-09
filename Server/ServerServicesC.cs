@@ -74,18 +74,20 @@ namespace Server
                 throw new ApplicationException("Must add slots to the meeting!");
             }
 
-            foreach (MeetingProposal mp in Server.meetingPropList)
+            foreach (MeetingProposal mp2 in Server.meetingPropList)
             {
-                if(mp.Topic == topic)
+                if(mp2.Topic == topic)
                 {
                     throw new ApplicationException("A meeting with this topic already exists.");
                 }
             }
 
-            Server.meetingPropList.Add(new MeetingProposal(coordinatorUser, coordinatorURL, topic, minAttendees, slots, invitees));
+            MeetingProposal mp = new MeetingProposal(coordinatorUser, coordinatorURL, topic, minAttendees, slots, invitees);
+
+            Server.meetingPropList.Add(mp);
 
             // Run in a separate thread because this client is informed too.
-            Thread thread = new Thread(() => Server.InformClientsOfNewMeeting(topic, coordinatorUser, invitees));
+            Thread thread = new Thread(() => Server.InformClientsOfNewMeeting(mp));
             thread.Start();
 
             Console.WriteLine("[Server] Created meeting:" +
