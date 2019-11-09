@@ -215,7 +215,7 @@ namespace Server
 
                     if (mp.Invitees.Count == 0)
                     {
-                        mp.JoinClientToMeeting(clientName, clientRA, slots);
+                        mp.AddClientToMeeting(clientName, clientRA, slots);
                     }
                     else
                     {
@@ -223,7 +223,7 @@ namespace Server
                         {
                             if (inv == clientName || clientName == mp.CoordinatorUsername)
                             {
-                                mp.JoinClientToMeeting(clientName, clientRA, slots);
+                                mp.AddClientToMeeting(clientName, clientRA, slots);
                             }
                         }
                     }
@@ -239,8 +239,6 @@ namespace Server
             List<MeetingProposal> meetings = new List<MeetingProposal>();
             foreach (MeetingProposal mp in Server.meetingPropList)
             {
-                Console.WriteLine("mp.Invitees.Count = " + mp.Invitees.Count);
-
                 if (mp.Invitees.Count == 0 && !mp.IsClosed)
                 {
                     meetings.Add(mp);
@@ -255,11 +253,6 @@ namespace Server
                         }
                     }
                 }
-            }
-
-            foreach(MeetingProposal meeting in meetings)
-            {
-                Console.WriteLine("Meeting: " + meeting.Topic);
             }
 
             return meetings;
@@ -345,7 +338,7 @@ namespace Server
                 if (mp.Topic == topic && mp.CoordinatorUsername == coordinatorUsername && !mp.IsClosed)
                 {
                     // Get most wanted slot by users
-                    Slot most = mp.ChoosedSlots.GroupBy(i => i).OrderByDescending(grp => grp.Count()).Select(grp => grp.Key).First();
+                    Slot most = mp.ChosenSlots.GroupBy(i => i).OrderByDescending(grp => grp.Count()).Select(grp => grp.Key).First();
                     Console.WriteLine("Most: " + most.location + " " + most.date);
 
                     //Check if there is Room available in location choosed

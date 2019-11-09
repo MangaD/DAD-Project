@@ -12,11 +12,12 @@ namespace API
         public uint MinAttendees { get; set; }
         public List<Slot> Slots { get; set; }
         public List<string> Invitees { get; set; }
+
         public Dictionary<string, RemotingAddress> ClientsJoined { get; set; }
         public Dictionary<string, string> ClientsAccepted { get; set; }
         public Dictionary<Slot, List<string>> ClientPerSlot { get; set; }
         public bool IsClosed { get; set; }
-        public List<Slot> ChoosedSlots { get; set; }
+        public List<Slot> ChosenSlots { get; set; }
         public Slot BookedSlot { get; set; }
         public Room BookedRoom { get; set; }
 
@@ -31,18 +32,16 @@ namespace API
             Invitees = invitees;
             ClientsJoined = new Dictionary<string, RemotingAddress>();
             IsClosed = false;
-            ChoosedSlots = new List<Slot>();
+            ChosenSlots = new List<Slot>();
         }
 
-        public void AddSlotToSlots(Slot s) { Slots.Add(s); }
-        public void AddInviteeToInvitees(string i) { Invitees.Add(i); }
-        public void JoinClientToMeeting(string clientName, RemotingAddress clientRA, List<Slot> slots)
+        public void AddClientToMeeting(string clientName, RemotingAddress clientRA, List<Slot> chosenSlots)
         { 
             ClientsJoined.Add(clientName, clientRA);
 
-            foreach(Slot s in slots)
+            foreach(Slot s in chosenSlots)
             {
-                ChoosedSlots.Add(s);
+                ChosenSlots.Add(s);
             }
         }
     }
