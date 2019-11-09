@@ -133,6 +133,15 @@ namespace MSDAD_CLI.pages
                 return;
             }
 
+            foreach (ListViewItem item in InviteesLv.Items)
+            {
+                if (item.Text == inviteesCB.Text)
+                {
+                    MessageBox.Show("You have already added this invitee.");
+                    return;
+                }
+            }
+
             try
             {
                 InviteesLv.Items.Add(inviteesCB.SelectedItem.ToString());

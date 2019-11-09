@@ -42,6 +42,68 @@ namespace Server
                 throw new ApplicationException("Must add slots to the meeting!");
             }
 
+            // Find repeated slots
+            var myListSlots = new List<Slot>();
+            var duplicateSlots = new List<Slot>();
+
+            foreach (var s in slots)
+            {
+                if (!myListSlots.Contains(s))
+                {
+                    myListSlots.Add(s);
+                }
+                else
+                {
+                    duplicateSlots.Add(s);
+                }
+            }
+
+            if (duplicateSlots.Count > 0)
+            {
+                throw new ApplicationException("You have repeated slots.");
+            }
+
+            // Find repeated invitees
+            var myListInvitees = new List<string>();
+            var duplicateInvitees = new List<string>();
+
+            foreach (var s in invitees)
+            {
+                if (!myListInvitees.Contains(s))
+                {
+                    myListInvitees.Add(s);
+                }
+                else
+                {
+                    duplicateInvitees.Add(s);
+                }
+            }
+
+            if (duplicateInvitees.Count > 0)
+            {
+                throw new ApplicationException("You have repeated invitees.");
+            }
+
+            // Check if all invitees exist
+            foreach (string invitee in invitees)
+            {
+                if (!Server.clients.Exists(i => i.Username == invitee))
+                {
+                    throw new ApplicationException($"Invitee '{invitee}' does not exist or is not connected.");
+                }
+            }
+
+            // Check if locations exist
+            foreach (Slot s in slots)
+            {
+                if (!Server.locationRooms.ContainsKey(s.location))
+                {
+                    throw new ApplicationException($"Location '{s.location}' does not exist in the server.");
+                }
+            }
+
+
+            // Check if a meeting with this topic does not exist already
             foreach (MeetingProposal mp2 in Server.meetingPropList)
             {
                 if(mp2.Topic == topic)
@@ -236,14 +298,14 @@ namespace Server
                             if (r.Capacity >= mp.ClientsJoined.Keys.Count && r.Available == true)
                             {
                                 r.Available = false;
-                                mp.BookedSlot1 = most;
+                                mp.BookedSlot = most;
                                 mp.BookedRoom = r;
                                 mp.IsClosed = true;
                                 //slot was available and room is filled with max or less than max capacity
 
 
                                 Console.WriteLine("Meeting Booked with: " + mp.ClientsJoined.Keys.Count +
-                                    " Clients, in Slot: " + mp.BookedSlot1.location + " " + mp.BookedSlot1.date + " " +
+                                    " Clients, in Slot: " + mp.BookedSlot.location + " " + mp.BookedSlot.date + " " +
                                     " and in Room: " + mp.BookedRoom.Name);
 
                                 return;

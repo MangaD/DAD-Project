@@ -83,7 +83,7 @@
             this.InviteesLv.Size = new System.Drawing.Size(116, 95);
             this.InviteesLv.TabIndex = 35;
             this.InviteesLv.UseCompatibleStateImageBehavior = false;
-            this.InviteesLv.View = System.Windows.Forms.View.Details;
+            this.InviteesLv.View = System.Windows.Forms.View.List;
             this.InviteesLv.MouseClick += new System.Windows.Forms.MouseEventHandler(this.InviteesLv_MouseClick);
             // 
             // InviteesLb
