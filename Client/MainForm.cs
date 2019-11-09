@@ -71,7 +71,7 @@ namespace MSDAD_CLI
                 {
                     ComboBox comboBox = (ComboBox)control;
                     if (comboBox.Items.Count > 0)
-                        comboBox.SelectedIndex = 0;
+                        comboBox.SelectedIndex = -1;
                 }
 
                 if (control is CheckBox)

@@ -139,11 +139,25 @@ namespace Server
             return rnd.Next(minDelay, maxDelay+1);
         }
 
-        public static void InformAllClientsOfNewMeeting(string topic)
+        public static void InformClientsOfNewMeeting(string topic, string coordinator, List<string> invitees)
         {
             foreach (var c in clients)
             {
-                c.ClientChannel.InformNewMeeting(topic);
+                if (invitees.Count == 0)
+                {
+                    c.ClientChannel.InformNewMeeting(topic);
+                }
+                else
+                {
+                    foreach (string s in invitees)
+                    {
+                        if (s == c.Username || coordinator == c.Username)
+                        {
+                            c.ClientChannel.InformNewMeeting(topic);
+                            break;
+                        }
+                    }
+                }
             }
         }
 

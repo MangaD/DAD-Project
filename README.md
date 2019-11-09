@@ -66,13 +66,13 @@ And may receive one 4th optional argument, a script file path (specification in 
 
 - Client functionality not 100%
   - missing error checks
-    - server crash detection
     - server does not detect repeated slots in a meeting
     - join meetings topic combo box should not show already joined meetings
-    - don't allow adding meeting without slots and joining meeting without slots
   - list meetings should show more information
-  - close meeting 
-  - server not informing client when a client joins (the client queries the server instead)
+  - meeting shows in close combo box of who did not create it
+  - meeting shows in join of who was not invited and server lets it join!
+  - close meeting (must review)
+  - close meeting of another coordinator throws non specific error
   - sign in form in case arguments are not passed at startup
 - Server replication
 - PM Status command

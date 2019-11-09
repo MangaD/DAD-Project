@@ -85,7 +85,7 @@ namespace Server
             Server.meetingPropList.Add(new MeetingProposal(coordinatorUser, coordinatorURL, topic, minAttendees, slots, invitees));
 
             // Run in a separate thread because this client is informed too.
-            Thread thread = new Thread(() => Server.InformAllClientsOfNewMeeting(topic));
+            Thread thread = new Thread(() => Server.InformClientsOfNewMeeting(topic, coordinatorUser, invitees));
             thread.Start();
 
             Console.WriteLine("[Server] Created meeting:" +
@@ -199,7 +199,7 @@ namespace Server
             return null;
         }
 
-        public List<string> RegisterClient(string username, string clientRA)
+        public void RegisterClient(string username, string clientRA)
         {
             Server.freezeHandle.WaitOne(); // For Freeze command
             this.Delay(); // For induced delay
@@ -214,9 +214,6 @@ namespace Server
             thread.Start();
 
             Console.WriteLine("New client " + username + " listenning at " + clientRA);
-
-            //return messages;
-            return null;
         }
 
         public List<string> GetClientsUsername()

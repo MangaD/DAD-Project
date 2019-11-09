@@ -6,7 +6,7 @@ namespace API
     //Clients must invoke methods to Servers here
     public interface IServerC
     {
-        List<string> RegisterClient(string username, string clientRA);
+        void RegisterClient(string username, string clientRA);
         List<MeetingProposal> ListMeetings(string clientName);
         MeetingProposal GetMeeting(string topic);
         void CreateMeeting(string coordinatorUser, string coordinatorURL, string topic, uint minAttendees,
