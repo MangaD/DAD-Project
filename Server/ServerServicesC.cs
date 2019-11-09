@@ -150,7 +150,7 @@ namespace Server
             {
                 Console.WriteLine("mp.Invitees.Count = " + mp.Invitees.Count);
 
-                if (mp.Invitees.Count == 0 && !mp.IsClosed &&  mp.CoordinatorUsername != clientName)
+                if (mp.Invitees.Count == 0 && !mp.IsClosed)
                 {
                     meetings.Add(mp);
                 }

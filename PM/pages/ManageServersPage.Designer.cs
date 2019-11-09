@@ -53,6 +53,7 @@
             // 
             // locationCb
             // 
+            this.locationCb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.locationCb.FormattingEnabled = true;
             this.locationCb.ItemHeight = 13;
             this.locationCb.Location = new System.Drawing.Point(214, 189);
