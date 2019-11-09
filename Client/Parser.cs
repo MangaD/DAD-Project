@@ -239,7 +239,7 @@ namespace MSDAD_CLI
 
                     try
                     {
-                        Client.server.JoinMeeting(topic, Client.Username, Client.ClientRA.ToString(), slots);
+                        Client.server.JoinMeeting(topic, Client.Username, Client.ClientRA, slots);
                     }
                     catch (System.Net.Sockets.SocketException)
                     {
@@ -299,7 +299,8 @@ namespace MSDAD_CLI
 
                     try
                     {
-                        Client.server.CreateMeeting(Client.Username, Client.ClientRA.ToString(), command[1], (uint)minAttendees, slots, invitees);
+                        Client.server.CreateMeeting(Client.Username, Client.ClientRA, command[1],
+                            (uint)minAttendees, slots, invitees);
                     }
                     catch (System.Net.Sockets.SocketException)
                     {

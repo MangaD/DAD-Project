@@ -15,11 +15,13 @@ namespace Server
             Utilities.Wait(delay);
         }
 
-        public void CreateMeeting(string coordinatorUser, string coordinatorURL, string topic,
+        public void CreateMeeting(string coordinatorUser, RemotingAddress coordinatorRA, string topic,
             uint minAttendees, List<Slot> slots, List<string> invitees)
         {
             Server.freezeHandle.WaitOne(); // For Freeze command
             this.Delay(); // For induced delay
+
+            #region Validate arguments (topic exists, locations exist, invitees exist...)
 
             if (topic == "")
             {
@@ -29,9 +31,9 @@ namespace Server
             {
                 throw new ApplicationException("You do not have a username!");
             }
-            if (coordinatorURL == "")
+            if (coordinatorRA == null)
             {
-                throw new ApplicationException("You do not have a URL!");
+                throw new ApplicationException("You did not provide a Remoting Address!");
             }
             if (minAttendees == 0)
             {
@@ -102,7 +104,6 @@ namespace Server
                 }
             }
 
-
             // Check if a meeting with this topic does not exist already
             foreach (MeetingProposal mp2 in Server.meetingPropList)
             {
@@ -112,7 +113,9 @@ namespace Server
                 }
             }
 
-            MeetingProposal mp = new MeetingProposal(coordinatorUser, coordinatorURL, topic, minAttendees, slots, invitees);
+            #endregion
+
+            MeetingProposal mp = new MeetingProposal(coordinatorUser, coordinatorRA, topic, minAttendees, slots, invitees);
 
             Server.meetingPropList.Add(mp);
 
@@ -123,23 +126,71 @@ namespace Server
             Console.WriteLine("[Server] Created meeting:" +
                 "\n\tTopic: " + topic +
                 "\n\tCoordinator: " + coordinatorUser +
-                "\n\tCoordinator URL: " + coordinatorURL +
+                "\n\tCoordinator URL: " + coordinatorRA +
                 "\n\tMinimum attendees: " + minAttendees);
         }
 
-        public void JoinMeeting(string topic, string clientName, string clientRA, List<Slot> locationDates)
+        public void JoinMeeting(string topic, string clientName, RemotingAddress clientRA, List<Slot> slots)
         {
             Server.freezeHandle.WaitOne(); // For Freeze command
             this.Delay(); // For induced delay
+
+             #region Validate arguments (topic exists, locations exist...)
 
             if (topic == "")
             {
                 throw new ApplicationException("Must select a topic!");
             }
-            if (locationDates.Count == 0)
+            if (clientName == "")
+            {
+                throw new ApplicationException("You do not have a username!");
+            }
+            if (clientRA == null)
+            {
+                throw new ApplicationException("You did not provide a Remoting Address!");
+            }
+            if (slots.Count == 0)
             {
                 throw new ApplicationException("Must select slots on which you are available.");
             }
+
+            // Check if a meeting with this topic exists
+            if (!Server.meetingPropList.Exists(mp => mp.Topic == topic))
+            {
+                throw new ApplicationException($"There is no meeting with topic '{topic}'.");
+            }
+
+            // Find repeated slots
+            var myListSlots = new List<Slot>();
+            var duplicateSlots = new List<Slot>();
+
+            foreach (var s in slots)
+            {
+                if (!myListSlots.Contains(s))
+                {
+                    myListSlots.Add(s);
+                }
+                else
+                {
+                    duplicateSlots.Add(s);
+                }
+            }
+
+            if (duplicateSlots.Count > 0)
+            {
+                throw new ApplicationException("You have repeated slots.");
+            }
+
+            // Check if locations exist
+            foreach (Slot s in slots)
+            {
+                if (!Server.locationRooms.ContainsKey(s.location))
+                {
+                    throw new ApplicationException($"Location '{s.location}' does not exist in the server.");
+                }
+            }
+
+            #endregion
 
             foreach (MeetingProposal mp in Server.meetingPropList)
             {
@@ -154,9 +205,17 @@ namespace Server
                         throw new ApplicationException($"You have already joined meeting '{topic}'.");
                     }
 
+                    foreach(Slot s in slots)
+                    {
+                        if (!mp.Slots.Contains(s))
+                        {
+                            throw new ApplicationException($"Slot '{s.ToString()}' does not exist in this meeting.");
+                        }
+                    }
+
                     if (mp.Invitees.Count == 0)
                     {
-                        mp.JoinClientToMeeting(clientName, clientRA, locationDates);
+                        mp.JoinClientToMeeting(clientName, clientRA, slots);
                     }
                     else
                     {
@@ -164,7 +223,7 @@ namespace Server
                         {
                             if (inv == clientName || clientName == mp.CoordinatorUsername)
                             {
-                                mp.JoinClientToMeeting(clientName, clientRA, locationDates);
+                                mp.JoinClientToMeeting(clientName, clientRA, slots);
                             }
                         }
                     }

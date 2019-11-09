@@ -9,9 +9,9 @@ namespace API
         void RegisterClient(string username, string clientRA);
         List<MeetingProposal> ListMeetings(string clientName);
         MeetingProposal GetMeeting(string topic);
-        void CreateMeeting(string coordinatorUser, string coordinatorURL, string topic, uint minAttendees,
+        void CreateMeeting(string coordinatorUser, RemotingAddress coordinatorRA, string topic, uint minAttendees,
             List<Slot> slots, List<string> invitees);
-        void JoinMeeting(string topic, string clientName, string clientRA, List<Slot> locationDates);
+        void JoinMeeting(string topic, string clientName, RemotingAddress clientRA, List<Slot> locationDates);
         void CloseMeeting(string topic, string coordinatorURL);
 
         //Used to list Usernames to Invitee

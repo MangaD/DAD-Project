@@ -64,7 +64,7 @@ namespace MSDAD_CLI.pages
 
             try
             {
-                Client.server.CreateMeeting(Client.Username, Client.ClientRA.ToString(),
+                Client.server.CreateMeeting(Client.Username, Client.ClientRA,
                     topicTb.Text, Convert.ToUInt16(MinPartNud.Value), slots, invitees);
 
                 MessageBox.Show($"Created meeting '{topicTb.Text}'");

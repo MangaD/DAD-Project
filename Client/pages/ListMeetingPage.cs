@@ -31,7 +31,7 @@ namespace MSDAD_CLI.pages
                     {
                         ListViewItem lvi = new ListViewItem(new string[] { mp.Topic,
                             mp.CoordinatorUsername, mp.MinAttendees.ToString(),
-                            (mp.IsClosed ? "Booked" : "Pending") });
+                            (mp.IsClosed ? "Closed" : "Open") });
                         listMeetingsLv.Items.Add(lvi);
 
                     }
