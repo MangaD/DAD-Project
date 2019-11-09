@@ -15,7 +15,7 @@ namespace Server
             Utilities.Wait(delay);
         }
 
-        public bool CloseMeeting(string topic, string coordinatorURL)
+        /*public bool CloseMeeting(string topic, string coordinatorUsername)
         {
             Server.freezeHandle.WaitOne(); // For Freeze command
             this.Delay(); // For induced delay
@@ -23,7 +23,7 @@ namespace Server
             foreach (MeetingProposal mp in Server.meetingPropList)
             {
                 //Closing wanted meeting and client closing is coordinator and meeting is not yet closed
-                if (mp.Topic == topic && mp.CoodinatorURL == coordinatorURL && !mp.IsClosed)
+                if (mp.Topic == topic && mp.CoordinatorUsername == coordinatorUsername && !mp.IsClosed)
                 {
                     //Check which date is most wanted
                     List<Slot> maxClientsSlots = new List<Slot>();
@@ -90,6 +90,50 @@ namespace Server
                     }
                 }
             }
+            return false;
+        }*/
+
+        public bool CloseMeeting(string topic, string coordinatorUsername)
+        {
+            Server.freezeHandle.WaitOne(); // For Freeze command
+            this.Delay(); // For induced delay
+
+            foreach (MeetingProposal mp in Server.meetingPropList)
+            {
+                //Closing wanted meeting and client closing is coordinator and meeting is not yet closed
+                if (mp.Topic == topic && mp.CoordinatorUsername == coordinatorUsername && !mp.IsClosed)
+                {
+                    // Get most wanted slot by users
+                    Slot most = mp.ChoosedSlots.GroupBy(i => i).OrderByDescending(grp => grp.Count()).Select(grp => grp.Key).First();
+                    Console.WriteLine("Most: " + most.location + " " + most.date);
+
+                    //Check if there is Room available in location choosed
+                    if (Server.locationRooms.ContainsKey(most.location))
+                    {
+                        List<Room> rooms = Server.locationRooms[most.location];
+                        foreach(Room r in rooms)
+                        {
+                            if(r.Capacity >= mp.ClientsJoined.Keys.Count && r.Available == true)
+                            {
+                                r.Available = false;
+                                mp.BookedSlot1 = most;
+                                mp.BookedRoom1 = r;
+                                mp.IsClosed = true;
+                                //slot was available and room is filled with max or less than max capacity
+
+
+                                Console.WriteLine("Meeting Booked with: " + mp.ClientsJoined.Keys.Count +
+                                    " Clients, in Slot: " + mp.BookedSlot1.location + " " + mp.BookedSlot1.date + " " +
+                                    " and in Room: " + mp.BookedRoom1.Name);
+
+                                return true;
+                            }
+                        }
+                    }
+                    
+                }
+            }
+
             return false;
         }
 

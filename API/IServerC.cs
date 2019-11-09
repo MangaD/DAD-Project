@@ -12,7 +12,7 @@ namespace API
         bool CreateMeeting(string coordinatorUser, string coordinatorURL, string topic, uint minAttendees,
             List<Slot> slots, List<string> invitees);
         void JoinMeeting(string topic, string clientName, string clientRA, int n_slots, List<Slot> locationDates);
-        bool CloseMeeting(string topic, string coordinatorURL);
+        bool CloseMeeting(string topic, string coordinatorUsername);
 
         //Used to list Usernames to Invitee
         List<string> GetClientsUsername();
