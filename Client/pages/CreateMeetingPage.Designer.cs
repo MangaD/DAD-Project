@@ -50,8 +50,8 @@
             this.titleLbl = new System.Windows.Forms.Label();
             this.backLbl = new System.Windows.Forms.Label();
             this.slotsCMS = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.inviteesCMS = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.removeSlot = new System.Windows.Forms.ToolStripMenuItem();
+            this.inviteesCMS = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.removeInvitee = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.MinPartNud)).BeginInit();
             this.slotsCMS.SuspendLayout();
@@ -172,9 +172,9 @@
             this.minPartLb.Location = new System.Drawing.Point(17, 115);
             this.minPartLb.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.minPartLb.Name = "minPartLb";
-            this.minPartLb.Size = new System.Drawing.Size(129, 13);
+            this.minPartLb.Size = new System.Drawing.Size(119, 13);
             this.minPartLb.TabIndex = 27;
-            this.minPartLb.Text = "Minimum participants:";
+            this.minPartLb.Text = "Minimum attendees:";
             // 
             // topicTb
             // 
@@ -199,7 +199,7 @@
             // 
             // MinPartNud
             // 
-            this.MinPartNud.Location = new System.Drawing.Point(150, 113);
+            this.MinPartNud.Location = new System.Drawing.Point(140, 113);
             this.MinPartNud.Margin = new System.Windows.Forms.Padding(2);
             this.MinPartNud.Maximum = new decimal(new int[] {
             1000000,
@@ -207,7 +207,7 @@
             0,
             0});
             this.MinPartNud.Name = "MinPartNud";
-            this.MinPartNud.Size = new System.Drawing.Size(182, 20);
+            this.MinPartNud.Size = new System.Drawing.Size(192, 20);
             this.MinPartNud.TabIndex = 2;
             // 
             // CreateMeetingButton
@@ -299,19 +299,19 @@
             this.slotsCMS.Name = "slotsCMS";
             this.slotsCMS.Size = new System.Drawing.Size(118, 26);
             // 
-            // inviteesCMS
-            // 
-            this.inviteesCMS.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.removeInvitee});
-            this.inviteesCMS.Name = "inviteesCMS";
-            this.inviteesCMS.Size = new System.Drawing.Size(118, 26);
-            // 
             // removeSlot
             // 
             this.removeSlot.Name = "removeSlot";
             this.removeSlot.Size = new System.Drawing.Size(117, 22);
             this.removeSlot.Text = "Remove";
             this.removeSlot.Click += new System.EventHandler(this.removeSlot_Click);
+            // 
+            // inviteesCMS
+            // 
+            this.inviteesCMS.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.removeInvitee});
+            this.inviteesCMS.Name = "inviteesCMS";
+            this.inviteesCMS.Size = new System.Drawing.Size(118, 26);
             // 
             // removeInvitee
             // 

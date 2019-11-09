@@ -15,50 +15,6 @@ namespace Server
             Utilities.Wait(delay);
         }
 
-        public void CloseMeeting(string topic, string coordinatorUsername)
-        {
-            Server.freezeHandle.WaitOne(); // For Freeze command
-            this.Delay(); // For induced delay
-
-            foreach (MeetingProposal mp in Server.meetingPropList)
-            {
-                //Closing wanted meeting and client closing is coordinator and meeting is not yet closed
-                if (mp.Topic == topic && mp.CoordinatorUsername == coordinatorUsername && !mp.IsClosed)
-                {
-                    // Get most wanted slot by users
-                    Slot most = mp.ChoosedSlots.GroupBy(i => i).OrderByDescending(grp => grp.Count()).Select(grp => grp.Key).First();
-                    Console.WriteLine("Most: " + most.location + " " + most.date);
-
-                    //Check if there is Room available in location choosed
-                    if (Server.locationRooms.ContainsKey(most.location))
-                    {
-                        List<Room> rooms = Server.locationRooms[most.location];
-                        foreach(Room r in rooms)
-                        {
-                            if(r.Capacity >= mp.ClientsJoined.Keys.Count && r.Available == true)
-                            {
-                                r.Available = false;
-                                mp.BookedSlot1 = most;
-                                mp.BookedRoom1 = r;
-                                mp.IsClosed = true;
-                                //slot was available and room is filled with max or less than max capacity
-
-
-                                Console.WriteLine("Meeting Booked with: " + mp.ClientsJoined.Keys.Count +
-                                    " Clients, in Slot: " + mp.BookedSlot1.location + " " + mp.BookedSlot1.date + " " +
-                                    " and in Room: " + mp.BookedRoom1.Name);
-
-                                return;
-                            }
-                        }
-                    }
-                    
-                }
-            }
-
-            throw new ApplicationException("Error Closing Meeting! Try again =(");
-        }
-
         public void CreateMeeting(string coordinatorUser, string coordinatorURL, string topic,
             uint minAttendees, List<Slot> slots, List<string> invitees)
         {
@@ -68,6 +24,18 @@ namespace Server
             if (topic == "")
             {
                 throw new ApplicationException("Must add a topic!");
+            }
+            if (coordinatorUser == "")
+            {
+                throw new ApplicationException("You do not have a username!");
+            }
+            if (coordinatorURL == "")
+            {
+                throw new ApplicationException("You do not have a URL!");
+            }
+            if (minAttendees == 0)
+            {
+                throw new ApplicationException("Minimum attendees must be higher than 0!");
             }
             if (slots.Count == 0)
             {
@@ -94,7 +62,7 @@ namespace Server
                 "\n\tTopic: " + topic +
                 "\n\tCoordinator: " + coordinatorUser +
                 "\n\tCoordinator URL: " + coordinatorURL +
-                "\n\tMinimum participants: " + minAttendees);
+                "\n\tMinimum attendees: " + minAttendees);
         }
 
         public void JoinMeeting(string topic, string clientName, string clientRA, List<Slot> locationDates)
@@ -242,6 +210,51 @@ namespace Server
                 loc.Add(s);
             }
             return loc;
+        }
+
+
+        public void CloseMeeting(string topic, string coordinatorUsername)
+        {
+            Server.freezeHandle.WaitOne(); // For Freeze command
+            this.Delay(); // For induced delay
+
+            foreach (MeetingProposal mp in Server.meetingPropList)
+            {
+                //Closing wanted meeting and client closing is coordinator and meeting is not yet closed
+                if (mp.Topic == topic && mp.CoordinatorUsername == coordinatorUsername && !mp.IsClosed)
+                {
+                    // Get most wanted slot by users
+                    Slot most = mp.ChoosedSlots.GroupBy(i => i).OrderByDescending(grp => grp.Count()).Select(grp => grp.Key).First();
+                    Console.WriteLine("Most: " + most.location + " " + most.date);
+
+                    //Check if there is Room available in location choosed
+                    if (Server.locationRooms.ContainsKey(most.location))
+                    {
+                        List<Room> rooms = Server.locationRooms[most.location];
+                        foreach (Room r in rooms)
+                        {
+                            if (r.Capacity >= mp.ClientsJoined.Keys.Count && r.Available == true)
+                            {
+                                r.Available = false;
+                                mp.BookedSlot1 = most;
+                                mp.BookedRoom = r;
+                                mp.IsClosed = true;
+                                //slot was available and room is filled with max or less than max capacity
+
+
+                                Console.WriteLine("Meeting Booked with: " + mp.ClientsJoined.Keys.Count +
+                                    " Clients, in Slot: " + mp.BookedSlot1.location + " " + mp.BookedSlot1.date + " " +
+                                    " and in Room: " + mp.BookedRoom.Name);
+
+                                return;
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            throw new ApplicationException("Error Closing Meeting! Try again =(");
         }
 
     }

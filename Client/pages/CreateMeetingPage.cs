@@ -39,7 +39,7 @@ namespace MSDAD_CLI.pages
 
             if (MinPartNud.Value <= 0)
             {
-                MessageBox.Show("Minimum participants must be bigger than 0.");
+                MessageBox.Show("Minimum attendees must be bigger than 0.");
                 return;
             }
 
