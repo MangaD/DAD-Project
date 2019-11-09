@@ -146,5 +146,16 @@ namespace Server
                 c.ClientChannel.InformNewMeeting(topic);
             }
         }
+
+        public static void InformAllClientsOfNewClient(string username)
+        {
+            foreach (var c in clients)
+            {
+                if(c.Username != username)
+                {
+                    c.ClientChannel.InformNewClient(username);
+                }
+            }
+        }
     }
 }

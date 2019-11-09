@@ -108,6 +108,14 @@ namespace MSDAD_CLI
         {
         }
 
+        public void InformNewClient(string username)
+        {
+            if (Client.mainForm != null && Client.mainForm.createMeetingPage != null)
+            {
+                Client.mainForm.createMeetingPage.AddClientToCB(username);
+            }
+        }
+
         public void InformNewMeeting(string topic)
         {
             if (Client.mainForm != null && Client.mainForm.listMeetingPage != null)

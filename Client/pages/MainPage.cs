@@ -12,7 +12,6 @@ namespace MSDAD_CLI.pages
 
         private void goToCreateMeetingButton_Click(object sender, EventArgs e)
         {
-            Client.mainForm.createMeetingPage.FillLocationsAndUsers();
             Client.mainForm.switchPage(Client.mainForm.createMeetingPage);
         }
 
@@ -28,7 +27,6 @@ namespace MSDAD_CLI.pages
 
         private void goToListMeetingsButton_Click(object sender, EventArgs e)
         {
-            //Client.mainForm.listMeetingPage.FillListView();
             Client.mainForm.switchPage(Client.mainForm.listMeetingPage);
         }
     }

@@ -6,15 +6,15 @@ namespace Server
     {
         RemotingAddress clientRA;
 
-        public Client(IClient clientChannel, string clientName, RemotingAddress clientRA)
+        public Client(IClient clientChannel, string username, RemotingAddress clientRA)
         {
             this.ClientChannel = clientChannel;
-            this.ClientName = clientName;
+            this.Username = username;
             this.ClientRA = clientRA;
         }
 
         public IClient ClientChannel { get; set; }
-        public string ClientName { get; set; }
+        public string Username { get; set; }
         public RemotingAddress ClientRA { get => clientRA; set => clientRA = value; }
     }
 }

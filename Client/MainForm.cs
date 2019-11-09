@@ -26,10 +26,15 @@ namespace MSDAD_CLI
             setPageAttributes(closeMeetingPage);
             setPageAttributes(listMeetingPage);
 
+            // TODO SIGN IN PAGE BEFORE SERVER CALLS
+
             // Fill list of meetings at startup
+            createMeetingPage.FillLocationsAndUsers();
             listMeetingPage.FillTopicListView();
             joinMeetingPage.FillTopicCB();
             closeMeetingPage.FillTopicCB();
+
+            this.Text += " - " + Client.Username;
 
             switchPage(mainPage);
         }

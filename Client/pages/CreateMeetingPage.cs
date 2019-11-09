@@ -171,5 +171,13 @@ namespace MSDAD_CLI.pages
                 }
             }));
         }
+
+        public void AddClientToCB(string username)
+        {
+            this.BeginInvoke(new MethodInvoker(delegate
+            {
+                inviteesCB.Items.Add(username);
+            }));
+        }
     }
 }

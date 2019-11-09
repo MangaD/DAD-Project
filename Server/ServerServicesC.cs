@@ -233,7 +233,7 @@ namespace Server
             return null;
         }
 
-        public List<string> RegisterClient(string clientName, string clientRA)
+        public List<string> RegisterClient(string username, string clientRA)
         {
             Server.freezeHandle.WaitOne(); // For Freeze command
             this.Delay(); // For induced delay
@@ -241,9 +241,13 @@ namespace Server
             IClient newClientChannel =
                 (IClient)Activator.GetObject(
                     typeof(IClient), clientRA);
-            Client newClient = new Client(newClientChannel, clientName, RemotingAddress.FromString(clientRA));
+            Client newClient = new Client(newClientChannel, username, RemotingAddress.FromString(clientRA));
             Server.clients.Add(newClient);
-            Console.WriteLine("New client " + clientName + " listenning at " + clientRA);
+
+            Thread thread = new Thread(() => Server.InformAllClientsOfNewClient(username));
+            thread.Start();
+
+            Console.WriteLine("New client " + username + " listenning at " + clientRA);
 
             //return messages;
             return null;
@@ -257,7 +261,7 @@ namespace Server
             List<string> usernamesList = new List<string>();
             foreach(Client client in Server.clients)
             {
-                usernamesList.Add(client.ClientName);
+                usernamesList.Add(client.Username);
             }
             return usernamesList;
         }
