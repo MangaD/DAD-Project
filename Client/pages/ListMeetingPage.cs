@@ -30,7 +30,8 @@ namespace MSDAD_CLI.pages
                     foreach (MeetingProposal mp in MeetingsList)
                     {
                         ListViewItem lvi = new ListViewItem(new string[] { mp.Topic,
-                            mp.CoordinatorUsername, mp.MinAttendees.ToString() });
+                            mp.CoordinatorUsername, mp.MinAttendees.ToString(),
+                            (mp.IsClosed ? "Booked" : "Pending") });
                         listMeetingsLv.Items.Add(lvi);
 
                     }
@@ -50,7 +51,8 @@ namespace MSDAD_CLI.pages
             this.BeginInvoke(new MethodInvoker(delegate
             {
                 listMeetingsLv.Items.Add(new ListViewItem(new string[] { mp.Topic,
-                    mp.CoordinatorUsername, mp.MinAttendees.ToString() }));
+                    mp.CoordinatorUsername, mp.MinAttendees.ToString(),
+                    (mp.IsClosed ? "Booked" : "Pending") }));
             }));
         }
     }

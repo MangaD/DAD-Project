@@ -185,5 +185,50 @@ namespace MSDAD_CLI.pages
                 inviteesCB.Items.Add(username);
             }));
         }
+
+        private void SlotsLv_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (SlotsLv.FocusedItem.Bounds.Contains(e.Location))
+                {
+                    slotsCMS.Show(Cursor.Position);
+                }
+            }
+        }
+
+        private void InviteesLv_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (SlotsLv.FocusedItem.Bounds.Contains(e.Location))
+                {
+                    slotsCMS.Show(Cursor.Position);
+                }
+            }
+        }
+
+        private void removeSlot_Click(object sender, EventArgs e)
+        {
+            if (SlotsLv.SelectedItems != null && SlotsLv.SelectedItems.Count > 0)
+            {
+                foreach (ListViewItem lvi in SlotsLv.SelectedItems)
+                {
+                    SlotsLv.Items.Remove(lvi);
+                }
+            }
+        }
+
+        private void removeInvitee_Click(object sender, EventArgs e)
+        {
+            if (InviteesLv.SelectedItems != null && InviteesLv.SelectedItems.Count > 0)
+            {
+                foreach (ListViewItem lvi in InviteesLv.SelectedItems)
+                {
+                    InviteesLv.Items.Remove(lvi);
+                }
+            }
+        }
+
     }
 }

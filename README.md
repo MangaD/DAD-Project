@@ -75,8 +75,6 @@ And may receive one 4th optional argument, a script file path (specification in 
 **Not yet implemented:**
 
 - Client functionality not 100%
-  - on create meeting page, right click listview item to remove
-    -  https://stackoverflow.com/questions/13437889/showing-a-context-menu-for-an-item-in-a-listview 
   - missing error checks
     - server does not detect repeated slots in a meeting
     - join meetings topic combo box should not show already joined meetings

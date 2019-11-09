@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.InviteUserBtn = new System.Windows.Forms.Button();
             this.InviteesLv = new System.Windows.Forms.ListView();
             this.InviteesLb = new System.Windows.Forms.Label();
@@ -48,7 +49,13 @@
             this.locationLbl = new System.Windows.Forms.Label();
             this.titleLbl = new System.Windows.Forms.Label();
             this.backLbl = new System.Windows.Forms.Label();
+            this.slotsCMS = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.inviteesCMS = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.removeSlot = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeInvitee = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.MinPartNud)).BeginInit();
+            this.slotsCMS.SuspendLayout();
+            this.inviteesCMS.SuspendLayout();
             this.SuspendLayout();
             // 
             // InviteUserBtn
@@ -66,6 +73,9 @@
             // 
             // InviteesLv
             // 
+            this.InviteesLv.FullRowSelect = true;
+            this.InviteesLv.GridLines = true;
+            this.InviteesLv.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.InviteesLv.HideSelection = false;
             this.InviteesLv.Location = new System.Drawing.Point(216, 158);
             this.InviteesLv.Margin = new System.Windows.Forms.Padding(2);
@@ -73,7 +83,8 @@
             this.InviteesLv.Size = new System.Drawing.Size(116, 95);
             this.InviteesLv.TabIndex = 35;
             this.InviteesLv.UseCompatibleStateImageBehavior = false;
-            this.InviteesLv.View = System.Windows.Forms.View.List;
+            this.InviteesLv.View = System.Windows.Forms.View.Details;
+            this.InviteesLv.MouseClick += new System.Windows.Forms.MouseEventHandler(this.InviteesLv_MouseClick);
             // 
             // InviteesLb
             // 
@@ -90,9 +101,12 @@
             // 
             // SlotsLv
             // 
+            this.SlotsLv.AllowColumnReorder = true;
             this.SlotsLv.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2});
+            this.SlotsLv.FullRowSelect = true;
+            this.SlotsLv.GridLines = true;
             this.SlotsLv.HideSelection = false;
             this.SlotsLv.Location = new System.Drawing.Point(20, 158);
             this.SlotsLv.Margin = new System.Windows.Forms.Padding(2);
@@ -101,6 +115,7 @@
             this.SlotsLv.TabIndex = 31;
             this.SlotsLv.UseCompatibleStateImageBehavior = false;
             this.SlotsLv.View = System.Windows.Forms.View.Details;
+            this.SlotsLv.MouseClick += new System.Windows.Forms.MouseEventHandler(this.SlotsLv_MouseClick);
             // 
             // columnHeader1
             // 
@@ -277,6 +292,34 @@
             this.backLbl.Text = "Back";
             this.backLbl.Click += new System.EventHandler(this.backLbl_Click);
             // 
+            // slotsCMS
+            // 
+            this.slotsCMS.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.removeSlot});
+            this.slotsCMS.Name = "slotsCMS";
+            this.slotsCMS.Size = new System.Drawing.Size(118, 26);
+            // 
+            // inviteesCMS
+            // 
+            this.inviteesCMS.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.removeInvitee});
+            this.inviteesCMS.Name = "inviteesCMS";
+            this.inviteesCMS.Size = new System.Drawing.Size(118, 26);
+            // 
+            // removeSlot
+            // 
+            this.removeSlot.Name = "removeSlot";
+            this.removeSlot.Size = new System.Drawing.Size(117, 22);
+            this.removeSlot.Text = "Remove";
+            this.removeSlot.Click += new System.EventHandler(this.removeSlot_Click);
+            // 
+            // removeInvitee
+            // 
+            this.removeInvitee.Name = "removeInvitee";
+            this.removeInvitee.Size = new System.Drawing.Size(117, 22);
+            this.removeInvitee.Text = "Remove";
+            this.removeInvitee.Click += new System.EventHandler(this.removeInvitee_Click);
+            // 
             // CreateMeetingPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -303,6 +346,8 @@
             this.Name = "CreateMeetingPage";
             this.Size = new System.Drawing.Size(349, 366);
             ((System.ComponentModel.ISupportInitialize)(this.MinPartNud)).EndInit();
+            this.slotsCMS.ResumeLayout(false);
+            this.inviteesCMS.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -329,5 +374,9 @@
         private System.Windows.Forms.Label locationLbl;
         private System.Windows.Forms.Label titleLbl;
         private System.Windows.Forms.Label backLbl;
+        private System.Windows.Forms.ContextMenuStrip slotsCMS;
+        private System.Windows.Forms.ContextMenuStrip inviteesCMS;
+        private System.Windows.Forms.ToolStripMenuItem removeSlot;
+        private System.Windows.Forms.ToolStripMenuItem removeInvitee;
     }
 }
