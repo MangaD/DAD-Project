@@ -118,11 +118,23 @@ namespace MSDAD_CLI
 
         public void InformNewMeeting(MeetingProposal mp)
         {
-            if (Client.mainForm != null && Client.mainForm.listMeetingPage != null)
+            if (Client.mainForm != null)
             {
-                Client.mainForm.listMeetingPage.AddMeetingToList(mp);
-                Client.mainForm.joinMeetingPage.AddMeetingToCB(mp.Topic);
-                Client.mainForm.closeMeetingPage.AddMeetingToCB(mp.Topic);
+                if (Client.mainForm.listMeetingPage != null)
+                {
+                    Client.mainForm.listMeetingPage.AddMeetingToList(mp);
+                }
+                if (Client.mainForm.joinMeetingPage != null && 
+                    !mp.ClientsJoined.ContainsKey(Client.Username) &&
+                    !mp.IsClosed)
+                {
+                    Client.mainForm.joinMeetingPage.AddMeetingToCB(mp.Topic);
+                }
+                if (Client.mainForm.closeMeetingPage != null &&
+                    mp.CoordinatorUsername == Client.Username)
+                {
+                    Client.mainForm.closeMeetingPage.AddMeetingToCB(mp.Topic);
+                }
             }
         }
     }

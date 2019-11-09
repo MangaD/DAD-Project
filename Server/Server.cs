@@ -143,7 +143,7 @@ namespace Server
         {
             foreach (var c in clients)
             {
-                if (mp.Invitees.Count == 0)
+                if (mp.Invitees.Count == 0 || mp.CoordinatorUsername == c.Username)
                 {
                     c.ClientChannel.InformNewMeeting(mp);
                 }
@@ -151,7 +151,7 @@ namespace Server
                 {
                     foreach (string s in mp.Invitees)
                     {
-                        if (s == c.Username || mp.CoordinatorUsername == c.Username)
+                        if (s == c.Username)
                         {
                             c.ClientChannel.InformNewMeeting(mp);
                             break;

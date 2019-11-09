@@ -26,7 +26,7 @@ namespace MSDAD_CLI.pages
 
                 try
                 {
-                    List<MeetingProposal> MeetingsList = Client.server.ListMeetings(Client.Username);
+                    List<MeetingProposal> MeetingsList = Client.server.ListMeetings(Client.Username, false, false);
                     foreach (MeetingProposal mp in MeetingsList)
                     {
                         ListViewItem lvi = new ListViewItem(new string[] { mp.Topic,

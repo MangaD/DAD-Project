@@ -130,7 +130,8 @@ namespace Server
                 "\n\tMinimum attendees: " + minAttendees);
         }
 
-        public void JoinMeeting(string topic, string clientName, RemotingAddress clientRA, List<Slot> slots)
+        public void JoinMeeting(string topic, string clientName,
+            RemotingAddress clientRA, List<Slot> slots)
         {
             Server.freezeHandle.WaitOne(); // For Freeze command
             this.Delay(); // For induced delay
@@ -231,25 +232,38 @@ namespace Server
             }
         }
 
-        public List<MeetingProposal> ListMeetings(string clientName)
+        public List<MeetingProposal> ListMeetings(string clientName, 
+            bool excludeClosed, bool excludeJoined)
         {
             Server.freezeHandle.WaitOne(); // For Freeze command
             this.Delay(); // For induced delay
 
+            if (clientName == "")
+            {
+                throw new ApplicationException("You do not have a username!");
+            }
+
             List<MeetingProposal> meetings = new List<MeetingProposal>();
             foreach (MeetingProposal mp in Server.meetingPropList)
             {
-                if (mp.Invitees.Count == 0 && !mp.IsClosed)
+                if (!excludeClosed || (excludeClosed && !mp.IsClosed))
                 {
-                    meetings.Add(mp);
-                }
-                else
-                {
-                    foreach (string inv in mp.Invitees)
+                    if (!excludeJoined || (excludeJoined && !mp.ClientsJoined.ContainsKey(clientName)))
                     {
-                        if (inv == clientName && !mp.IsClosed)
+                        if (mp.Invitees.Count == 0 || mp.CoordinatorUsername == clientName)
                         {
                             meetings.Add(mp);
+                        }
+                        else
+                        {
+                            foreach (string inv in mp.Invitees)
+                            {
+                                if (inv == clientName)
+                                {
+                                    meetings.Add(mp);
+                                    break;
+                                }
+                            }
                         }
                     }
                 }
@@ -257,6 +271,7 @@ namespace Server
 
             return meetings;
         }
+
 
         public MeetingProposal GetMeeting(string topic)
         {
@@ -291,7 +306,8 @@ namespace Server
             IClient newClientChannel =
                 (IClient)Activator.GetObject(
                     typeof(IClient), clientRA);
-            Client newClient = new Client(newClientChannel, username, RemotingAddress.FromString(clientRA));
+            Client newClient = new Client(newClientChannel, username,
+                RemotingAddress.FromString(clientRA));
             Server.clients.Add(newClient);
 
             Thread thread = new Thread(() => Server.InformAllClientsOfNewClient(username));
@@ -338,7 +354,10 @@ namespace Server
                 if (mp.Topic == topic && mp.CoordinatorUsername == coordinatorUsername && !mp.IsClosed)
                 {
                     // Get most wanted slot by users
-                    Slot most = mp.ChosenSlots.GroupBy(i => i).OrderByDescending(grp => grp.Count()).Select(grp => grp.Key).First();
+                    Slot most = mp.ChosenSlots
+                        .GroupBy(i => i)
+                        .OrderByDescending(grp => grp.Count())
+                        .Select(grp => grp.Key).First();
                     Console.WriteLine("Most: " + most.location + " " + most.date);
 
                     //Check if there is Room available in location choosed
@@ -357,7 +376,8 @@ namespace Server
 
 
                                 Console.WriteLine("Meeting Booked with: " + mp.ClientsJoined.Keys.Count +
-                                    " Clients, in Slot: " + mp.BookedSlot.location + " " + mp.BookedSlot.date + " " +
+                                    " Clients, in Slot: " + mp.BookedSlot.location +
+                                    " " + mp.BookedSlot.date + " " +
                                     " and in Room: " + mp.BookedRoom.Name);
 
                                 return;
