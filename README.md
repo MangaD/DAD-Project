@@ -75,9 +75,9 @@ And may receive one 4th optional argument, a script file path (specification in 
 **Not yet implemented:**
 
 - Client functionality not 100%
-  - list meetings, fill invitees, fill attendees
-  - inform client when someone joins a meeting and when a meeting is closed
-  - list meetings should show meeting slots, invitees and rooms available for slot
+  - server inform client when someone joins a meeting and when a meeting is closed
+    - use this info for list page and join and close combo boxes
+  - list meetings should show rooms available for slot
   - sign in form in case arguments are not passed at startup
 - Close meeting (error checks, review etc)
 - Client list in script?
