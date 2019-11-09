@@ -55,5 +55,47 @@ namespace MSDAD_CLI.pages
                     (mp.IsClosed ? "Booked" : "Pending") }));
             }));
         }
+
+        private void listMeetingsLv_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SlotsLv.Items.Clear();
+            InviteesLv.Items.Clear();
+
+            if (listMeetingsLv.SelectedItems == null ||
+                listMeetingsLv.SelectedItems.Count == 0 ||
+                listMeetingsLv.SelectedItems[0] == null ||
+                listMeetingsLv.SelectedItems[0].Text == "")
+            {
+                return;
+            }
+
+            string topic = listMeetingsLv.SelectedItems[0].Text;
+
+            try
+            {
+                MeetingProposal mp = Client.server.GetMeeting(Client.Username, topic);
+
+                foreach (Slot slot in mp.Slots)
+                {
+                    var lvi = new ListViewItem(new string[] { slot.date.ToString("yyyy-MM-dd"), slot.location });
+                    SlotsLv.Items.Add(lvi);
+                }
+                foreach (string invitee in mp.Invitees)
+                {
+                    InviteesLv.Items.Add(new ListViewItem(invitee));
+                }
+                foreach (string attendee in mp.ClientsJoined.Keys)
+                {
+                    InviteesLv.Items.Add(new ListViewItem(attendee));
+                }
+            }
+            catch (System.Net.Sockets.SocketException)
+            {
+                MessageBox.Show("Lost connection to the server.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
     }
 }

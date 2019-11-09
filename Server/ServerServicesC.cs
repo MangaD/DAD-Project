@@ -205,6 +205,12 @@ namespace Server
                     {
                         throw new ApplicationException($"You have already joined meeting '{topic}'.");
                     }
+                    else if (mp.Invitees.Count > 0 && 
+                        mp.CoordinatorUsername != clientName &&
+                        !mp.Invitees.Contains(clientName))
+                    {
+                        throw new ApplicationException($"You have not been invited for meeting '{topic}'!");
+                    }
 
                     foreach(Slot s in slots)
                     {
@@ -214,20 +220,7 @@ namespace Server
                         }
                     }
 
-                    if (mp.Invitees.Count == 0)
-                    {
-                        mp.AddClientToMeeting(clientName, clientRA, slots);
-                    }
-                    else
-                    {
-                        foreach (string inv in mp.Invitees)
-                        {
-                            if (inv == clientName || clientName == mp.CoordinatorUsername)
-                            {
-                                mp.AddClientToMeeting(clientName, clientRA, slots);
-                            }
-                        }
-                    }
+                    mp.AddClientToMeeting(clientName, clientRA, slots);
                 }
             }
         }
@@ -250,20 +243,11 @@ namespace Server
                 {
                     if (!excludeJoined || (excludeJoined && !mp.ClientsJoined.ContainsKey(clientName)))
                     {
-                        if (mp.Invitees.Count == 0 || mp.CoordinatorUsername == clientName)
+                        if (mp.Invitees.Count == 0 ||
+                            mp.CoordinatorUsername == clientName ||
+                            mp.Invitees.Contains(clientName))
                         {
                             meetings.Add(mp);
-                        }
-                        else
-                        {
-                            foreach (string inv in mp.Invitees)
-                            {
-                                if (inv == clientName)
-                                {
-                                    meetings.Add(mp);
-                                    break;
-                                }
-                            }
                         }
                     }
                 }
@@ -272,51 +256,64 @@ namespace Server
             return meetings;
         }
 
-
-        public MeetingProposal GetMeeting(string topic)
+        public MeetingProposal GetMeeting(string clientName, string topic)
         {
             Server.freezeHandle.WaitOne(); // For Freeze command
             this.Delay(); // For induced delay
 
+            if (topic == "")
+            {
+                throw new ApplicationException("Must select a topic!");
+            }
+            if (clientName == "")
+            {
+                throw new ApplicationException("You do not have a username!");
+            }
+
             foreach (MeetingProposal mp in Server.meetingPropList)
             {
-                if (mp.Invitees.Count == 0 && !mp.IsClosed && mp.Topic == topic)
+                if (mp.Topic == topic)
                 {
-                    return mp;
-                }
-                else
-                {
-                    foreach (string inv in mp.Invitees)
+                    if (mp.Invitees.Count == 0 ||
+                        mp.CoordinatorUsername == clientName ||
+                        mp.Invitees.Contains(clientName))
                     {
-                        if (!mp.IsClosed && mp.Topic == topic)
-                        {
-                            return mp;
-                        }
+                        return mp;
                     }
                 }
             }
             return null;
         }
 
-        public void RegisterClient(string username, string clientRA)
+        public void RegisterClient(string username, RemotingAddress clientRA)
         {
             Server.freezeHandle.WaitOne(); // For Freeze command
             this.Delay(); // For induced delay
 
-            IClient newClientChannel =
-                (IClient)Activator.GetObject(
-                    typeof(IClient), clientRA);
-            Client newClient = new Client(newClientChannel, username,
-                RemotingAddress.FromString(clientRA));
+            if (username == null || username == "")
+            {
+                throw new ApplicationException($"Username cannot be empty!");
+            }
+            if (clientRA == null || clientRA.address == null || clientRA.address == "")
+            {
+                throw new ApplicationException($"Your address cannot be empty!");
+            }
+            if (clientRA.channel == null || clientRA.channel == "")
+            {
+                throw new ApplicationException($"Your channel cannot be empty!");
+            }
+
+            IClient newClientChannel = (IClient)Activator.GetObject(typeof(IClient), clientRA.ToString());
+            Client newClient = new Client(newClientChannel, username, clientRA);
             Server.clients.Add(newClient);
 
             Thread thread = new Thread(() => Server.InformAllClientsOfNewClient(username));
             thread.Start();
 
-            Console.WriteLine("New client " + username + " listenning at " + clientRA);
+            Console.WriteLine($"New client '{username}' listening at '{clientRA}'");
         }
 
-        public List<string> GetClientsUsername()
+        public List<string> GetClientUsernames()
         {
             Server.freezeHandle.WaitOne(); // For Freeze command
             this.Delay(); // For induced delay

@@ -75,19 +75,11 @@ And may receive one 4th optional argument, a script file path (specification in 
 **Not yet implemented:**
 
 - Client functionality not 100%
-  - missing error checks
-    - server does not detect repeated slots in a meeting
-    - join meetings topic combo box should not show already joined meetings
-    - duplicates in invitees combo box
-  - list meetings should show more information
-  - meeting shows in close combo box of who did not create it
-  - meeting shows in join of who was not invited and server lets it join!
-  - close meeting (must review)
-  - close meeting of another coordinator throws non specific error
+  - list meetings, fill invitees, fill attendees
+  - inform client when someone joins a meeting and when a meeting is closed
+  - list meetings should show meeting slots, invitees and rooms available for slot
   - sign in form in case arguments are not passed at startup
-- Server should have different list methods for different situations
-- Server error checks
-  - check if method parameters are valid
+- Close meeting (error checks, review etc)
 - Client list in script?
 - Server replication
 - PM Status command

@@ -44,7 +44,7 @@ namespace MSDAD_CLI
 
             try
             {
-                ConnectToServer(ServerRA.ToString(), Username, ClientRA.ToString());
+                ConnectToServer(ServerRA, Username, ClientRA);
             } catch (Exception e)
             {
                 MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -73,10 +73,10 @@ namespace MSDAD_CLI
             Application.Run(mainForm);
         }
 
-        public static void ConnectToServer(string serverRA, string clientName, string clientRA)
+        public static void ConnectToServer(RemotingAddress serverRA, string clientName, RemotingAddress clientRA)
         {
             Username = clientName;
-            server = (IServerC) Activator.GetObject(typeof(IServerC), serverRA);
+            server = (IServerC) Activator.GetObject(typeof(IServerC), serverRA.ToString());
             try
             {
                 server.RegisterClient(clientName, clientRA);

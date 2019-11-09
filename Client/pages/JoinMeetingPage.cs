@@ -41,7 +41,7 @@ namespace MSDAD_CLI.pages
 
             try
             {
-                MeetingProposal mp = Client.server.GetMeeting(topicCB.Text);
+                MeetingProposal mp = Client.server.GetMeeting(Client.Username, topicCB.Text);
 
                 foreach (Slot slot in mp.Slots)
                 {

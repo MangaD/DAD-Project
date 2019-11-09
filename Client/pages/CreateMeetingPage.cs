@@ -162,7 +162,7 @@ namespace MSDAD_CLI.pages
 
                 try
                 {
-                    List<string> usernamesList = Client.server.GetClientsUsername();
+                    List<string> usernamesList = Client.server.GetClientUsernames();
                     foreach (string user in usernamesList)
                     {
                         if (user != Client.Username)
