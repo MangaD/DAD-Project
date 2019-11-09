@@ -48,10 +48,7 @@ namespace Server
                                     " Clients, in Slot: " + mp.BookedSlot1.location + " " + mp.BookedSlot1.date + " " +
                                     " and in Room: " + mp.BookedRoom1.Name);
 
-                                //return true;
-                                throw new ApplicationException("Meeting Booked with: " + mp.ClientsJoined.Keys.Count +
-                                    " Clients, in Slot: " + mp.BookedSlot1.location + " " + mp.BookedSlot1.date + " " +
-                                    " and in Room: " + mp.BookedRoom1.Name);
+                                return;
                             }
                         }
                     }
