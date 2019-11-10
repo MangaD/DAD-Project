@@ -16,7 +16,13 @@ namespace API
         public Dictionary<string, RemotingAddress> ClientsJoined { get; set; }
         public Dictionary<string, string> ClientsAccepted { get; set; }
         public Dictionary<Slot, List<string>> ClientPerSlot { get; set; }
-        public bool IsClosed { get; set; }
+        public enum StatusEnum
+        {
+            Open,
+            Closed,
+            Cancelled
+        }
+        public StatusEnum Status = StatusEnum.Open;
         public List<Slot> ChosenSlots { get; set; }
         public Slot BookedSlot { get; set; }
         public Room BookedRoom { get; set; }
@@ -31,7 +37,6 @@ namespace API
             Slots = slots;
             Invitees = invitees;
             ClientsJoined = new Dictionary<string, RemotingAddress>();
-            IsClosed = false;
             ChosenSlots = new List<Slot>();
         }
 

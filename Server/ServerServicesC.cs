@@ -197,9 +197,13 @@ namespace Server
             {
                 if (mp.Topic == topic)
                 {
-                    if (mp.IsClosed)
+                    if (mp.Status == MeetingProposal.StatusEnum.Closed)
                     {
                         throw new ApplicationException($"Meeting '{topic}' is closed.");
+                    }
+                    else if (mp.Status == MeetingProposal.StatusEnum.Cancelled)
+                    {
+                        throw new ApplicationException($"Meeting '{topic}' is cancelled.");
                     }
                     else if (mp.ClientsJoined.Keys.Contains(clientName))
                     {
@@ -226,7 +230,7 @@ namespace Server
         }
 
         public List<MeetingProposal> ListMeetings(string clientName, 
-            bool excludeClosed, bool excludeJoined)
+            bool excludeClosed, bool excludeJoined, bool excludeCancelled)
         {
             Server.freezeHandle.WaitOne(); // For Freeze command
             this.Delay(); // For induced delay
@@ -239,17 +243,20 @@ namespace Server
             List<MeetingProposal> meetings = new List<MeetingProposal>();
             foreach (MeetingProposal mp in Server.meetingPropList)
             {
-                if (!excludeClosed || (excludeClosed && !mp.IsClosed))
+                if (!excludeClosed || (excludeClosed && mp.Status != MeetingProposal.StatusEnum.Closed))
                 {
-                    if (!excludeJoined || (excludeJoined && !mp.ClientsJoined.ContainsKey(clientName)))
+                    if (!excludeCancelled || (excludeCancelled && mp.Status != MeetingProposal.StatusEnum.Cancelled))
                     {
-                        if (mp.Invitees.Count == 0 ||
-                            mp.CoordinatorUsername == clientName ||
-                            mp.Invitees.Contains(clientName))
+                        if (!excludeJoined || (excludeJoined && !mp.ClientsJoined.ContainsKey(clientName)))
                         {
-                            meetings.Add(mp);
+                            if (mp.Invitees.Count == 0 ||
+                                mp.CoordinatorUsername == clientName ||
+                                mp.Invitees.Contains(clientName))
+                            {
+                                meetings.Add(mp);
+                            }
                         }
-                    }
+                    }                    
                 }
             }
 
@@ -302,6 +309,10 @@ namespace Server
             {
                 throw new ApplicationException($"Your channel cannot be empty!");
             }
+            if (Server.clients.Exists(c => c.Username == username))
+            {
+                throw new ApplicationException($"Someone with username '{username}' is already connected.");
+            }
 
             IClient newClientChannel = (IClient)Activator.GetObject(typeof(IClient), clientRA.ToString());
             Client newClient = new Client(newClientChannel, username, clientRA);
@@ -348,7 +359,8 @@ namespace Server
             foreach (MeetingProposal mp in Server.meetingPropList)
             {
                 //Closing wanted meeting and client closing is coordinator and meeting is not yet closed
-                if (mp.Topic == topic && mp.CoordinatorUsername == coordinatorUsername && !mp.IsClosed)
+                if (mp.Topic == topic && mp.CoordinatorUsername == coordinatorUsername &&
+                    mp.Status != MeetingProposal.StatusEnum.Closed)
                 {
                     // Get most wanted slot by users
                     Slot most = mp.ChosenSlots
@@ -368,7 +380,7 @@ namespace Server
                                 r.Available = false;
                                 mp.BookedSlot = most;
                                 mp.BookedRoom = r;
-                                mp.IsClosed = true;
+                                mp.Status = MeetingProposal.StatusEnum.Closed;
                                 //slot was available and room is filled with max or less than max capacity
 
 

@@ -26,13 +26,34 @@ namespace MSDAD_CLI.pages
 
                 try
                 {
-                    List<MeetingProposal> MeetingsList = Client.server.ListMeetings(Client.Username, false, false);
+                    List<MeetingProposal> MeetingsList = Client.server.ListMeetings(Client.Username, false, false, false);
                     foreach (MeetingProposal mp in MeetingsList)
                     {
-                        ListViewItem lvi = new ListViewItem(new string[] { mp.Topic,
+                        string state = "";
+
+                        if (mp.Status == MeetingProposal.StatusEnum.Open)
+                        {
+                            state = "Open";
+                        }
+                        else if (mp.Status == MeetingProposal.StatusEnum.Closed)
+                        {
+                            state = "Closed";
+                        }
+                        else if (mp.Status == MeetingProposal.StatusEnum.Cancelled)
+                        {
+                            state = "Cancelled";
+                        }
+
+                        string bookedSlot = (mp.BookedSlot == null ||
+                            mp.BookedSlot.location == null ||
+                            mp.BookedSlot.location == "" ? "" : mp.BookedSlot.ToString());
+                        string bookedRoom = (mp.BookedRoom == null ||
+                            mp.BookedRoom.Name == null ||
+                            mp.BookedRoom.Name == "" ? "" : mp.BookedRoom.Name);
+
+                        listMeetingsLv.Items.Add(new ListViewItem(new string[] { mp.Topic,
                             mp.CoordinatorUsername, mp.MinAttendees.ToString(),
-                            (mp.IsClosed ? "Closed" : "Open") });
-                        listMeetingsLv.Items.Add(lvi);
+                            state, bookedSlot, bookedRoom }));
 
                     }
                 }
@@ -50,9 +71,31 @@ namespace MSDAD_CLI.pages
         {
             this.BeginInvoke(new MethodInvoker(delegate
             {
+                string state = "";
+
+                if (mp.Status == MeetingProposal.StatusEnum.Open)
+                {
+                    state = "Open";
+                }
+                else if (mp.Status == MeetingProposal.StatusEnum.Closed)
+                {
+                    state = "Closed";
+                }
+                else if (mp.Status == MeetingProposal.StatusEnum.Cancelled)
+                {
+                    state = "Cancelled";
+                }
+
+                string bookedSlot = (mp.BookedSlot == null ||
+                    mp.BookedSlot.location == null ||
+                    mp.BookedSlot.location == "" ? "" : mp.BookedSlot.ToString());
+                string bookedRoom = (mp.BookedRoom == null ||
+                    mp.BookedRoom.Name == null ||
+                    mp.BookedRoom.Name == "" ? "" : mp.BookedRoom.Name);
+
                 listMeetingsLv.Items.Add(new ListViewItem(new string[] { mp.Topic,
                     mp.CoordinatorUsername, mp.MinAttendees.ToString(),
-                    (mp.IsClosed ? "Booked" : "Pending") }));
+                    state, bookedSlot, bookedRoom }));
             }));
         }
 
@@ -86,7 +129,24 @@ namespace MSDAD_CLI.pages
                 }
                 foreach (string attendee in mp.ClientsJoined.Keys)
                 {
-                    InviteesLv.Items.Add(new ListViewItem(attendee));
+                    string admission;
+                    bool accepted = mp.ClientsAccepted.ContainsKey(attendee);
+
+
+                    if (mp.Status == MeetingProposal.StatusEnum.Closed && accepted)
+                    {
+                        admission = "Accepted";
+                    }
+                    else if (mp.Status == MeetingProposal.StatusEnum.Closed && !accepted)
+                    {
+                        admission = "Rejected";
+                    }
+                    else
+                    {
+                        admission = "Pending";
+                    }
+
+                    InviteesLv.Items.Add(new ListViewItem(new string[] { attendee, admission }));
                 }
             }
             catch (System.Net.Sockets.SocketException)

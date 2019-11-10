@@ -215,7 +215,7 @@ namespace MSDAD_CLI
                 {
                     try
                     {
-                        Client.server.ListMeetings(Client.Username, false, false);
+                        Client.server.ListMeetings(Client.Username, false, false, false);
                     }
                     catch (System.Net.Sockets.SocketException)
                     {

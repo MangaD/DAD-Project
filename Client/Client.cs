@@ -126,12 +126,13 @@ namespace MSDAD_CLI
                 }
                 if (Client.mainForm.joinMeetingPage != null && 
                     !mp.ClientsJoined.ContainsKey(Client.Username) &&
-                    !mp.IsClosed)
+                    mp.Status == MeetingProposal.StatusEnum.Open)
                 {
                     Client.mainForm.joinMeetingPage.AddMeetingToCB(mp.Topic);
                 }
                 if (Client.mainForm.closeMeetingPage != null &&
-                    mp.CoordinatorUsername == Client.Username)
+                    mp.CoordinatorUsername == Client.Username &&
+                    mp.Status == MeetingProposal.StatusEnum.Open)
                 {
                     Client.mainForm.closeMeetingPage.AddMeetingToCB(mp.Topic);
                 }

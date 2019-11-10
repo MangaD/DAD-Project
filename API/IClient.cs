@@ -6,5 +6,7 @@ namespace API
     {
         void InformNewMeeting(MeetingProposal mp);
         void InformNewClient(string username);
+        void InformJoinedMeeting(MeetingProposal mp, string username);
+        void InformClosedMeeting(MeetingProposal mp);
     }
 }

@@ -44,6 +44,10 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.attendeesLv = new System.Windows.Forms.ListView();
             this.attendeesLbl = new System.Windows.Forms.Label();
+            this.usernameHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.admissionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.bookedSlotHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.bookedRoomHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // listMeetingsLv
@@ -52,7 +56,9 @@
             this.topicHeader,
             this.coordinatorHeader,
             this.minimumAttendeesHeader,
-            this.statusHeader});
+            this.statusHeader,
+            this.bookedSlotHeader,
+            this.bookedRoomHeader});
             this.listMeetingsLv.FullRowSelect = true;
             this.listMeetingsLv.GridLines = true;
             this.listMeetingsLv.HideSelection = false;
@@ -69,21 +75,22 @@
             // topicHeader
             // 
             this.topicHeader.Text = "Topic";
-            this.topicHeader.Width = 70;
+            this.topicHeader.Width = 48;
             // 
             // coordinatorHeader
             // 
             this.coordinatorHeader.Text = "Coordinator";
-            this.coordinatorHeader.Width = 70;
+            this.coordinatorHeader.Width = 52;
             // 
             // minimumAttendeesHeader
             // 
             this.minimumAttendeesHeader.Text = "Min. Attendees";
-            this.minimumAttendeesHeader.Width = 90;
+            this.minimumAttendeesHeader.Width = 51;
             // 
             // statusHeader
             // 
             this.statusHeader.Text = "Status";
+            this.statusHeader.Width = 45;
             // 
             // titleLbl
             // 
@@ -116,7 +123,7 @@
             this.InviteesLb.BackColor = System.Drawing.Color.Transparent;
             this.InviteesLb.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.InviteesLb.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.InviteesLb.Location = new System.Drawing.Point(186, 223);
+            this.InviteesLb.Location = new System.Drawing.Point(140, 223);
             this.InviteesLb.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.InviteesLb.Name = "InviteesLb";
             this.InviteesLb.Size = new System.Drawing.Size(56, 13);
@@ -155,10 +162,10 @@
             this.InviteesLv.GridLines = true;
             this.InviteesLv.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.InviteesLv.HideSelection = false;
-            this.InviteesLv.Location = new System.Drawing.Point(189, 238);
+            this.InviteesLv.Location = new System.Drawing.Point(140, 238);
             this.InviteesLv.Margin = new System.Windows.Forms.Padding(2);
             this.InviteesLv.Name = "InviteesLv";
-            this.InviteesLv.Size = new System.Drawing.Size(69, 82);
+            this.InviteesLv.Size = new System.Drawing.Size(72, 82);
             this.InviteesLv.TabIndex = 47;
             this.InviteesLv.UseCompatibleStateImageBehavior = false;
             this.InviteesLv.View = System.Windows.Forms.View.List;
@@ -175,7 +182,7 @@
             this.SlotsLv.Location = new System.Drawing.Point(20, 238);
             this.SlotsLv.Margin = new System.Windows.Forms.Padding(2);
             this.SlotsLv.Name = "SlotsLv";
-            this.SlotsLv.Size = new System.Drawing.Size(165, 82);
+            this.SlotsLv.Size = new System.Drawing.Size(116, 82);
             this.SlotsLv.TabIndex = 46;
             this.SlotsLv.UseCompatibleStateImageBehavior = false;
             this.SlotsLv.View = System.Windows.Forms.View.Details;
@@ -183,26 +190,28 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "Date";
-            this.columnHeader1.Width = 78;
+            this.columnHeader1.Width = 57;
             // 
             // columnHeader2
             // 
             this.columnHeader2.Text = "Location";
-            this.columnHeader2.Width = 82;
+            this.columnHeader2.Width = 51;
             // 
             // attendeesLv
             // 
+            this.attendeesLv.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.usernameHeader,
+            this.admissionHeader});
             this.attendeesLv.FullRowSelect = true;
             this.attendeesLv.GridLines = true;
-            this.attendeesLv.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.attendeesLv.HideSelection = false;
-            this.attendeesLv.Location = new System.Drawing.Point(262, 238);
+            this.attendeesLv.Location = new System.Drawing.Point(216, 238);
             this.attendeesLv.Margin = new System.Windows.Forms.Padding(2);
             this.attendeesLv.Name = "attendeesLv";
-            this.attendeesLv.Size = new System.Drawing.Size(65, 82);
+            this.attendeesLv.Size = new System.Drawing.Size(111, 82);
             this.attendeesLv.TabIndex = 49;
             this.attendeesLv.UseCompatibleStateImageBehavior = false;
-            this.attendeesLv.View = System.Windows.Forms.View.List;
+            this.attendeesLv.View = System.Windows.Forms.View.Details;
             // 
             // attendeesLbl
             // 
@@ -210,12 +219,32 @@
             this.attendeesLbl.BackColor = System.Drawing.Color.Transparent;
             this.attendeesLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.attendeesLbl.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.attendeesLbl.Location = new System.Drawing.Point(259, 223);
+            this.attendeesLbl.Location = new System.Drawing.Point(216, 223);
             this.attendeesLbl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.attendeesLbl.Name = "attendeesLbl";
             this.attendeesLbl.Size = new System.Drawing.Size(68, 13);
             this.attendeesLbl.TabIndex = 48;
             this.attendeesLbl.Text = "Attendees:";
+            // 
+            // usernameHeader
+            // 
+            this.usernameHeader.Text = "Username";
+            this.usernameHeader.Width = 53;
+            // 
+            // admissionHeader
+            // 
+            this.admissionHeader.Text = "Admission";
+            this.admissionHeader.Width = 46;
+            // 
+            // bookedSlotHeader
+            // 
+            this.bookedSlotHeader.Text = "Booked Slot";
+            this.bookedSlotHeader.Width = 49;
+            // 
+            // bookedRoomHeader
+            // 
+            this.bookedRoomHeader.Text = "Booked Room";
+            this.bookedRoomHeader.Width = 47;
             // 
             // ListMeetingPage
             // 
@@ -256,5 +285,9 @@
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ListView attendeesLv;
         private System.Windows.Forms.Label attendeesLbl;
+        private System.Windows.Forms.ColumnHeader usernameHeader;
+        private System.Windows.Forms.ColumnHeader admissionHeader;
+        private System.Windows.Forms.ColumnHeader bookedSlotHeader;
+        private System.Windows.Forms.ColumnHeader bookedRoomHeader;
     }
 }

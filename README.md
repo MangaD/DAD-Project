@@ -75,11 +75,12 @@ And may receive one 4th optional argument, a script file path (specification in 
 **Not yet implemented:**
 
 - Client functionality not 100%
-  - server inform client when someone joins a meeting and when a meeting is closed
+  - server inform client when someone joins a meeting and when a meeting is closed or cancelled
     - use this info for list page and join and close combo boxes
-  - list meetings should show rooms available for slot
+  - ~~list meetings should show rooms available for slot~~
   - sign in form in case arguments are not passed at startup
 - Close meeting (error checks, review etc)
+  - Room "available" bool needs to match dates!
 - Client list in script?
 - Server replication
 - PM Status command

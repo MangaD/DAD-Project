@@ -129,7 +129,7 @@ namespace MSDAD_CLI.pages
 
                 try
                 {
-                    List<MeetingProposal> MeetingsList = Client.server.ListMeetings(Client.Username, true, true);
+                    List<MeetingProposal> MeetingsList = Client.server.ListMeetings(Client.Username, true, true, true);
                     foreach (MeetingProposal mp in MeetingsList)
                     {
                         topicCB.Items.Add(new ListViewItem(mp.Topic));
