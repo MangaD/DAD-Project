@@ -419,9 +419,9 @@ namespace Server
                         List<Room> rooms = Server.locationRooms[most.location];
                         foreach (Room r in rooms)
                         {
-                            if (r.Capacity >= mp.ClientsJoined.Keys.Count && r.Available == true)
+                            if (r.Capacity >= mp.ClientsJoined.Keys.Count && !r.bookedDates.Contains(most.date))
                             {
-                                r.Available = false;
+                                r.bookedDates.Add(most.date);
                                 mp.BookedSlot = most;
                                 mp.BookedRoom = r;
                                 mp.Status = MeetingProposal.StatusEnum.Closed;

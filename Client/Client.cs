@@ -110,6 +110,7 @@ namespace MSDAD_CLI
 
         public void InformClientJoinedMeeting(MeetingProposal mp, string username)
         {
+            //TODO take out of joined combo box
             if (Client.mainForm.listMeetingPage != null)
             {
                 Client.mainForm.listMeetingPage.RemoveMeetingFromList(mp);
@@ -152,7 +153,12 @@ namespace MSDAD_CLI
 
         public void InformStateMeeting(MeetingProposal mp, MeetingProposal.StatusEnum status)
         {
-            
+            // TODO take out of closed combobox
+            if (Client.mainForm.listMeetingPage != null)
+            {
+                Client.mainForm.listMeetingPage.RemoveMeetingFromList(mp);
+                Client.mainForm.listMeetingPage.AddMeetingToList(mp);
+            }
         }
     }
 }

@@ -215,6 +215,7 @@ namespace MSDAD_CLI
                 {
                     try
                     {
+                        //TODO do something with result
                         Client.server.ListMeetings(Client.Username, false, false, false);
                     }
                     catch (System.Net.Sockets.SocketException)
@@ -232,7 +233,7 @@ namespace MSDAD_CLI
 
                     List<Slot> slots = new List<Slot>();
 
-                    for (int i = 0; i < slotCount; i++)
+                    for (int i = 3; i < 3 + slotCount; i++)
                     {
                         slots.Add(Slot.FromString(command[i]));
                     }
@@ -287,12 +288,12 @@ namespace MSDAD_CLI
                     List<Slot> slots = new List<Slot>();
                     List<string> invitees = new List<string>();
 
-                    for (int i = 0; i < noSlots; i++)
+                    for (int i = 5; i < 5 + noSlots; i++)
                     {
                         slots.Add(Slot.FromString(command[i]));
                     }
 
-                    for (int i = 0; i < noInvitees; i++)
+                    for (int i = 5 + noSlots; i < 5 + noSlots + noInvitees; i++)
                     {
                         invitees.Add(command[i]);
                     }

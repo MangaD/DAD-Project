@@ -79,9 +79,9 @@ And may receive one 4th optional argument, a script file path (specification in 
     - use this info for list page and join and close combo boxes
   - ~~list meetings should show rooms available for slot~~
   - sign in form in case arguments are not passed at startup
+  - remove meeting from join meeting combobox once joined
 - Close meeting (error checks, review etc)
   - Room class should have list of dates when it is booked
-  - Check minimum participants
   - Check location and date that maximizes participants (based on preferred slot and room capacities)
   - Exclude clients that cannot go to that location / date
   - Exclude clients randomly if room capacity isn't enough

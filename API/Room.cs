@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace API
 {
@@ -9,11 +10,11 @@ namespace API
         {
             Name = name;
             Capacity = capacity;
-            Available = true;
+            bookedDates = new List<DateTime>();
         }
 
         public string Name { get; set; }
         public uint Capacity { get; set; }
-        public bool Available { get; set; }
+        public List<DateTime> bookedDates;
     }
 }
