@@ -181,7 +181,7 @@ namespace MSDAD_CLI
                                     }
 
                                     // Add invitees
-                                    for (int i = 0; i < noInvitees; i++)
+                                    for (int i = noSlots; i < noSlots + noInvitees; i++)
                                     {
                                         l.Add(slotsInvitees[i]);
                                     }

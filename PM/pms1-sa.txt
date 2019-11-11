@@ -7,7 +7,7 @@ Wait 1000
 AddRoom Lisboa 2 room1
 AddRoom Porto 1 room2
 Wait 2000
-Client c1 tcp://localhost:4001/client1 tcp://localhost:3001/server1 ../../cs1
-Client c2 tcp://localhost:4002/client2 tcp://localhost:3002/server2 ../../cs2
+Client c1 tcp://localhost:4001/client1 tcp://localhost:3001/server1 ../../cs1.txt
+Client c2 tcp://localhost:4002/client2 tcp://localhost:3002/server2 ../../cs2.txt
 Wait 15000
 Status
