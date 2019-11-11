@@ -143,20 +143,11 @@ namespace Server
         {
             foreach (var c in clients)
             {
-                if (mp.Invitees.Count == 0 || mp.CoordinatorUsername == c.Username)
+                if (mp.Invitees.Count == 0 ||
+                    mp.CoordinatorUsername == c.Username ||
+                    mp.Invitees.Contains(c.Username))
                 {
                     c.ClientChannel.InformNewMeeting(mp);
-                }
-                else
-                {
-                    foreach (string s in mp.Invitees)
-                    {
-                        if (s == c.Username)
-                        {
-                            c.ClientChannel.InformNewMeeting(mp);
-                            break;
-                        }
-                    }
                 }
             }
         }
@@ -165,9 +156,32 @@ namespace Server
         {
             foreach (var c in clients)
             {
-                if(c.Username != username)
+                c.ClientChannel.InformNewClient(username);
+            }
+        }
+
+        public static void InformAllClientsOfJoinedMeeting(MeetingProposal mp, string username)
+        {
+            foreach (var c in clients)
+            {
+                if (mp.Invitees.Count == 0 ||
+                    mp.CoordinatorUsername == c.Username ||
+                    mp.Invitees.Contains(c.Username))
                 {
-                    c.ClientChannel.InformNewClient(username);
+                    c.ClientChannel.InformClientJoinedMeeting(mp, username);
+                }
+            }
+        }
+
+        public static void InformAllClientsOfMeetingState(MeetingProposal mp)
+        {
+            foreach (var c in clients)
+            {
+                if (mp.Invitees.Count == 0 ||
+                    mp.CoordinatorUsername == c.Username ||
+                    mp.Invitees.Contains(c.Username))
+                {
+                    c.ClientChannel.InformStateMeeting(mp, mp.Status);
                 }
             }
         }

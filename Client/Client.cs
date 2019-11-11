@@ -108,9 +108,20 @@ namespace MSDAD_CLI
         {
         }
 
+        public void InformClientJoinedMeeting(MeetingProposal mp, string username)
+        {
+            if (Client.mainForm.listMeetingPage != null)
+            {
+                Client.mainForm.listMeetingPage.RemoveMeetingFromList(mp);
+                Client.mainForm.listMeetingPage.AddMeetingToList(mp);
+            }
+        }
+
         public void InformNewClient(string username)
         {
-            if (Client.mainForm != null && Client.mainForm.createMeetingPage != null)
+            if (Client.mainForm != null &&
+                Client.mainForm.createMeetingPage != null &&
+                Client.Username != username)
             {
                 Client.mainForm.createMeetingPage.AddClientToCB(username);
             }
@@ -137,6 +148,11 @@ namespace MSDAD_CLI
                     Client.mainForm.closeMeetingPage.AddMeetingToCB(mp.Topic);
                 }
             }
+        }
+
+        public void InformStateMeeting(MeetingProposal mp, MeetingProposal.StatusEnum status)
+        {
+            
         }
     }
 }

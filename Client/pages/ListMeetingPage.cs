@@ -67,6 +67,20 @@ namespace MSDAD_CLI.pages
             }));
         }
 
+        public void RemoveMeetingFromList(MeetingProposal mp)
+        {
+            this.BeginInvoke(new MethodInvoker(delegate
+            {
+                foreach (ListViewItem item in listMeetingsLv.Items)
+                {
+                    if (item.Text.Contains(mp.Topic))
+                    {
+                        listMeetingsLv.Items.Remove(item);
+                    }
+                }
+            }));
+        }
+
         public void AddMeetingToList(MeetingProposal mp)
         {
             this.BeginInvoke(new MethodInvoker(delegate
@@ -103,6 +117,7 @@ namespace MSDAD_CLI.pages
         {
             SlotsLv.Items.Clear();
             InviteesLv.Items.Clear();
+            attendeesLv.Items.Clear();
 
             if (listMeetingsLv.SelectedItems == null ||
                 listMeetingsLv.SelectedItems.Count == 0 ||
@@ -118,35 +133,44 @@ namespace MSDAD_CLI.pages
             {
                 MeetingProposal mp = Client.server.GetMeeting(Client.Username, topic);
 
-                foreach (Slot slot in mp.Slots)
+                if (mp.Slots != null)
                 {
-                    var lvi = new ListViewItem(new string[] { slot.date.ToString("yyyy-MM-dd"), slot.location });
-                    SlotsLv.Items.Add(lvi);
+                    foreach (Slot slot in mp.Slots)
+                    {
+                        var lvi = new ListViewItem(new string[] { slot.date.ToString("yyyy-MM-dd"), slot.location });
+                        SlotsLv.Items.Add(lvi);
+                    }
                 }
-                foreach (string invitee in mp.Invitees)
+                if (mp.Invitees != null)
                 {
-                    InviteesLv.Items.Add(new ListViewItem(invitee));
+                    foreach (string invitee in mp.Invitees)
+                    {
+                        InviteesLv.Items.Add(new ListViewItem(invitee));
+                    }
                 }
-                foreach (string attendee in mp.ClientsJoined.Keys)
+                if (mp.ClientsJoined != null)
                 {
-                    string admission;
-                    bool accepted = mp.ClientsAccepted.ContainsKey(attendee);
+                    foreach (string attendee in mp.ClientsJoined.Keys)
+                    {
+                        string admission;
+                        bool accepted = (mp.ClientsAccepted != null && mp.ClientsAccepted.ContainsKey(attendee));
 
 
-                    if (mp.Status == MeetingProposal.StatusEnum.Closed && accepted)
-                    {
-                        admission = "Accepted";
-                    }
-                    else if (mp.Status == MeetingProposal.StatusEnum.Closed && !accepted)
-                    {
-                        admission = "Rejected";
-                    }
-                    else
-                    {
-                        admission = "Pending";
-                    }
+                        if (mp.Status == MeetingProposal.StatusEnum.Closed && accepted)
+                        {
+                            admission = "Accepted";
+                        }
+                        else if (mp.Status == MeetingProposal.StatusEnum.Closed && !accepted)
+                        {
+                            admission = "Rejected";
+                        }
+                        else
+                        {
+                            admission = "Pending";
+                        }
 
-                    InviteesLv.Items.Add(new ListViewItem(new string[] { attendee, admission }));
+                        attendeesLv.Items.Add(new ListViewItem(new string[] { attendee, admission }));
+                    }
                 }
             }
             catch (System.Net.Sockets.SocketException)

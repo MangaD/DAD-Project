@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.availableSlotsLabel = new System.Windows.Forms.Label();
-            this.selectedSlotsLabel = new System.Windows.Forms.Label();
+            this.pretendedSlotsLabel = new System.Windows.Forms.Label();
             this.joinMeetingButton = new System.Windows.Forms.Button();
             this.selectedSlotsLv = new System.Windows.Forms.ListView();
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -56,18 +56,18 @@
             this.availableSlotsLabel.TabIndex = 31;
             this.availableSlotsLabel.Text = "Available Slots:";
             // 
-            // selectedSlotsLabel
+            // pretendedSlotsLabel
             // 
-            this.selectedSlotsLabel.AutoSize = true;
-            this.selectedSlotsLabel.BackColor = System.Drawing.Color.Transparent;
-            this.selectedSlotsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.selectedSlotsLabel.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.selectedSlotsLabel.Location = new System.Drawing.Point(173, 141);
-            this.selectedSlotsLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.selectedSlotsLabel.Name = "selectedSlotsLabel";
-            this.selectedSlotsLabel.Size = new System.Drawing.Size(93, 13);
-            this.selectedSlotsLabel.TabIndex = 30;
-            this.selectedSlotsLabel.Text = "Selected Slots:";
+            this.pretendedSlotsLabel.AutoSize = true;
+            this.pretendedSlotsLabel.BackColor = System.Drawing.Color.Transparent;
+            this.pretendedSlotsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pretendedSlotsLabel.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.pretendedSlotsLabel.Location = new System.Drawing.Point(173, 141);
+            this.pretendedSlotsLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.pretendedSlotsLabel.Name = "pretendedSlotsLabel";
+            this.pretendedSlotsLabel.Size = new System.Drawing.Size(101, 13);
+            this.pretendedSlotsLabel.TabIndex = 30;
+            this.pretendedSlotsLabel.Text = "Pretended Slots:";
             // 
             // joinMeetingButton
             // 
@@ -193,7 +193,7 @@
             this.Controls.Add(this.titleLbl);
             this.Controls.Add(this.topicCB);
             this.Controls.Add(this.availableSlotsLabel);
-            this.Controls.Add(this.selectedSlotsLabel);
+            this.Controls.Add(this.pretendedSlotsLabel);
             this.Controls.Add(this.joinMeetingButton);
             this.Controls.Add(this.selectedSlotsLv);
             this.Controls.Add(this.availableSlotsLv);
@@ -208,7 +208,7 @@
         #endregion
 
         private System.Windows.Forms.Label availableSlotsLabel;
-        private System.Windows.Forms.Label selectedSlotsLabel;
+        private System.Windows.Forms.Label pretendedSlotsLabel;
         private System.Windows.Forms.Button joinMeetingButton;
         private System.Windows.Forms.ListView selectedSlotsLv;
         private System.Windows.Forms.ColumnHeader columnHeader3;

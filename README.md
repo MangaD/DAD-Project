@@ -80,7 +80,11 @@ And may receive one 4th optional argument, a script file path (specification in 
   - ~~list meetings should show rooms available for slot~~
   - sign in form in case arguments are not passed at startup
 - Close meeting (error checks, review etc)
-  - Room "available" bool needs to match dates!
+  - Room class should have list of dates when it is booked
+  - Check minimum participants
+  - Check location and date that maximizes participants (based on preferred slot and room capacities)
+  - Exclude clients that cannot go to that location / date
+  - Exclude clients randomly if room capacity isn't enough
 - Client list in script?
 - Server replication
 - PM Status command

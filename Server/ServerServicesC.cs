@@ -225,6 +225,9 @@ namespace Server
                     }
 
                     mp.AddClientToMeeting(clientName, clientRA, slots);
+
+                    Thread thread = new Thread(() => Server.InformAllClientsOfJoinedMeeting(mp, clientName));
+                    thread.Start();
                 }
             }
         }
@@ -356,12 +359,53 @@ namespace Server
             Server.freezeHandle.WaitOne(); // For Freeze command
             this.Delay(); // For induced delay
 
+            #region Validate arguments
+
+            if (topic == null || topic == "")
+            {
+                throw new ApplicationException("Topic cannot be empty!");
+            }
+            else if (coordinatorUsername == null || coordinatorUsername == "")
+            {
+                throw new ApplicationException("You don't have a username!");
+            }
+            else if (!Server.meetingPropList.Exists(mp => mp.Topic == topic))
+            {
+                throw new ApplicationException("Topic does not exist!");
+            }
+            else if (!Server.clients.Exists(c => c.Username == coordinatorUsername))
+            {
+                throw new ApplicationException("You are not registered in the server!");
+            }
+
+            #endregion
+
             foreach (MeetingProposal mp in Server.meetingPropList)
             {
                 //Closing wanted meeting and client closing is coordinator and meeting is not yet closed
-                if (mp.Topic == topic && mp.CoordinatorUsername == coordinatorUsername &&
-                    mp.Status != MeetingProposal.StatusEnum.Closed)
+                if (mp.Topic == topic && mp.CoordinatorUsername == coordinatorUsername)
                 {
+                    if (mp.Status == MeetingProposal.StatusEnum.Closed)
+                    {
+                        throw new ApplicationException("This meeting is already closed!");
+                    }
+                    else if (mp.Status == MeetingProposal.StatusEnum.Cancelled)
+                    {
+                        throw new ApplicationException("This meeting is cancelled!");
+                    }
+                    else if (mp.CoordinatorUsername != coordinatorUsername)
+                    {
+                        throw new ApplicationException("You are not the coordinator of this meeting!");
+                    }
+                    else if (mp.ClientsJoined == null || mp.ClientsJoined.Count < mp.MinAttendees)
+                    {
+                        int numJoinedClients = (mp.ClientsJoined != null ? mp.ClientsJoined.Count : 0);
+
+                        throw new ApplicationException($"Min. attendees is {mp.MinAttendees}, but only " +
+                            $"{numJoinedClients} have joined so far.");
+                    }
+
+
                     // Get most wanted slot by users
                     Slot most = mp.ChosenSlots
                         .GroupBy(i => i)
@@ -389,6 +433,9 @@ namespace Server
                                     " " + mp.BookedSlot.date + " " +
                                     " and in Room: " + mp.BookedRoom.Name);
 
+                                Thread thread = new Thread(() => Server.InformAllClientsOfMeetingState(mp));
+                                thread.Start();
+
                                 return;
                             }
                         }
@@ -396,8 +443,6 @@ namespace Server
 
                 }
             }
-
-            throw new ApplicationException("Error Closing Meeting! Try again =(");
         }
 
     }
