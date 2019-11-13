@@ -14,7 +14,7 @@ namespace API
         public List<string> Invitees { get; set; }
 
         public Dictionary<string, RemotingAddress> ClientsJoined { get; set; }
-        public Dictionary<string, string> ClientsAccepted { get; set; }
+        public Dictionary<string, RemotingAddress> ClientsAccepted { get; set; }
         public Dictionary<Slot, List<string>> ClientPerSlot { get; set; }
         public enum StatusEnum
         {
@@ -37,6 +37,8 @@ namespace API
             Slots = slots;
             Invitees = invitees;
             ClientsJoined = new Dictionary<string, RemotingAddress>();
+            ClientsAccepted = new Dictionary<string, RemotingAddress>();
+            ClientPerSlot = new Dictionary<Slot, List<string>>();
             ChosenSlots = new List<Slot>();
         }
 
@@ -46,7 +48,11 @@ namespace API
 
             foreach(Slot s in chosenSlots)
             {
-                ChosenSlots.Add(s);
+                //ChosenSlots.Add(s);
+                if (!ClientPerSlot.ContainsKey(s))
+                    ClientPerSlot[s] = new List<string>();
+                
+                ClientPerSlot[s].Add(clientName);
             }
         }
     }

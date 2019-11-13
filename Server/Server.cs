@@ -103,8 +103,8 @@ namespace Server
         public static void GenerateLocationRooms()
         {
             List<Room> LisboaRooms = new List<Room>();
-            LisboaRooms.Add(new Room("A", 5));
-            LisboaRooms.Add(new Room("B", 8));
+            //LisboaRooms.Add(new Room("A", 5));
+            //LisboaRooms.Add(new Room("B", 8));
             LisboaRooms.Add(new Room("C", 3));
             locationRooms.Add("Lisboa", LisboaRooms);
 
