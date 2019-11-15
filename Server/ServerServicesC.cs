@@ -89,7 +89,7 @@ namespace Server
             // Check if all invitees exist
             foreach (string invitee in invitees)
             {
-                if (!Server.clients.Exists(i => i.Username == invitee))
+                if (Server.clients.Where(i => i.Username == invitee).Count() == 0)
                 {
                     throw new ApplicationException($"Invitee '{invitee}' does not exist or is not connected.");
                 }
@@ -156,7 +156,7 @@ namespace Server
             }
 
             // Check if a meeting with this topic exists
-            if (!Server.meetingPropList.Exists(mp => mp.Topic == topic))
+            if (Server.meetingPropList.Where(mp => mp.Topic == topic).Count() == 0)
             {
                 throw new ApplicationException($"There is no meeting with topic '{topic}'.");
             }
@@ -312,7 +312,7 @@ namespace Server
             {
                 throw new ApplicationException($"Your channel cannot be empty!");
             }
-            if (Server.clients.Exists(c => c.Username == username))
+            if (Server.clients.Where(c => c.Username == username).Count() > 0)
             {
                 throw new ApplicationException($"Someone with username '{username}' is already connected.");
             }
@@ -369,11 +369,11 @@ namespace Server
             {
                 throw new ApplicationException("You don't have a username!");
             }
-            else if (!Server.meetingPropList.Exists(mp => mp.Topic == topic))
+            else if (Server.meetingPropList.Where(mp => mp.Topic == topic).Count() == 0)
             {
                 throw new ApplicationException("Topic does not exist!");
             }
-            else if (!Server.clients.Exists(c => c.Username == coordinatorUsername))
+            else if (Server.clients.Where(c => c.Username == coordinatorUsername).Count() == 0)
             {
                 throw new ApplicationException("You are not registered in the server!");
             }

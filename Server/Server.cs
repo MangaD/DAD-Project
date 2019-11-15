@@ -6,6 +6,7 @@ using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
 
 using API;
+using System.Collections.Concurrent;
 
 namespace Server
 {
@@ -16,12 +17,18 @@ namespace Server
         public static int minDelay;
         public static int maxDelay;
 
-        public static List<MeetingProposal> meetingPropList = new List<MeetingProposal>();
-        public static List<Client> clients = new List<Client>();
-        public static Dictionary<string, List<Room>> locationRooms = new Dictionary<string, List<Room>>();
+        /*for replication
+        public static RemotingAddress serverRAForServers;
+        public static int otherServers;
+        public static ConcurrentDictionary<RemotingAddress, IServerS> otherServerList = new ConcurrentDictionary<RemotingAddress, IServerS>();
+        public static IServerS serversRepl; */
+
+        public static ConcurrentBag<MeetingProposal> meetingPropList = new ConcurrentBag<MeetingProposal>();
+        public static ConcurrentBag<Client> clients = new ConcurrentBag<Client>();
+        public static ConcurrentDictionary<string, List<Room>> locationRooms = new ConcurrentDictionary<string, List<Room>>();
 
         public static TcpChannel servChannel;
-        public static RemotingAddress serverRA;
+        public static RemotingAddress serverRAForClients;
 
         /**
          * https://stackoverflow.com/questions/29089417/c-sharp-wait-until-condition-is-true
@@ -34,18 +41,30 @@ namespace Server
 
             if (args.Length != 5)
             {
-                string err = "This program must take 5 arguments. " +
+                string err = "This program must take 6+ arguments. " +
                     "server id, server remoting address, max. faults, " +
-                    "min delay, max delay.";
+                    "min delay, max delay, number of known servers, known servers addresses.";
                 Utilities.WriteError(err);
                 return;
             }
 
             serverID = args[0];
-            serverRA = RemotingAddress.FromString(args[1]);
+            serverRAForClients = RemotingAddress.FromString(args[1]);
             maxFaults = Convert.ToInt32(args[2]);
             minDelay = Convert.ToInt32(args[3]);
             maxDelay = Convert.ToInt32(args[4]);
+
+            /* TODO
+            serverRAForServers = RemotingAddress.FromString(args[1]);
+            serverRAForServers.channel += "Repl";
+            otherServers = Convert.ToInt32(args[5]);
+
+            for (int nOtherServer = 0; nOtherServer < otherServers; nOtherServer++)
+            {
+                RemotingAddress otherServer = RemotingAddress.FromString(args[6 + nOtherServer]);
+                otherServerList.Add(otherServer, (IServerS)Activator.GetObject(typeof(IServerC), otherServer.ToString()));
+            }
+            */
 
             string error = "";
             if (maxFaults < 0)
@@ -80,12 +99,16 @@ namespace Server
 
         public static void ListenServer()
         {
-            servChannel = new TcpChannel((int)serverRA.port);
+            servChannel = new TcpChannel((int)serverRAForClients.port);
             ChannelServices.RegisterChannel(servChannel, false);
             //ServerServices servObj = new ServerServices(this);
             //RemotingServices.Marshal(servObj, serverRA.channel, typeof(ServerServices));
             RemotingConfiguration.RegisterWellKnownServiceType(typeof(ServerServices),
-                serverRA.channel, WellKnownObjectMode.Singleton);
+                serverRAForClients.channel, WellKnownObjectMode.Singleton);
+            
+            /*
+            RemotingConfiguration.RegisterWellKnownServiceType(typeof(ServerServicesS),
+                serverRAForServers.channel, WellKnownObjectMode.Singleton); */
         }
 
         public static void AddRoom(string location, uint capacity, string roomName)
@@ -105,32 +128,36 @@ namespace Server
             List<Room> LisboaRooms = new List<Room>();
             //LisboaRooms.Add(new Room("A", 5));
             //LisboaRooms.Add(new Room("B", 8));
-            LisboaRooms.Add(new Room("C", 3));
-            locationRooms.Add("Lisboa", LisboaRooms);
+            //LisboaRooms.Add(new Room("C", 3));
+
+            LisboaRooms.Add(new Room("room1", 2));
+            locationRooms.GetOrAdd("Lisboa", LisboaRooms);
 
             List<Room> PortoRooms = new List<Room>();
-            PortoRooms.Add(new Room("D", 9));
-            PortoRooms.Add(new Room("E", 10));
-            PortoRooms.Add(new Room("F", 15));
-            locationRooms.Add("Porto", PortoRooms);
+            //PortoRooms.Add(new Room("D", 9));
+            //PortoRooms.Add(new Room("E", 10));
+            //PortoRooms.Add(new Room("F", 15));
+
+            PortoRooms.Add(new Room("room2", 1));
+            locationRooms.GetOrAdd("Porto", PortoRooms);
 
             List<Room> LeiriaRooms = new List<Room>();
             LeiriaRooms.Add(new Room("G", 20));
             LeiriaRooms.Add(new Room("H", 25));
             LeiriaRooms.Add(new Room("I", 5));
-            locationRooms.Add("Leiria", LeiriaRooms);
+            locationRooms.GetOrAdd("Leiria", LeiriaRooms);
 
             List<Room> CoimbraRooms = new List<Room>();
             CoimbraRooms.Add(new Room("J", 12));
             CoimbraRooms.Add(new Room("K", 7));
             CoimbraRooms.Add(new Room("L", 5));
-            locationRooms.Add("Coimbra", CoimbraRooms);
+            locationRooms.GetOrAdd("Coimbra", CoimbraRooms);
 
             List<Room> AveiroRooms = new List<Room>();
             AveiroRooms.Add(new Room("M", 22));
             AveiroRooms.Add(new Room("N", 17));
             AveiroRooms.Add(new Room("O", 15));
-            locationRooms.Add("Aveiro", AveiroRooms);
+            locationRooms.GetOrAdd("Aveiro", AveiroRooms);
         }
 
         public static int GetRandomDelay()
