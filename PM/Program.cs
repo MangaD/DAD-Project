@@ -190,5 +190,13 @@ namespace PM
         {
             PCSList.RemoveAll(p => p.Item1 == pcsRA);
         }
+
+        public static void PrintStatus()
+        {
+            foreach (var s in serverList)
+            {
+                s.Item3.SystemStatus();
+            }
+        }
     }
 }

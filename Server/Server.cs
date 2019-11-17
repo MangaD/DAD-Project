@@ -111,6 +111,41 @@ namespace Server
                 serverRAForServers.channel, WellKnownObjectMode.Singleton); */
         }
 
+        public static void PrintStatus()
+        {
+            Console.WriteLine("BEGIN Server Status");
+            
+            Console.WriteLine(" Connected Clients:");
+            foreach (Client c in clients)
+            {
+                Console.WriteLine($"    Client '{c.Username}' is connected to this server on '{c.ClientRA.ToString()}'.");
+            }
+
+            Console.WriteLine(" Stored Meeting Proposals:");
+            foreach (MeetingProposal mp in meetingPropList)
+            {
+                Console.WriteLine($"    Server has meeting '{mp.Topic}' which is {mp.Status}:");
+                switch (mp.Status)
+                {
+                    case MeetingProposal.StatusEnum.Open:
+                        foreach (string c in mp.ClientsJoined.Keys)
+                        {
+                            Console.WriteLine($"        Client '{c}' is joined.");
+                        }
+                        break;
+                    case MeetingProposal.StatusEnum.Closed:
+                        foreach (string c in mp.ClientsAccepted.Keys)
+                        {
+                            Console.WriteLine($"        Client '{c}' was accepted.");
+                        }
+                        Console.WriteLine($"        The chosen slot was '{mp.BookedSlot.ToString()}'");
+                        Console.WriteLine($"        The chosen room was '{mp.BookedRoom.Name}'");
+                        break;
+                }
+            }
+            Console.WriteLine("END Server Status");
+        }
+
         public static void AddRoom(string location, uint capacity, string roomName)
         {
             if (!locationRooms.ContainsKey(location))

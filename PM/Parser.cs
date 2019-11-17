@@ -229,6 +229,7 @@ namespace PM
                 else if (command[0].Equals("status", StringComparison.OrdinalIgnoreCase))
                 {
                     // TODO
+                    Program.PrintStatus();
                     MessageBox.Show("Status command not yet implemented.");
                 }
                 else if (command[0].Equals("server", StringComparison.OrdinalIgnoreCase))

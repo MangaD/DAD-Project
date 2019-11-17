@@ -11,9 +11,9 @@ namespace Server
             Server.AddRoom(location, capacity, roomName);
         }
 
-        public string SystemStatus()
+        public void SystemStatus()
         {
-            throw new NotImplementedException();
+            Server.PrintStatus();
         }
 
         public void Crash()
