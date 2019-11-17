@@ -6,7 +6,7 @@ namespace API
     public interface IServerPM
     {
         void AddRoom(string location, uint capacity, string roomName);
-        string SystemStatus();
+        void SystemStatus();
         void Crash();
         void Freeze();
         void Unfreeze();
