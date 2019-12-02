@@ -115,6 +115,11 @@ namespace MSDAD_CLI
             {
                 Client.mainForm.listMeetingPage.RemoveMeetingFromList(mp);
                 Client.mainForm.listMeetingPage.AddMeetingToList(mp);
+
+                if(Client.Username == username)
+                {
+                    Client.mainForm.joinMeetingPage.RemoveMeetingFromCB(mp);
+                }
             }
         }
 

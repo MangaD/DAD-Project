@@ -17,11 +17,12 @@ namespace Server
         public static int minDelay;
         public static int maxDelay;
 
-        /*for replication
-        public static RemotingAddress serverRAForServers;
+        //for replication
+        /*public static RemotingAddress serverRAForServers;
         public static int otherServers;
         public static ConcurrentDictionary<RemotingAddress, IServerS> otherServerList = new ConcurrentDictionary<RemotingAddress, IServerS>();
-        public static IServerS serversRepl; */
+        public static IServerS serversRepl;*/
+        public static ConcurrentBag<OtherServers> otherServers = new ConcurrentBag<OtherServers>();
 
         public static ConcurrentBag<MeetingProposal> meetingPropList = new ConcurrentBag<MeetingProposal>();
         public static ConcurrentBag<Client> clients = new ConcurrentBag<Client>();
@@ -92,6 +93,14 @@ namespace Server
             GenerateLocationRooms();
 
             ListenServer();
+            
+            //TODO
+            //Connect to PM to receive list of Servers
+            //connectPM();
+            //Connect to each of those Server and add it to the otherServers list
+            //connectToAll
+            //Everytime a server connects to another servers, that server checks if the
+            //incoming server already is on his list, if it doesnt, connect to it (like server and client comm)
 
             Console.WriteLine("Press <enter> to terminate server...");
             System.Console.ReadLine();
@@ -245,6 +254,16 @@ namespace Server
                 {
                     c.ClientChannel.InformStateMeeting(mp, mp.Status);
                 }
+            }
+        }
+
+
+        //Server Replication
+        public static void InformAllServersOfNewClient(Client newClient)
+        {
+            foreach (var s in otherServers)
+            {
+                s.ServerChannel.InformNewClient(newClient.ClientChannel, newClient.Username, newClient.ClientRA);
             }
         }
     }

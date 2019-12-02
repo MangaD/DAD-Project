@@ -324,6 +324,10 @@ namespace Server
             Thread thread = new Thread(() => Server.InformAllClientsOfNewClient(username));
             thread.Start();
 
+            //Send new clientToAllOtherServers
+            Thread threadS = new Thread(() => Server.InformAllServersOfNewClient(newClient));
+            threadS.Start();
+
             Console.WriteLine($"New client '{username}' listening at '{clientRA}'");
         }
 

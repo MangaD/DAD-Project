@@ -152,5 +152,29 @@ namespace MSDAD_CLI.pages
                 topicCB.Items.Add(topic);
             }));
         }
+
+        public void RemoveMeetingFromCB(MeetingProposal mp)
+        {
+            this.BeginInvoke(new MethodInvoker(delegate
+            {
+                for(int i=0; i<topicCB.Items.Count; i++)
+                {
+                    if (topicCB.Items[i].ToString() == mp.Topic)
+                    {
+                        topicCB.Items.RemoveAt(i);
+                    }
+                }
+                
+                /*foreach (ListViewItem item in topicCB.Items)
+                {
+                    if (item.Text.Contains(mp.Topic))
+                    {
+                        topicCB.Items.Remove(item.Text);                     
+                    }
+                }*/
+  
+
+            }));
+        }
     }
 }
