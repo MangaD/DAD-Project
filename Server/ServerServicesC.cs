@@ -15,7 +15,7 @@ namespace Server
             Utilities.Wait(delay);
         }
 
-        public void CreateMeeting(string coordinatorUser, RemotingAddress coordinatorRA, string topic,
+        public bool CreateMeeting(string coordinatorUser, RemotingAddress coordinatorRA, string topic,
             uint minAttendees, List<Slot> slots, List<string> invitees)
         {
             Server.freezeHandle.WaitOne(); // For Freeze command
@@ -123,11 +123,20 @@ namespace Server
             Thread thread = new Thread(() => Server.InformClientsOfNewMeeting(mp));
             thread.Start();
 
+            //Send new meetingToAllOtherServers
+            Thread threadS = new Thread(() => Server.InformAllServersOfNewMeeting(mp));
+            threadS.Start();
+
             Console.WriteLine("[Server] Created meeting:" +
                 "\n\tTopic: " + topic +
                 "\n\tCoordinator: " + coordinatorUser +
                 "\n\tCoordinator URL: " + coordinatorRA +
                 "\n\tMinimum attendees: " + minAttendees);
+
+
+            Console.WriteLine("[SERVER]: " + Server.serverID + " MeetingsList: " + Server.meetingPropList.Count);
+
+            return true;
         }
 
         public void JoinMeeting(string topic, string clientName,
@@ -228,6 +237,10 @@ namespace Server
 
                     Thread thread = new Thread(() => Server.InformAllClientsOfJoinedMeeting(mp, clientName));
                     thread.Start();
+
+                    //Inform server replicas that new client joined meeting
+                    Thread threadS = new Thread(() => Server.InformAllServersOfJoinedMeeting(mp, clientName, clientRA, slots));
+                    threadS.Start();                    
                 }
             }
         }
@@ -472,6 +485,10 @@ namespace Server
                     //Inform other clients
                     Thread thread = new Thread(() => Server.InformAllClientsOfMeetingState(mp));
                     thread.Start();
+
+                    //Inform all replicas of meeting state
+                    Thread threadS = new Thread(() => Server.InformAllServersOfMeetingState(mp));
+                    threadS.Start();
 
                     Console.WriteLine("Meeting Booked with: " + mp.ClientsAccepted.Keys.Count +
                         " Clients, in Slot: " + mp.BookedSlot.location +

@@ -1,14 +1,24 @@
 ﻿using System;
-
+using System.Collections.Generic;
 using API;
 
 namespace Server
 {
     partial class ServerServices : MarshalByRefObject, IServerS
     {
-        public void InformClientJoinedMeeting(MeetingProposal mp, string username)
+        public void InformClientJoinedMeeting(MeetingProposal mp, string clientName,
+            RemotingAddress clientRA, List<Slot> slots)
         {
-            //TODO
+            foreach(MeetingProposal meeting in Server.meetingPropList)
+            {
+                if(meeting.Topic == mp.Topic)
+                {
+                    if (!meeting.ClientsJoined.ContainsKey(clientName)){
+                        Console.WriteLine("Inform replicas that client: " + clientName + " joined meeting: " + mp.Topic);
+                        meeting.AddClientToMeeting(clientName, clientRA, slots);
+                    }
+                }
+            }
         }
 
         public void InformNewClient(string newClientUsername, RemotingAddress newClientRA)
@@ -23,12 +33,19 @@ namespace Server
 
         public void InformNewMeeting(MeetingProposal mp)
         {
-            //TODO
+            //TODO: Check if this meeting is already in this serverlist
+            Server.meetingPropList.Add(mp);
         }
 
-        public void InformStateMeeting(MeetingProposal mp, MeetingProposal.StatusEnum status)
+        public void InformStateMeeting(MeetingProposal mp)
         {
-            // TODO take out of closed combobox
+            foreach(MeetingProposal meeting in Server.meetingPropList)
+            {
+                if(meeting.Topic == mp.Topic)
+                {
+                    meeting.Status = mp.Status;
+                }
+            }
         }
     }
 }

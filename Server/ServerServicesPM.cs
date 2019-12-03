@@ -48,9 +48,6 @@ namespace Server
         public void SendExistingServersList(List<Tuple<string, RemotingAddress>> serverList)
         {
             foreach(Tuple<string, RemotingAddress> serv in serverList){
-                //Check if the server already exists in the list
-                //Teorically its impossible he already exists, because this method is 
-                //only called when the create a server and the list OtherServers is empty.
                 if (Server.serverID != serv.Item1)
                 {
                     IServerS servChannel = (IServerS)Activator.GetObject(typeof(IServerS), serv.Item2.ToString());

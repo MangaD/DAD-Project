@@ -10,7 +10,7 @@ namespace API
         List<MeetingProposal> ListMeetings(string clientName, bool excludeClosed, 
             bool excludeJoined, bool excludeCancelled);
         MeetingProposal GetMeeting(string clientName, string topic);
-        void CreateMeeting(string coordinatorUser, RemotingAddress coordinatorRA, 
+        bool CreateMeeting(string coordinatorUser, RemotingAddress coordinatorRA, 
             string topic, uint minAttendees,
             List<Slot> slots, List<string> invitees);
         void JoinMeeting(string topic, string clientName, RemotingAddress clientRA, 

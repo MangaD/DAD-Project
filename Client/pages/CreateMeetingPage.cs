@@ -67,12 +67,23 @@ namespace MSDAD_CLI.pages
                 try
                 {
                     Client.server.CreateMeeting(Client.Username, Client.ClientRA,
-                        topicTb.Text, Convert.ToUInt16(MinPartNud.Value), slots, invitees);
-                } catch(Exception ex)
+                    topicTb.Text, Convert.ToUInt16(MinPartNud.Value), slots, invitees);
+                }catch (Exception ex)
                 {
-                    Client.serverReplicasList[0].CreateMeeting(Client.Username, Client.ClientRA,
+                    for(int i=0; i< Client.serverReplicasList.Count; i++)
+                    {
+                        try
+                        {
+                            Client.serverReplicasList[i].CreateMeeting(Client.Username, Client.ClientRA,
                         topicTb.Text, Convert.ToUInt16(MinPartNud.Value), slots, invitees);
-                    MessageBox.Show("Server Down, Replica will create the meeting!");
+                            MessageBox.Show("Replica n: " + i + " created the meeting!");
+                            Client.server = Client.serverReplicasList[i];
+
+                        }
+                        catch (Exception excep) {
+                            MessageBox.Show("Server n: " + i + " is Down!");
+                        }
+                    }
                 }
 
                 MessageBox.Show($"Created meeting '{topicTb.Text}'");

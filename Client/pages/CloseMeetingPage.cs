@@ -43,7 +43,27 @@ namespace MSDAD_CLI.pages
 
             try
             {
-                Client.server.CloseMeeting(topicCB.Text, Client.Username);
+                try
+                {
+                    Client.server.CloseMeeting(topicCB.Text, Client.Username);
+                }
+                catch (Exception ex)
+                {
+                    for (int i = 0; i < Client.serverReplicasList.Count; i++)
+                    {
+                        try
+                        {
+                            Client.serverReplicasList[i].CloseMeeting(topicCB.Text, Client.Username);
+                            MessageBox.Show("Replica n: " + i + " closed the meeting!");
+                            Client.server = Client.serverReplicasList[i];
+
+                        }
+                        catch (Exception excep)
+                        {
+                            MessageBox.Show("Server n: " + i + " is Down!");
+                        }
+                    }
+                }
 
                 MessageBox.Show($"Meeting '{topicCB.Text}' was booked.");
 

@@ -29,6 +29,11 @@ namespace PM
         private static UInt16 PCSPort = 10000;
 
         /**
+         * Replication stuff
+         */
+        public static List<Tuple<string, RemotingAddress>> remoteServerList;
+
+        /**
          * PM stuff
          */
         public static RemotingAddress PMRA = new RemotingAddress("localhost", 10001, "MSPM");
@@ -53,6 +58,7 @@ namespace PM
 
             PCSList = new List<Tuple<RemotingAddress, IPCS>>();
             serverList = new List<Tuple<string, RemotingAddress, IServerPM>>();
+            remoteServerList = new List<Tuple<string, RemotingAddress>>();
 
             ListenPM();
 
@@ -94,13 +100,7 @@ namespace PM
 
             IServerPM server = ConnectToServer(serverID, serverRA);
 
-            List<Tuple<string, RemotingAddress>> remoteServerList = new List<Tuple<string, RemotingAddress>>();
-            foreach(Tuple<string, RemotingAddress, IServerPM> serv in serverList)
-            {
-                remoteServerList.Add(new Tuple<string, RemotingAddress>(serv.Item1, serv.Item2));
-            }
-
-            //Replication - Its done here because its before adding this server to the list
+            //Replication
             //Inform new server of all existing servers
             server.SendExistingServersList(remoteServerList);
             //Inform all existing servers of new server
@@ -108,6 +108,7 @@ namespace PM
             {
                 serv.Item3.BroadcastNewServer(new Tuple<string, RemotingAddress>(serverID, serverRA));
             }
+
 
             // Fill location list
             if (serverList.Count == 1)
@@ -176,11 +177,10 @@ namespace PM
                 {
                     throw new ApplicationException("Could not locate Server: " + serverRA.ToString());
                 }
-
-                Tuple<string, RemotingAddress, IServerPM> newServer =
-                    new Tuple<string, RemotingAddress, IServerPM>(serverID, serverRA, server);
-
-                serverList.Add(newServer);
+                    
+                serverList.Add(new Tuple<string, RemotingAddress, IServerPM>(serverID, serverRA, server));
+                //Add server to replication servers list 
+                remoteServerList.Add(new Tuple<string, RemotingAddress>(serverID, serverRA));
 
                 return server;
             }
@@ -204,6 +204,7 @@ namespace PM
         {
             mainForm.manageServersPage.RemoveServerFromList(serverID);
             serverList.RemoveAll(p => p.Item1 == serverID);
+            remoteServerList.RemoveAll(p => p.Item1 == serverID);
             MessageBox.Show($"Server '{serverID}' has exited.");
         }
 

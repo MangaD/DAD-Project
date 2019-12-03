@@ -41,7 +41,28 @@ namespace MSDAD_CLI.pages
 
             try
             {
-                MeetingProposal mp = Client.server.GetMeeting(Client.Username, topicCB.Text);
+                MeetingProposal mp = null;
+                try
+                {
+                    mp = Client.server.GetMeeting(Client.Username, topicCB.Text);
+                }
+                catch (Exception ex)
+                {
+                    for (int i = 0; i < Client.serverReplicasList.Count; i++)
+                    {
+                        try
+                        {
+                            mp = Client.serverReplicasList[i].GetMeeting(Client.Username, topicCB.Text);
+                            MessageBox.Show("Replica n: " + i + " made the joined the client!");
+                            Client.server = Client.serverReplicasList[i];
+
+                        }
+                        catch (Exception excep)
+                        {
+                            MessageBox.Show("Server n: " + i + " is Down!");
+                        }
+                    }
+                }
 
                 foreach (Slot slot in mp.Slots)
                 {
@@ -98,7 +119,28 @@ namespace MSDAD_CLI.pages
 
             try
             {
-                Client.server.JoinMeeting(topicCB.Text, Client.Username, Client.ClientRA, selectedSlots);
+                try
+                {
+                    Client.server.JoinMeeting(topicCB.Text, Client.Username, Client.ClientRA, selectedSlots);
+                }
+                catch (Exception ex)
+                {
+                    for (int i = 0; i < Client.serverReplicasList.Count; i++)
+                    {
+                        try
+                        {
+                            Client.serverReplicasList[i].JoinMeeting(topicCB.Text, 
+                                Client.Username, Client.ClientRA, selectedSlots);
+                            MessageBox.Show("Replica n: " + i + " made the joined the client!");
+                            Client.server = Client.serverReplicasList[i];
+
+                        }
+                        catch (Exception excep)
+                        {
+                            MessageBox.Show("Server n: " + i + " is Down!");
+                        }
+                    }
+                }
 
                 MessageBox.Show($"Joined meeting '{topicCB.Text}'");
 

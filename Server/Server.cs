@@ -264,7 +264,58 @@ namespace Server
             foreach (var s in otherServers)
             {
                 Console.WriteLine("otherServers: " + s.ServerID);
-                s.ServerChannel.InformNewClient(newClient.Username, newClient.ClientRA);
+                try
+                {
+                    s.ServerChannel.InformNewClient(newClient.Username, newClient.ClientRA);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Server: " + s.ServerID + " is down!");
+                }
+            }
+        }
+
+        public static void InformAllServersOfNewMeeting(MeetingProposal mp)
+        {
+            foreach (var s in otherServers)
+            {
+                try
+                {
+                    s.ServerChannel.InformNewMeeting(mp);
+                } catch (Exception ex)
+                {
+                    Console.WriteLine("Server: " + s.ServerID + " is down!");
+                }
+            }
+        }
+
+        public static void InformAllServersOfJoinedMeeting(MeetingProposal mp, string clientName, 
+            RemotingAddress clientRA, List<Slot> slots)
+        {
+            foreach (var s in otherServers)
+            {
+                try
+                {
+                    s.ServerChannel.InformClientJoinedMeeting(mp, clientName, clientRA, slots);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Server: " + s.ServerID + " is down!");
+                }
+            }
+        }
+
+        public static void InformAllServersOfMeetingState(MeetingProposal mp)
+        {
+            foreach (var s in otherServers)
+            {
+                try
+                {
+                    s.ServerChannel.InformStateMeeting(mp);
+                } catch(Exception ex)
+                {
+                    Console.WriteLine("Server: " + s.ServerID + " is down!");
+                }
             }
         }
     }

@@ -26,7 +26,29 @@ namespace MSDAD_CLI.pages
 
                 try
                 {
-                    List<MeetingProposal> MeetingsList = Client.server.ListMeetings(Client.Username, false, false, false);
+                    List<MeetingProposal> MeetingsList = null;
+                    try
+                    {
+                        MeetingsList = Client.server.ListMeetings(Client.Username, false, false, false);
+                    }
+                    catch (Exception ex)
+                    {
+                        for (int i = 0; i < Client.serverReplicasList.Count; i++)
+                        {
+                            try
+                            {
+                                Client.serverReplicasList[i].ListMeetings(Client.Username, false, false, false);
+                                MessageBox.Show("Replica n: " + i + " listed meetings!");
+                                Client.server = Client.serverReplicasList[i];
+
+                            }
+                            catch (Exception excep)
+                            {
+                                MessageBox.Show("Server n: " + i + " is Down!");
+                            }
+                        }
+                    }
+
                     foreach (MeetingProposal mp in MeetingsList)
                     {
                         string state = "";
@@ -131,7 +153,27 @@ namespace MSDAD_CLI.pages
 
             try
             {
-                MeetingProposal mp = Client.server.GetMeeting(Client.Username, topic);
+                MeetingProposal mp = null;
+                try
+                {
+                    mp = Client.server.GetMeeting(Client.Username, topic);
+                }
+                catch (Exception ex)
+                {
+                    for (int i = 0; i < Client.serverReplicasList.Count; i++)
+                    {
+                        try
+                        {
+                            Client.serverReplicasList[i].GetMeeting(Client.Username, topic);
+                            Client.server = Client.serverReplicasList[i];
+
+                        }
+                        catch (Exception excep)
+                        {
+                            MessageBox.Show("Server n: " + i + " is Down!");
+                        }
+                    }
+                }
 
                 if (mp.Slots != null)
                 {
