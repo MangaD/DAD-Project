@@ -44,5 +44,28 @@ namespace Server
             }
             return loc;
         }
+
+        public void SendExistingServersList(List<Tuple<string, RemotingAddress>> serverList)
+        {
+            foreach(Tuple<string, RemotingAddress> serv in serverList){
+                //Check if the server already exists in the list
+                //Teorically its impossible he already exists, because this method is 
+                //only called when the create a server and the list OtherServers is empty.
+                if (Server.serverID != serv.Item1)
+                {
+                    IServerS servChannel = (IServerS)Activator.GetObject(typeof(IServerS), serv.Item2.ToString());
+                    Server.otherServers.Add(new OtherServer(servChannel, serv.Item1, serv.Item2));
+                }
+            }
+        }
+
+        public void BroadcastNewServer(Tuple<string, RemotingAddress> newServer)
+        {
+            if (Server.serverID != newServer.Item1)
+            {
+                IServerS newServerChannel = (IServerS)Activator.GetObject(typeof(IServerS), newServer.Item2.ToString());
+                Server.otherServers.Add(new OtherServer(newServerChannel, newServer.Item1, newServer.Item2));
+            }
+        }
     }
 }

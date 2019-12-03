@@ -8,19 +8,19 @@ using API;
 
 namespace Server
 {
-    class OtherServers
+    class OtherServer
     {
         RemotingAddress serverRA;
 
-        public OtherServers(IServerS serverChannel, string username, RemotingAddress serverRA)
+        public OtherServer(IServerS serverChannel, string serverID, RemotingAddress serverRA)
         {
             this.ServerChannel = serverChannel;
-            this.Username = username;
+            this.ServerID = serverID;
             this.ServerRA = serverRA;
         }
 
         public IServerS ServerChannel { get; set; }
-        public string Username { get; set; }
+        public string ServerID { get; set; }
         public RemotingAddress ServerRA { get => serverRA; set => serverRA = value; }
     }
 }

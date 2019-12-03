@@ -22,7 +22,7 @@ namespace Server
         public static int otherServers;
         public static ConcurrentDictionary<RemotingAddress, IServerS> otherServerList = new ConcurrentDictionary<RemotingAddress, IServerS>();
         public static IServerS serversRepl;*/
-        public static ConcurrentBag<OtherServers> otherServers = new ConcurrentBag<OtherServers>();
+        public static ConcurrentBag<OtherServer> otherServers = new ConcurrentBag<OtherServer>();
 
         public static ConcurrentBag<MeetingProposal> meetingPropList = new ConcurrentBag<MeetingProposal>();
         public static ConcurrentBag<Client> clients = new ConcurrentBag<Client>();
@@ -263,7 +263,8 @@ namespace Server
         {
             foreach (var s in otherServers)
             {
-                s.ServerChannel.InformNewClient(newClient.ClientChannel, newClient.Username, newClient.ClientRA);
+                Console.WriteLine("otherServers: " + s.ServerID);
+                s.ServerChannel.InformNewClient(newClient.Username, newClient.ClientRA);
             }
         }
     }

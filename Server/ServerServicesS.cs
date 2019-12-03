@@ -11,13 +11,12 @@ namespace Server
             //TODO
         }
 
-        public void InformNewClient(IClient newClientChannel, string newClientUsername, RemotingAddress newCLientRA)
+        public void InformNewClient(string newClientUsername, RemotingAddress newClientRA)
         {
             //TODO: Check if this client is already in this server
-            Client newClient = new Client(newClientChannel, newClientUsername, newCLientRA);
+            IClient cliChannel = (IClient)Activator.GetObject(typeof(IClient), newClientRA.ToString());
+            Client newClient = new Client(cliChannel, newClientUsername, newClientRA);
             Server.clients.Add(newClient);
-
-            //TODO: Connect this server to client
         }
 
         public void InformNewMeeting(MeetingProposal mp)

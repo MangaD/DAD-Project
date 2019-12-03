@@ -94,6 +94,21 @@ namespace PM
 
             IServerPM server = ConnectToServer(serverID, serverRA);
 
+            List<Tuple<string, RemotingAddress>> remoteServerList = new List<Tuple<string, RemotingAddress>>();
+            foreach(Tuple<string, RemotingAddress, IServerPM> serv in serverList)
+            {
+                remoteServerList.Add(new Tuple<string, RemotingAddress>(serv.Item1, serv.Item2));
+            }
+
+            //Replication - Its done here because its before adding this server to the list
+            //Inform new server of all existing servers
+            server.SendExistingServersList(remoteServerList);
+            //Inform all existing servers of new server
+            foreach (Tuple<string, RemotingAddress, IServerPM> serv in serverList)
+            {
+                serv.Item3.BroadcastNewServer(new Tuple<string, RemotingAddress>(serverID, serverRA));
+            }
+
             // Fill location list
             if (serverList.Count == 1)
             {
@@ -101,6 +116,7 @@ namespace PM
             }
 
             mainForm.manageServersPage.AddServerToList(serverID);
+
         }
 
         public static void CreateClient(string username, RemotingAddress clientRA,
@@ -160,7 +176,12 @@ namespace PM
                 {
                     throw new ApplicationException("Could not locate Server: " + serverRA.ToString());
                 }
-                serverList.Add(new Tuple<string, RemotingAddress, IServerPM>(serverID, serverRA, server));
+
+                Tuple<string, RemotingAddress, IServerPM> newServer =
+                    new Tuple<string, RemotingAddress, IServerPM>(serverID, serverRA, server);
+
+                serverList.Add(newServer);
+
                 return server;
             }
             else
