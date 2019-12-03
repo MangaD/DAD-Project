@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
@@ -13,6 +14,9 @@ namespace MSDAD_CLI
     {
         private static TcpChannel clientChannel;
         public static IServerC server;
+
+        //Server replicas
+        public static List<IServerC> serverReplicasList = new List<IServerC>();
 
         public static string Username { get; set; }
         public static RemotingAddress ClientRA { get; set; }
@@ -164,6 +168,12 @@ namespace MSDAD_CLI
                 Client.mainForm.listMeetingPage.RemoveMeetingFromList(mp);
                 Client.mainForm.listMeetingPage.AddMeetingToList(mp);
             }
+        }
+
+        public void RegisterServerReplica(string serverID, RemotingAddress serverRA)
+        {
+            IServerC newServerChannel = (IServerC)Activator.GetObject(typeof(IServerC), serverRA.ToString());
+            Client.serverReplicasList.Add(newServerChannel);
         }
     }
 }

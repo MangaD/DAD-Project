@@ -17,6 +17,8 @@ namespace Server
             IClient cliChannel = (IClient)Activator.GetObject(typeof(IClient), newClientRA.ToString());
             Client newClient = new Client(cliChannel, newClientUsername, newClientRA);
             Server.clients.Add(newClient);
+
+            cliChannel.RegisterServerReplica(Server.serverID, Server.serverRAForClients);
         }
 
         public void InformNewMeeting(MeetingProposal mp)
