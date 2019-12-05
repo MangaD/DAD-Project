@@ -46,7 +46,7 @@ namespace MSDAD_CLI.pages
                 {
                     mp = Client.server.GetMeeting(Client.Username, topicCB.Text);
                 }
-                catch (Exception ex)
+                catch (System.Net.Sockets.SocketException)
                 {
                     for (int i = 0; i < Client.serverReplicasList.Count; i++)
                     {
@@ -57,7 +57,7 @@ namespace MSDAD_CLI.pages
                             Client.server = Client.serverReplicasList[i];
 
                         }
-                        catch (Exception excep)
+                        catch (System.Net.Sockets.SocketException)
                         {
                             MessageBox.Show("Server n: " + i + " is Down!");
                         }
@@ -123,7 +123,7 @@ namespace MSDAD_CLI.pages
                 {
                     Client.server.JoinMeeting(topicCB.Text, Client.Username, Client.ClientRA, selectedSlots);
                 }
-                catch (Exception ex)
+                catch (System.Net.Sockets.SocketException)
                 {
                     for (int i = 0; i < Client.serverReplicasList.Count; i++)
                     {
@@ -135,7 +135,7 @@ namespace MSDAD_CLI.pages
                             Client.server = Client.serverReplicasList[i];
 
                         }
-                        catch (Exception excep)
+                        catch (System.Net.Sockets.SocketException)
                         {
                             MessageBox.Show("Server n: " + i + " is Down!");
                         }
@@ -171,7 +171,30 @@ namespace MSDAD_CLI.pages
 
                 try
                 {
-                    List<MeetingProposal> MeetingsList = Client.server.ListMeetings(Client.Username, true, true, true);
+                    List<MeetingProposal> MeetingsList = null;
+                    try
+                    {
+                        MeetingsList = Client.server.ListMeetings(Client.Username, true, true, true);
+                    }
+                    catch (System.Net.Sockets.SocketException ex)
+                    {
+                        MessageBox.Show("Main Server Down! Excetpion: " + ex);
+                        for (int i = 0; i < Client.serverReplicasList.Count; i++)
+                        {
+                            try
+                            {
+                                MeetingsList = Client.serverReplicasList[i].ListMeetings(Client.Username, true, true, true);
+                                MessageBox.Show("Replica n: " + i + " listed the meetings!");
+                                Client.server = Client.serverReplicasList[i];
+
+                            }
+                            catch (System.Net.Sockets.SocketException excep)
+                            {
+                                MessageBox.Show("Server n: " + i + " is Down! Exception: " + excep);
+                            }
+                        }
+                    }
+
                     foreach (MeetingProposal mp in MeetingsList)
                     {
                         topicCB.Items.Add(new ListViewItem(mp.Topic));

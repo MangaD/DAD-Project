@@ -68,7 +68,7 @@ namespace MSDAD_CLI.pages
                 {
                     Client.server.CreateMeeting(Client.Username, Client.ClientRA,
                     topicTb.Text, Convert.ToUInt16(MinPartNud.Value), slots, invitees);
-                }catch (Exception ex)
+                }catch (System.Net.Sockets.SocketException)
                 {
                     for(int i=0; i< Client.serverReplicasList.Count; i++)
                     {
@@ -80,7 +80,7 @@ namespace MSDAD_CLI.pages
                             Client.server = Client.serverReplicasList[i];
 
                         }
-                        catch (Exception excep) {
+                        catch (System.Net.Sockets.SocketException) {
                             MessageBox.Show("Server n: " + i + " is Down!");
                         }
                     }

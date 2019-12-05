@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using API;
 
 namespace Server
@@ -28,6 +29,16 @@ namespace Server
             Client newClient = new Client(cliChannel, newClientUsername, newClientRA);
             Server.clients.Add(newClient);
 
+            /*if (Server.otherServerClients.ContainsKey(Server.serverID))
+            {
+                Server.otherServerClients[Server.serverID].Add(newClient);
+            }
+            else
+            {
+                List<Client> auxl = new List<Client>(); auxl.Add(newClient);
+                Server.otherServerClients.Add(Server.serverID, auxl);
+            }*/
+            
             cliChannel.RegisterServerReplica(Server.serverID, Server.serverRAForClients);
         }
 

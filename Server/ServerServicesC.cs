@@ -15,7 +15,7 @@ namespace Server
             Utilities.Wait(delay);
         }
 
-        public bool CreateMeeting(string coordinatorUser, RemotingAddress coordinatorRA, string topic,
+        public void CreateMeeting(string coordinatorUser, RemotingAddress coordinatorRA, string topic,
             uint minAttendees, List<Slot> slots, List<string> invitees)
         {
             Server.freezeHandle.WaitOne(); // For Freeze command
@@ -119,13 +119,13 @@ namespace Server
 
             Server.meetingPropList.Add(mp);
 
-            // Run in a separate thread because this client is informed too.
-            Thread thread = new Thread(() => Server.InformClientsOfNewMeeting(mp));
-            thread.Start();
-
             //Send new meetingToAllOtherServers
             Thread threadS = new Thread(() => Server.InformAllServersOfNewMeeting(mp));
             threadS.Start();
+
+            //Inforam all clients
+            Thread thread = new Thread(() => Server.InformClientsOfNewMeeting(mp));
+            thread.Start();
 
             Console.WriteLine("[Server] Created meeting:" +
                 "\n\tTopic: " + topic +
@@ -135,8 +135,6 @@ namespace Server
 
 
             Console.WriteLine("[SERVER]: " + Server.serverID + " MeetingsList: " + Server.meetingPropList.Count);
-
-            return true;
         }
 
         public void JoinMeeting(string topic, string clientName,
@@ -235,12 +233,13 @@ namespace Server
 
                     mp.AddClientToMeeting(clientName, clientRA, slots);
 
-                    Thread thread = new Thread(() => Server.InformAllClientsOfJoinedMeeting(mp, clientName));
-                    thread.Start();
-
                     //Inform server replicas that new client joined meeting
                     Thread threadS = new Thread(() => Server.InformAllServersOfJoinedMeeting(mp, clientName, clientRA, slots));
-                    threadS.Start();                    
+                    threadS.Start();
+
+                    //Inform all clients
+                    Thread thread = new Thread(() => Server.InformAllClientsOfJoinedMeeting(mp, clientName));
+                    thread.Start();
                 }
             }
         }
@@ -334,12 +333,13 @@ namespace Server
             Client newClient = new Client(newClientChannel, username, clientRA);
             Server.clients.Add(newClient);
 
-            Thread thread = new Thread(() => Server.InformAllClientsOfNewClient(username));
-            thread.Start();
-
             //Send new clientToAllOtherServers
             Thread threadS = new Thread(() => Server.InformAllServersOfNewClient(newClient));
             threadS.Start();
+
+            //Inforam all clients of new client
+            Thread thread = new Thread(() => Server.InformAllClientsOfNewClient(newClient.Username));
+            thread.Start();
 
             Console.WriteLine($"New client '{username}' listening at '{clientRA}'");
         }
@@ -482,13 +482,13 @@ namespace Server
                         mp.ClientsAccepted[clientName] = mp.ClientsJoined[clientName];
                     }
 
-                    //Inform other clients
-                    Thread thread = new Thread(() => Server.InformAllClientsOfMeetingState(mp));
-                    thread.Start();
-
                     //Inform all replicas of meeting state
                     Thread threadS = new Thread(() => Server.InformAllServersOfMeetingState(mp));
                     threadS.Start();
+
+                    //Inforam all clients
+                    Thread thread = new Thread(() => Server.InformAllClientsOfMeetingState(mp));
+                    thread.Start();
 
                     Console.WriteLine("Meeting Booked with: " + mp.ClientsAccepted.Keys.Count +
                         " Clients, in Slot: " + mp.BookedSlot.location +

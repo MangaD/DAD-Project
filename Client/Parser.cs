@@ -211,6 +211,8 @@ namespace MSDAD_CLI
         {
             foreach (var command in commands)
             {
+                MessageBox.Show("Client: " + Client.Username + " Will Execute... " + command[0]);
+
                 if (command[0].Equals("list", StringComparison.OrdinalIgnoreCase))
                 {
                     try
@@ -329,6 +331,7 @@ namespace MSDAD_CLI
                 }
                 Console.Write("\r\n");
 
+                //MessageBox.Show("Client: " + Client.Username + " Executed: " + command[0]);
             }
         }
     }

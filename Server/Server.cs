@@ -18,10 +18,6 @@ namespace Server
         public static int maxDelay;
 
         //for replication
-        /*public static RemotingAddress serverRAForServers;
-        public static int otherServers;
-        public static ConcurrentDictionary<RemotingAddress, IServerS> otherServerList = new ConcurrentDictionary<RemotingAddress, IServerS>();
-        public static IServerS serversRepl;*/
         public static ConcurrentBag<OtherServer> otherServers = new ConcurrentBag<OtherServer>();
 
         public static ConcurrentBag<MeetingProposal> meetingPropList = new ConcurrentBag<MeetingProposal>();
@@ -268,11 +264,11 @@ namespace Server
                 {
                     s.ServerChannel.InformNewClient(newClient.Username, newClient.ClientRA);
                 }
-                catch (Exception ex)
+                catch (System.Net.Sockets.SocketException)
                 {
                     Console.WriteLine("Server: " + s.ServerID + " is down!");
                 }
-            }
+            }           
         }
 
         public static void InformAllServersOfNewMeeting(MeetingProposal mp)
@@ -282,7 +278,7 @@ namespace Server
                 try
                 {
                     s.ServerChannel.InformNewMeeting(mp);
-                } catch (Exception ex)
+                } catch (System.Net.Sockets.SocketException)
                 {
                     Console.WriteLine("Server: " + s.ServerID + " is down!");
                 }
@@ -298,7 +294,7 @@ namespace Server
                 {
                     s.ServerChannel.InformClientJoinedMeeting(mp, clientName, clientRA, slots);
                 }
-                catch (Exception ex)
+                catch (System.Net.Sockets.SocketException)
                 {
                     Console.WriteLine("Server: " + s.ServerID + " is down!");
                 }
@@ -312,7 +308,7 @@ namespace Server
                 try
                 {
                     s.ServerChannel.InformStateMeeting(mp);
-                } catch(Exception ex)
+                } catch(System.Net.Sockets.SocketException)
                 {
                     Console.WriteLine("Server: " + s.ServerID + " is down!");
                 }

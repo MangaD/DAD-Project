@@ -31,7 +31,7 @@ namespace MSDAD_CLI.pages
                     {
                         MeetingsList = Client.server.ListMeetings(Client.Username, false, false, false);
                     }
-                    catch (Exception ex)
+                    catch (System.Net.Sockets.SocketException)
                     {
                         for (int i = 0; i < Client.serverReplicasList.Count; i++)
                         {
@@ -42,7 +42,7 @@ namespace MSDAD_CLI.pages
                                 Client.server = Client.serverReplicasList[i];
 
                             }
-                            catch (Exception excep)
+                            catch (System.Net.Sockets.SocketException)
                             {
                                 MessageBox.Show("Server n: " + i + " is Down!");
                             }
@@ -158,7 +158,7 @@ namespace MSDAD_CLI.pages
                 {
                     mp = Client.server.GetMeeting(Client.Username, topic);
                 }
-                catch (Exception ex)
+                catch (System.Net.Sockets.SocketException)
                 {
                     for (int i = 0; i < Client.serverReplicasList.Count; i++)
                     {
@@ -168,7 +168,7 @@ namespace MSDAD_CLI.pages
                             Client.server = Client.serverReplicasList[i];
 
                         }
-                        catch (Exception excep)
+                        catch (System.Net.Sockets.SocketException)
                         {
                             MessageBox.Show("Server n: " + i + " is Down!");
                         }

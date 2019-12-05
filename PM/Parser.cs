@@ -180,6 +180,8 @@ namespace PM
         {
             foreach (var command in commands)
             {
+                MessageBox.Show("PM Will Execute... " + command[0]);
+
                 if (command[0].Equals("crash", StringComparison.OrdinalIgnoreCase))
                 {
                     IServerPM server = Program.GetServer(command[1]);
@@ -228,9 +230,7 @@ namespace PM
                 }
                 else if (command[0].Equals("status", StringComparison.OrdinalIgnoreCase))
                 {
-                    // TODO
                     Program.PrintStatus();
-                    MessageBox.Show("Status command not yet implemented.");
                 }
                 else if (command[0].Equals("server", StringComparison.OrdinalIgnoreCase))
                 {
@@ -290,6 +290,7 @@ namespace PM
                 }
                 Console.Write("\r\n");
 
+                //MessageBox.Show("PM Executed: " + command[0]);
             }
         }
     }
