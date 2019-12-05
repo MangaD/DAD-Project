@@ -44,6 +44,7 @@
             this.serverListLbl = new System.Windows.Forms.Label();
             this.backLbl = new System.Windows.Forms.Label();
             this.titleLabel = new System.Windows.Forms.Label();
+            this.statusBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.capacityNUD)).BeginInit();
             this.SuspendLayout();
             // 
@@ -55,10 +56,11 @@
             // 
             this.locationCb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.locationCb.FormattingEnabled = true;
-            this.locationCb.ItemHeight = 13;
-            this.locationCb.Location = new System.Drawing.Point(214, 189);
+            this.locationCb.ItemHeight = 16;
+            this.locationCb.Location = new System.Drawing.Point(285, 233);
+            this.locationCb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.locationCb.Name = "locationCb";
-            this.locationCb.Size = new System.Drawing.Size(122, 21);
+            this.locationCb.Size = new System.Drawing.Size(161, 24);
             this.locationCb.TabIndex = 28;
             // 
             // addRoomBtn
@@ -67,9 +69,10 @@
             this.addRoomBtn.FlatAppearance.BorderSize = 0;
             this.addRoomBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.addRoomBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.addRoomBtn.Location = new System.Drawing.Point(241, 256);
+            this.addRoomBtn.Location = new System.Drawing.Point(321, 315);
+            this.addRoomBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.addRoomBtn.Name = "addRoomBtn";
-            this.addRoomBtn.Size = new System.Drawing.Size(75, 23);
+            this.addRoomBtn.Size = new System.Drawing.Size(100, 28);
             this.addRoomBtn.TabIndex = 30;
             this.addRoomBtn.Text = "Add room";
             this.addRoomBtn.UseVisualStyleBackColor = false;
@@ -81,29 +84,32 @@
             this.nameLbl.BackColor = System.Drawing.Color.Transparent;
             this.nameLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nameLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.nameLbl.Location = new System.Drawing.Point(251, 130);
+            this.nameLbl.Location = new System.Drawing.Point(335, 160);
+            this.nameLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.nameLbl.Name = "nameLbl";
-            this.nameLbl.Size = new System.Drawing.Size(49, 15);
+            this.nameLbl.Size = new System.Drawing.Size(57, 18);
             this.nameLbl.TabIndex = 36;
             this.nameLbl.Text = "Name:";
             // 
             // nameTb
             // 
-            this.nameTb.Location = new System.Drawing.Point(214, 148);
+            this.nameTb.Location = new System.Drawing.Point(285, 182);
+            this.nameTb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.nameTb.Name = "nameTb";
-            this.nameTb.Size = new System.Drawing.Size(122, 20);
+            this.nameTb.Size = new System.Drawing.Size(161, 22);
             this.nameTb.TabIndex = 27;
             // 
             // capacityNUD
             // 
-            this.capacityNUD.Location = new System.Drawing.Point(217, 230);
+            this.capacityNUD.Location = new System.Drawing.Point(289, 283);
+            this.capacityNUD.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.capacityNUD.Maximum = new decimal(new int[] {
             1000000,
             0,
             0,
             0});
             this.capacityNUD.Name = "capacityNUD";
-            this.capacityNUD.Size = new System.Drawing.Size(120, 20);
+            this.capacityNUD.Size = new System.Drawing.Size(160, 22);
             this.capacityNUD.TabIndex = 29;
             // 
             // capacityLbl
@@ -112,9 +118,10 @@
             this.capacityLbl.BackColor = System.Drawing.Color.Transparent;
             this.capacityLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.capacityLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.capacityLbl.Location = new System.Drawing.Point(245, 212);
+            this.capacityLbl.Location = new System.Drawing.Point(327, 261);
+            this.capacityLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.capacityLbl.Name = "capacityLbl";
-            this.capacityLbl.Size = new System.Drawing.Size(65, 15);
+            this.capacityLbl.Size = new System.Drawing.Size(78, 18);
             this.capacityLbl.TabIndex = 35;
             this.capacityLbl.Text = "Capacity:";
             // 
@@ -124,9 +131,10 @@
             this.locationLbl.BackColor = System.Drawing.Color.Transparent;
             this.locationLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.locationLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.locationLbl.Location = new System.Drawing.Point(245, 171);
+            this.locationLbl.Location = new System.Drawing.Point(327, 210);
+            this.locationLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.locationLbl.Name = "locationLbl";
-            this.locationLbl.Size = new System.Drawing.Size(66, 15);
+            this.locationLbl.Size = new System.Drawing.Size(78, 18);
             this.locationLbl.TabIndex = 34;
             this.locationLbl.Text = "Location:";
             // 
@@ -136,9 +144,10 @@
             this.addRoomLbl.BackColor = System.Drawing.Color.Transparent;
             this.addRoomLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addRoomLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.addRoomLbl.Location = new System.Drawing.Point(214, 109);
+            this.addRoomLbl.Location = new System.Drawing.Point(285, 134);
+            this.addRoomLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.addRoomLbl.Name = "addRoomLbl";
-            this.addRoomLbl.Size = new System.Drawing.Size(72, 15);
+            this.addRoomLbl.Size = new System.Drawing.Size(86, 18);
             this.addRoomLbl.TabIndex = 33;
             this.addRoomLbl.Text = "Add room:";
             // 
@@ -148,9 +157,10 @@
             this.crashBtn.FlatAppearance.BorderSize = 0;
             this.crashBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.crashBtn.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.crashBtn.Location = new System.Drawing.Point(56, 283);
+            this.crashBtn.Location = new System.Drawing.Point(75, 348);
+            this.crashBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.crashBtn.Name = "crashBtn";
-            this.crashBtn.Size = new System.Drawing.Size(75, 23);
+            this.crashBtn.Size = new System.Drawing.Size(100, 28);
             this.crashBtn.TabIndex = 26;
             this.crashBtn.Text = "Crash";
             this.crashBtn.UseVisualStyleBackColor = false;
@@ -161,9 +171,10 @@
             this.unfreezeBtn.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.unfreezeBtn.FlatAppearance.BorderSize = 0;
             this.unfreezeBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.unfreezeBtn.Location = new System.Drawing.Point(97, 254);
+            this.unfreezeBtn.Location = new System.Drawing.Point(129, 313);
+            this.unfreezeBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.unfreezeBtn.Name = "unfreezeBtn";
-            this.unfreezeBtn.Size = new System.Drawing.Size(75, 23);
+            this.unfreezeBtn.Size = new System.Drawing.Size(100, 28);
             this.unfreezeBtn.TabIndex = 25;
             this.unfreezeBtn.Text = "Unfreeze";
             this.unfreezeBtn.UseVisualStyleBackColor = false;
@@ -174,9 +185,10 @@
             this.freezeBtn.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.freezeBtn.FlatAppearance.BorderSize = 0;
             this.freezeBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.freezeBtn.Location = new System.Drawing.Point(16, 254);
+            this.freezeBtn.Location = new System.Drawing.Point(21, 313);
+            this.freezeBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.freezeBtn.Name = "freezeBtn";
-            this.freezeBtn.Size = new System.Drawing.Size(75, 23);
+            this.freezeBtn.Size = new System.Drawing.Size(100, 28);
             this.freezeBtn.TabIndex = 24;
             this.freezeBtn.Text = "Freeze";
             this.freezeBtn.UseVisualStyleBackColor = false;
@@ -186,9 +198,11 @@
             // 
             this.serverListBox.BackColor = System.Drawing.SystemColors.Window;
             this.serverListBox.FormattingEnabled = true;
-            this.serverListBox.Location = new System.Drawing.Point(16, 127);
+            this.serverListBox.ItemHeight = 16;
+            this.serverListBox.Location = new System.Drawing.Point(21, 156);
+            this.serverListBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.serverListBox.Name = "serverListBox";
-            this.serverListBox.Size = new System.Drawing.Size(156, 121);
+            this.serverListBox.Size = new System.Drawing.Size(207, 148);
             this.serverListBox.TabIndex = 23;
             // 
             // serverListLbl
@@ -197,9 +211,10 @@
             this.serverListLbl.BackColor = System.Drawing.Color.Transparent;
             this.serverListLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.serverListLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.serverListLbl.Location = new System.Drawing.Point(13, 109);
+            this.serverListLbl.Location = new System.Drawing.Point(17, 134);
+            this.serverListLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.serverListLbl.Name = "serverListLbl";
-            this.serverListLbl.Size = new System.Drawing.Size(75, 15);
+            this.serverListLbl.Size = new System.Drawing.Size(89, 18);
             this.serverListLbl.TabIndex = 31;
             this.serverListLbl.Text = "Server list:";
             // 
@@ -209,9 +224,10 @@
             this.backLbl.BackColor = System.Drawing.Color.Transparent;
             this.backLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.backLbl.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.backLbl.Location = new System.Drawing.Point(13, 340);
+            this.backLbl.Location = new System.Drawing.Point(17, 418);
+            this.backLbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.backLbl.Name = "backLbl";
-            this.backLbl.Size = new System.Drawing.Size(38, 15);
+            this.backLbl.Size = new System.Drawing.Size(46, 18);
             this.backLbl.TabIndex = 32;
             this.backLbl.Text = "Back";
             this.backLbl.Click += new System.EventHandler(this.backLbl_Click);
@@ -222,17 +238,31 @@
             this.titleLabel.BackColor = System.Drawing.Color.Transparent;
             this.titleLabel.Font = new System.Drawing.Font("Stencil", 18F, System.Drawing.FontStyle.Bold);
             this.titleLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.titleLabel.Location = new System.Drawing.Point(60, 28);
+            this.titleLabel.Location = new System.Drawing.Point(80, 34);
+            this.titleLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(229, 29);
+            this.titleLabel.Size = new System.Drawing.Size(285, 35);
             this.titleLabel.TabIndex = 22;
             this.titleLabel.Text = "Manage Servers";
             // 
+            // statusBtn
+            // 
+            this.statusBtn.BackColor = System.Drawing.Color.Goldenrod;
+            this.statusBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.statusBtn.Location = new System.Drawing.Point(285, 384);
+            this.statusBtn.Name = "statusBtn";
+            this.statusBtn.Size = new System.Drawing.Size(157, 34);
+            this.statusBtn.TabIndex = 37;
+            this.statusBtn.Text = "Status";
+            this.statusBtn.UseVisualStyleBackColor = false;
+            this.statusBtn.Click += new System.EventHandler(this.statusBtn_Click);
+            // 
             // ManageServersPage
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
+            this.Controls.Add(this.statusBtn);
             this.Controls.Add(this.locationCb);
             this.Controls.Add(this.addRoomBtn);
             this.Controls.Add(this.nameLbl);
@@ -248,8 +278,9 @@
             this.Controls.Add(this.serverListLbl);
             this.Controls.Add(this.backLbl);
             this.Controls.Add(this.titleLabel);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "ManageServersPage";
-            this.Size = new System.Drawing.Size(346, 365);
+            this.Size = new System.Drawing.Size(461, 449);
             ((System.ComponentModel.ISupportInitialize)(this.capacityNUD)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -273,5 +304,6 @@
         private System.Windows.Forms.Label serverListLbl;
         private System.Windows.Forms.Label backLbl;
         private System.Windows.Forms.Label titleLabel;
+        private System.Windows.Forms.Button statusBtn;
     }
 }

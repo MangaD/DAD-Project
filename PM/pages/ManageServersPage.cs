@@ -219,5 +219,10 @@ namespace PM.pages
                 }
             }));
         }
+
+        private void statusBtn_Click(object sender, EventArgs e)
+        {
+            Program.PrintStatus();
+        }
     }
 }
