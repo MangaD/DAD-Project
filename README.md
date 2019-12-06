@@ -70,23 +70,12 @@ And may receive one 4th optional argument, a script file path (specification in 
 
 ![startup_projects](documentation/screenshots/startup_projects.png)
 
-## Checkpoint
+## Not implemented
 
-**Not yet implemented:**
-
-- Client functionality not 100%
-  - server inform client when someone joins a meeting and when a meeting is closed or cancelled
-    - use this info for list page and join and close combo boxes
+- Client functionality
   - ~~list meetings should show rooms available for slot~~
-  - sign in form in case arguments are not passed at startup
-  - remove meeting from join meeting combobox once joined
-- Close meeting (error checks, review etc)
-  - Room class should have list of dates when it is booked
-  - Check location and date that maximizes participants (based on preferred slot and room capacities)
-  - Exclude clients that cannot go to that location / date
-  - Exclude clients randomly if room capacity isn't enough
-- Client list in script?
-- Server replication
-- PM Status command
+  - ~~sign in form in case arguments are not passed at startup~~
 - Fault tolerance
+  - Currently our system allows N-1 servers to fail because our diffusion algorithm is not very efficient.
 - Meeting diffusion algorithm
+  - Clients should inform other clients instead of having the servers taking care of all this.

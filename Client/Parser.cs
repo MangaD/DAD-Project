@@ -217,9 +217,7 @@ namespace MSDAD_CLI
                 {
                     try
                     {
-                        //TODO do something with result
                         Client.mainForm.switchPage(Client.mainForm.listMeetingPage);
-                        //Client.server.ListMeetings(Client.Username, false, false, false);
                     }
                     catch (System.Net.Sockets.SocketException)
                     {
