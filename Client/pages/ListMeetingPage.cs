@@ -164,9 +164,8 @@ namespace MSDAD_CLI.pages
                     {
                         try
                         {
-                            Client.serverReplicasList[i].GetMeeting(Client.Username, topic);
+                            mp = Client.serverReplicasList[i].GetMeeting(Client.Username, topic);
                             Client.server = Client.serverReplicasList[i];
-
                         }
                         catch (System.Net.Sockets.SocketException)
                         {

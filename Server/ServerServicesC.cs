@@ -143,6 +143,8 @@ namespace Server
             Server.freezeHandle.WaitOne(); // For Freeze command
             this.Delay(); // For induced delay
 
+
+
              #region Validate arguments (topic exists, locations exist...)
 
             if (topic == "")
@@ -200,46 +202,52 @@ namespace Server
 
             #endregion
 
+
+
             foreach (MeetingProposal mp in Server.meetingPropList)
             {
                 if (mp.Topic == topic)
                 {
-                    if (mp.Status == MeetingProposal.StatusEnum.Closed)
+                    //Causal and Total Order Check if object is not locked (Mutex)
+                    lock (mp.SyncLock)
                     {
-                        throw new ApplicationException($"Meeting '{topic}' is closed.");
-                    }
-                    else if (mp.Status == MeetingProposal.StatusEnum.Cancelled)
-                    {
-                        throw new ApplicationException($"Meeting '{topic}' is cancelled.");
-                    }
-                    else if (mp.ClientsJoined.Keys.Contains(clientName))
-                    {
-                        throw new ApplicationException($"You have already joined meeting '{topic}'.");
-                    }
-                    else if (mp.Invitees.Count > 0 && 
-                        mp.CoordinatorUsername != clientName &&
-                        !mp.Invitees.Contains(clientName))
-                    {
-                        throw new ApplicationException($"You have not been invited for meeting '{topic}'!");
-                    }
-
-                    foreach(Slot s in slots)
-                    {
-                        if (!mp.Slots.Contains(s))
+                        if (mp.Status == MeetingProposal.StatusEnum.Closed)
                         {
-                            throw new ApplicationException($"Slot '{s.ToString()}' does not exist in this meeting.");
+                            throw new ApplicationException($"Meeting '{topic}' is closed.");
                         }
+                        else if (mp.Status == MeetingProposal.StatusEnum.Cancelled)
+                        {
+                            throw new ApplicationException($"Meeting '{topic}' is cancelled.");
+                        }
+                        else if (mp.ClientsJoined.Keys.Contains(clientName))
+                        {
+                            throw new ApplicationException($"You have already joined meeting '{topic}'.");
+                        }
+                        else if (mp.Invitees.Count > 0 &&
+                            mp.CoordinatorUsername != clientName &&
+                            !mp.Invitees.Contains(clientName))
+                        {
+                            throw new ApplicationException($"You have not been invited for meeting '{topic}'!");
+                        }
+
+                        foreach (Slot s in slots)
+                        {
+                            if (!mp.Slots.Contains(s))
+                            {
+                                throw new ApplicationException($"Slot '{s.ToString()}' does not exist in this meeting.");
+                            }
+                        }
+
+                        mp.AddClientToMeeting(clientName, clientRA, slots);
+
+                        //Inform server replicas that new client joined meeting
+                        Thread threadS = new Thread(() => Server.InformAllServersOfJoinedMeeting(mp, clientName, clientRA, slots));
+                        threadS.Start();
+
+                        //Inform all clients
+                        Thread thread = new Thread(() => Server.InformAllClientsOfJoinedMeeting(mp, clientName));
+                        thread.Start();
                     }
-
-                    mp.AddClientToMeeting(clientName, clientRA, slots);
-
-                    //Inform server replicas that new client joined meeting
-                    Thread threadS = new Thread(() => Server.InformAllServersOfJoinedMeeting(mp, clientName, clientRA, slots));
-                    threadS.Start();
-
-                    //Inform all clients
-                    Thread thread = new Thread(() => Server.InformAllClientsOfJoinedMeeting(mp, clientName));
-                    thread.Start();
                 }
             }
         }
@@ -402,98 +410,102 @@ namespace Server
                 //Closing wanted meeting and client closing is coordinator and meeting is not yet closed
                 if (mp.Topic == topic && mp.CoordinatorUsername == coordinatorUsername)
                 {
-                    if (mp.Status == MeetingProposal.StatusEnum.Closed)
+                    //Causal and Total Order Check if object is not locked (Mutex)
+                    lock (mp.SyncLock)
                     {
-                        throw new ApplicationException("This meeting is already closed!");
-                    }
-                    else if (mp.Status == MeetingProposal.StatusEnum.Cancelled)
-                    {
-                        throw new ApplicationException("This meeting is cancelled!");
-                    }
-                    else if (mp.CoordinatorUsername != coordinatorUsername)
-                    {
-                        throw new ApplicationException("You are not the coordinator of this meeting!");
-                    }
-                    else if (mp.ClientsJoined == null || mp.ClientsJoined.Count < mp.MinAttendees)
-                    {
-                        int numJoinedClients = (mp.ClientsJoined != null ? mp.ClientsJoined.Count : 0);
-
-                        throw new ApplicationException($"Min. attendees is {mp.MinAttendees}, but only " +
-                            $"{numJoinedClients} have joined so far.");
-                    }
-
-                    //Get slot that maximizes participant count
-                    uint nClients, maxClients = 0;
-                    Slot maxClientsSlot = Slot.FromString("empty,2000-1-1");
-                    Room maxGlobalCapacityRoom = new Room("empty", 0), maxLocalCapacityRoom;
-                    foreach (Slot slot in mp.ClientPerSlot.Keys)
-                    {
-                        //Skip room search if
-                        if (mp.ClientPerSlot[slot].Count() < maxClients) continue;
-
-                        //Get max capacity room that is available on slot location
-                        if (Server.locationRooms[slot.location].Count() > 0)
+                        if (mp.Status == MeetingProposal.StatusEnum.Closed)
                         {
-                            //Get max capacity room that is available
-                            maxLocalCapacityRoom = new Room("empty", 0);
-                            foreach (Room room in Server.locationRooms[slot.location])
+                            throw new ApplicationException("This meeting is already closed!");
+                        }
+                        else if (mp.Status == MeetingProposal.StatusEnum.Cancelled)
+                        {
+                            throw new ApplicationException("This meeting is cancelled!");
+                        }
+                        else if (mp.CoordinatorUsername != coordinatorUsername)
+                        {
+                            throw new ApplicationException("You are not the coordinator of this meeting!");
+                        }
+                        else if (mp.ClientsJoined == null || mp.ClientsJoined.Count < mp.MinAttendees)
+                        {
+                            int numJoinedClients = (mp.ClientsJoined != null ? mp.ClientsJoined.Count : 0);
+
+                            throw new ApplicationException($"Min. attendees is {mp.MinAttendees}, but only " +
+                                $"{numJoinedClients} have joined so far.");
+                        }
+
+                        //Get slot that maximizes participant count
+                        uint nClients, maxClients = 0;
+                        Slot maxClientsSlot = Slot.FromString("empty,2000-1-1");
+                        Room maxGlobalCapacityRoom = new Room("empty", 0), maxLocalCapacityRoom;
+                        foreach (Slot slot in mp.ClientPerSlot.Keys)
+                        {
+                            //Skip room search if
+                            if (mp.ClientPerSlot[slot].Count() < maxClients) continue;
+
+                            //Get max capacity room that is available on slot location
+                            if (Server.locationRooms[slot.location].Count() > 0)
                             {
-                                if (!room.bookedDates.Contains(slot.date) && room.Capacity >= maxLocalCapacityRoom.Capacity) maxLocalCapacityRoom = room;
-                            }
+                                //Get max capacity room that is available
+                                maxLocalCapacityRoom = new Room("empty", 0);
+                                foreach (Room room in Server.locationRooms[slot.location])
+                                {
+                                    if (!room.bookedDates.Contains(slot.date) && room.Capacity >= maxLocalCapacityRoom.Capacity) maxLocalCapacityRoom = room;
+                                }
 
-                            //Ignore this slot since no room is available
-                            if (maxLocalCapacityRoom.Capacity == 0) continue;
+                                //Ignore this slot since no room is available
+                                if (maxLocalCapacityRoom.Capacity == 0) continue;
 
-                            //Set nClients as number of possible participants in this location
-                            if ((uint)mp.ClientPerSlot[slot].Count() > maxLocalCapacityRoom.Capacity) 
-                                nClients = maxLocalCapacityRoom.Capacity;
-                            else 
-                                nClients = (uint)mp.ClientPerSlot[slot].Count();
+                                //Set nClients as number of possible participants in this location
+                                if ((uint)mp.ClientPerSlot[slot].Count() > maxLocalCapacityRoom.Capacity)
+                                    nClients = maxLocalCapacityRoom.Capacity;
+                                else
+                                    nClients = (uint)mp.ClientPerSlot[slot].Count();
 
-                            if (nClients > maxClients)
-                            {
-                                //Set max participant number, slot and room
-                                maxClients = nClients;
-                                maxClientsSlot = slot;
-                                maxGlobalCapacityRoom = maxLocalCapacityRoom;
+                                if (nClients > maxClients)
+                                {
+                                    //Set max participant number, slot and room
+                                    maxClients = nClients;
+                                    maxClientsSlot = slot;
+                                    maxGlobalCapacityRoom = maxLocalCapacityRoom;
+                                }
                             }
                         }
+
+                        //no valid slot was found, clients want slots with no room available
+                        if (maxClients == 0)
+                        {
+                            mp.Status = MeetingProposal.StatusEnum.Cancelled;
+                            Console.WriteLine("Meeting Cancelled.");
+                            throw new ApplicationException("No room is available, Meeting was cancelled.");
+                        }
+
+                        //Booking, updating values in meeting
+                        maxGlobalCapacityRoom.bookedDates.Add(maxClientsSlot.date);
+                        mp.BookedSlot = maxClientsSlot;
+                        mp.BookedRoom = maxGlobalCapacityRoom;
+                        mp.Status = MeetingProposal.StatusEnum.Closed;
+
+                        //Only add clients to meeting up to max room size
+                        uint del = maxClients;
+                        foreach (string clientName in mp.ClientPerSlot[maxClientsSlot])
+                        {
+                            if (del-- == 0) break;
+                            mp.ClientsAccepted[clientName] = mp.ClientsJoined[clientName];
+                        }
+
+                        //Inform all replicas of meeting state
+                        Thread threadS = new Thread(() => Server.InformAllServersOfMeetingState(mp));
+                        threadS.Start();
+
+                        //Inforam all clients
+                        Thread thread = new Thread(() => Server.InformAllClientsOfMeetingState(mp));
+                        thread.Start();
+
+                        Console.WriteLine("Meeting Booked with: " + mp.ClientsAccepted.Keys.Count +
+                            " Clients, in Slot: " + mp.BookedSlot.location +
+                            " " + mp.BookedSlot.date + " " +
+                            " and in Room: " + mp.BookedRoom.Name);
                     }
-
-                    //no valid slot was found, clients want slots with no room available
-                    if (maxClients == 0)
-                    {
-                        mp.Status = MeetingProposal.StatusEnum.Cancelled;
-                        Console.WriteLine("Meeting Cancelled.");
-                        throw new ApplicationException("No room is available, Meeting was cancelled.");
-                    }
-
-                    //Booking, updating values in meeting
-                    maxGlobalCapacityRoom.bookedDates.Add(maxClientsSlot.date);
-                    mp.BookedSlot = maxClientsSlot;
-                    mp.BookedRoom = maxGlobalCapacityRoom;
-                    mp.Status = MeetingProposal.StatusEnum.Closed;
-
-                    //Only add clients to meeting up to max room size
-                    uint del = maxClients;
-                    foreach (string clientName in mp.ClientPerSlot[maxClientsSlot])
-                    {
-                        if (del-- == 0) break;
-                        mp.ClientsAccepted[clientName] = mp.ClientsJoined[clientName];
-                    }
-
-                    //Inform all replicas of meeting state
-                    Thread threadS = new Thread(() => Server.InformAllServersOfMeetingState(mp));
-                    threadS.Start();
-
-                    //Inforam all clients
-                    Thread thread = new Thread(() => Server.InformAllClientsOfMeetingState(mp));
-                    thread.Start();
-
-                    Console.WriteLine("Meeting Booked with: " + mp.ClientsAccepted.Keys.Count +
-                        " Clients, in Slot: " + mp.BookedSlot.location +
-                        " " + mp.BookedSlot.date + " " +
-                        " and in Room: " + mp.BookedRoom.Name);
                 }
             }
         }

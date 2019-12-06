@@ -47,21 +47,26 @@ namespace MSDAD_CLI.pages
                 {
                     Client.server.CloseMeeting(topicCB.Text, Client.Username);
                 }
-                catch (System.Net.Sockets.SocketException ex)
+                catch (System.Net.Sockets.SocketException)
                 {
-                    MessageBox.Show("Main Server Down! Excetpion: " + ex);
+                    bool serverDown = true;
                     for (int i = 0; i < Client.serverReplicasList.Count; i++)
                     {
-                        try
+                        //MessageBox.Show("serverDown: " + serverDown + "Number of Replicas: " +
+                          //  Client.serverReplicasList.Count + " Replica number: " + i);
+                        if (serverDown)
                         {
-                            Client.serverReplicasList[i].CloseMeeting(topicCB.Text, Client.Username);
-                            MessageBox.Show("Replica n: " + i + " closed the meeting!");
-                            Client.server = Client.serverReplicasList[i];
-
-                        }
-                        catch (System.Net.Sockets.SocketException)
-                        {
-                            MessageBox.Show("Server n: " + i + " is Down! Exception: ");
+                            try
+                            {
+                                Client.serverReplicasList[i].CloseMeeting(topicCB.Text, Client.Username);
+                                MessageBox.Show("Replica n: " + i + " closed the meeting!");
+                                Client.server = Client.serverReplicasList[i];
+                                serverDown = false;
+                            }
+                            catch (System.Net.Sockets.SocketException)
+                            {
+                                MessageBox.Show("Server n: " + i + " is Down! Exception: ");
+                            }
                         }
                     }
                 }
@@ -102,7 +107,6 @@ namespace MSDAD_CLI.pages
                     }
                     catch (System.Net.Sockets.SocketException ex)
                     {
-                        MessageBox.Show("Main Server Down! Excetpion: " + ex);
                         for (int i = 0; i < Client.serverReplicasList.Count; i++)
                         {
                             try

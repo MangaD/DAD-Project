@@ -70,18 +70,25 @@ namespace MSDAD_CLI.pages
                     topicTb.Text, Convert.ToUInt16(MinPartNud.Value), slots, invitees);
                 }catch (System.Net.Sockets.SocketException)
                 {
-                    for(int i=0; i< Client.serverReplicasList.Count; i++)
+                    bool serverDown = true;
+                    for (int i=0; i< Client.serverReplicasList.Count; i++)
                     {
-                        try
+                        //MessageBox.Show("serverDown: " + serverDown + "Number of Replicas: " + 
+                          //  Client.serverReplicasList.Count + " Replica number: " + i);
+                        if (serverDown)
                         {
-                            Client.serverReplicasList[i].CreateMeeting(Client.Username, Client.ClientRA,
-                        topicTb.Text, Convert.ToUInt16(MinPartNud.Value), slots, invitees);
-                            MessageBox.Show("Replica n: " + i + " created the meeting!");
-                            Client.server = Client.serverReplicasList[i];
-
-                        }
-                        catch (System.Net.Sockets.SocketException) {
-                            MessageBox.Show("Server n: " + i + " is Down!");
+                            try
+                            {
+                                Client.serverReplicasList[i].CreateMeeting(Client.Username, Client.ClientRA,
+                            topicTb.Text, Convert.ToUInt16(MinPartNud.Value), slots, invitees);
+                                MessageBox.Show("Replica n: " + i + " created the meeting!");
+                                Client.server = Client.serverReplicasList[i];
+                                serverDown = false;
+                            }
+                            catch (System.Net.Sockets.SocketException)
+                            {
+                                MessageBox.Show("Server n: " + i + " is Down!");
+                            }
                         }
                     }
                 }

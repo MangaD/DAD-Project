@@ -125,19 +125,25 @@ namespace MSDAD_CLI.pages
                 }
                 catch (System.Net.Sockets.SocketException)
                 {
+                    bool serverDown = true;
                     for (int i = 0; i < Client.serverReplicasList.Count; i++)
                     {
-                        try
+                        //MessageBox.Show("serverDown: " + serverDown + "Number of Replicas: " +
+                          //  Client.serverReplicasList.Count + " Replica number: " + i);
+                        if (serverDown)
                         {
-                            Client.serverReplicasList[i].JoinMeeting(topicCB.Text, 
-                                Client.Username, Client.ClientRA, selectedSlots);
-                            MessageBox.Show("Replica n: " + i + " made the joined the client!");
-                            Client.server = Client.serverReplicasList[i];
-
-                        }
-                        catch (System.Net.Sockets.SocketException)
-                        {
-                            MessageBox.Show("Server n: " + i + " is Down!");
+                            try
+                            {
+                                Client.serverReplicasList[i].JoinMeeting(topicCB.Text,
+                                    Client.Username, Client.ClientRA, selectedSlots);
+                                MessageBox.Show("Replica n: " + i + " made the joined the client!");
+                                Client.server = Client.serverReplicasList[i];
+                                serverDown = false;
+                            }
+                            catch (System.Net.Sockets.SocketException)
+                            {
+                                MessageBox.Show("Server n: " + i + " is Down!");
+                            }
                         }
                     }
                 }
@@ -178,7 +184,6 @@ namespace MSDAD_CLI.pages
                     }
                     catch (System.Net.Sockets.SocketException ex)
                     {
-                        MessageBox.Show("Main Server Down! Excetpion: " + ex);
                         for (int i = 0; i < Client.serverReplicasList.Count; i++)
                         {
                             try

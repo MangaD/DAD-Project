@@ -27,6 +27,9 @@ namespace API
         public Slot BookedSlot { get; set; }
         public Room BookedRoom { get; set; }
 
+        //Mutex assure causal and total order
+        public object SyncLock { get; } = new object();
+
         public MeetingProposal(string coordinatorUsername, RemotingAddress coordinatorRA, string topic,
             uint minAttendees, List<Slot> slots, List<string> invitees)
         {

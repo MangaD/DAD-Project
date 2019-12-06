@@ -174,6 +174,8 @@ namespace MSDAD_CLI
         {
             IServerC newServerChannel = (IServerC)Activator.GetObject(typeof(IServerC), serverRA.ToString());
             Client.serverReplicasList.Add(newServerChannel);
+
+            MessageBox.Show("Client: " + Client.Username + " Registered Server: " + serverRA.ToString());
         }
     }
 }
