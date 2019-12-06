@@ -64,7 +64,7 @@ The client program **must** receive 3 arguments:
 
 And may receive one 4th optional argument, a script file path (specification in the assignment). If running with Visual Studio, this can be our test script file `../../script.txt`. The script file can also contain comments (start with ';').
 
-![Client_Main](documentation/screenshots/Client_Main.png) ![Client_Create](documentation/screenshots/Client_Create.png) ![Client_Join](documentation/screenshots/Client_Join.png) ![Client_Close](documentation/screenshots/Client_Close.png)
+![Client_Main](documentation/screenshots/Client_Main.png) ![Client_Create](documentation/screenshots/Client_Create.png) ![Client_Join](documentation/screenshots/Client_Join.png) ![Client_Close](documentation/screenshots/Client_Close.png) ![Client_List](documentation/screenshots/Client_List.png)
 
 ### Visual Studio startup projects
 
