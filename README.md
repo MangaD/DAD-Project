@@ -70,6 +70,20 @@ And may receive one 4th optional argument, a script file path (specification in 
 
 ![startup_projects](documentation/screenshots/startup_projects.png)
 
+### Executing scripts
+
+Both the PM and Client may execute scripts. Two scripts for the PM and two scripts for the Client were provided to us by the teacher. They are:
+
+**PM scripts:**
+
+- [pms1.txt](PM/pms1.txt) - This script contains two `AddRoom` commands before any server is created, which we do not support in our solution, hence we use pms1-sa.txt which creates the servers first.
+- [pms1-sa.txt](PM/pms1-sa.txt) - We've changed the path of the client scripts to be found on 2 directories above where the Client's exe is placed. This is because we use git version-control and the `bin` folder is ignored.
+
+**Client scripts:**
+
+- [cs1.txt](Client/cs1.txt) - To be run by the first client.
+- [cs2.txt](Client/cs2.txt) - To be run by the second client.
+
 ## Not implemented
 
 - Client functionality
