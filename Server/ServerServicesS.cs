@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using API;
@@ -24,18 +25,37 @@ namespace Server
 
         public void InformNewClient(string newClientUsername, RemotingAddress newClientRA)
         {
-            //TODO: Check if this client is already in this server
-            IClient cliChannel = (IClient)Activator.GetObject(typeof(IClient), newClientRA.ToString());
-            Client newClient = new Client(cliChannel, newClientUsername, newClientRA);
-            Server.clients.Add(newClient);
-            
-            cliChannel.RegisterServerReplica(Server.serverID, Server.serverRAForClients);
+            bool clientExists = false;
+            foreach(Client c in Server.clients)
+            {
+                if(c.Username == newClientUsername)
+                {
+                    clientExists = true;
+                }
+            }
+            if (!clientExists)
+            {
+                IClient cliChannel = (IClient)Activator.GetObject(typeof(IClient), newClientRA.ToString());
+                Client newClient = new Client(cliChannel, newClientUsername, newClientRA);
+                Server.clients.Add(newClient);
+                cliChannel.RegisterServerReplica(Server.serverID, Server.serverRAForClients);
+            }
         }
 
         public void InformNewMeeting(MeetingProposal mp)
         {
-            //TODO: Check if this meeting is already in this serverlist
-            Server.meetingPropList.Add(mp);
+            bool meetExists = false;
+            foreach(MeetingProposal m in Server.meetingPropList)
+            {
+                if(m.Topic == mp.Topic)
+                {
+                    meetExists = true;
+                }
+            }
+            if (!meetExists)
+            {
+                Server.meetingPropList.Add(mp);
+            }
         }
 
         public void InformStateMeeting(MeetingProposal mp)
@@ -47,6 +67,21 @@ namespace Server
                     meeting.Status = mp.Status;
                 }
             }
+        }
+
+        public ConcurrentBag<Tuple<string, RemotingAddress>> GetClientsList()
+        {
+            ConcurrentBag<Tuple<string, RemotingAddress>> clients = new ConcurrentBag<Tuple<string, RemotingAddress>>();
+            foreach(Client c in Server.clients)
+            {
+                clients.Add(new Tuple<string, RemotingAddress>(c.Username, c.ClientRA));
+            }
+            return clients;
+        }
+
+        public ConcurrentBag<MeetingProposal> GetMeetingPropList()
+        {
+            return Server.meetingPropList;
         }
     }
 }

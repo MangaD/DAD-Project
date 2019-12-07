@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace API
 {
@@ -10,5 +12,8 @@ namespace API
         void InformClientJoinedMeeting(MeetingProposal mp, string clientName,
             RemotingAddress clientRA, List<Slot> slots);
         void InformStateMeeting(MeetingProposal mp);
+
+        ConcurrentBag<MeetingProposal> GetMeetingPropList();
+        ConcurrentBag<Tuple<string, RemotingAddress>> GetClientsList();
     }
 }

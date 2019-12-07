@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using API;
 
@@ -52,6 +53,20 @@ namespace Server
                 {
                     IServerS servChannel = (IServerS)Activator.GetObject(typeof(IServerS), serv.Item2.ToString());
                     Server.otherServers.Add(new OtherServer(servChannel, serv.Item1, serv.Item2));
+                    ConcurrentBag<MeetingProposal> rMeets = servChannel.GetMeetingPropList();
+                    foreach(MeetingProposal m in rMeets)
+                    {
+                        Server.meetingPropList.Add(m);
+                    } 
+                    ConcurrentBag<Tuple<string, RemotingAddress>> sC = servChannel.GetClientsList();
+                    foreach(Tuple<string, RemotingAddress> s in sC)
+                    {
+                        IClient cliChannel = (IClient)Activator.GetObject(typeof(IClient), s.Item2.ToString());
+                        Client nClient = new Client(cliChannel, s.Item1, s.Item2);
+                        Server.clients.Add(nClient);
+
+                        cliChannel.RegisterServerReplica(Server.serverID, Server.serverRAForClients);
+                    }
                 }
             }
         }
